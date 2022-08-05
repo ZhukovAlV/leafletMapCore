@@ -1,9 +1,12 @@
 package ru.oniip.tetraleafletmap.layer;
 
 import netscape.javascript.JSObject;
+import ru.oniip.tetraleafletmap.entity.LatLng;
 import ru.oniip.tetraleafletmap.event.AbstractEvented;
 import ru.oniip.tetraleafletmap.gui.JSContext;
 import ru.oniip.tetraleafletmap.gui.LeafletMap;
+import ru.oniip.tetraleafletmap.option.PopupOptions;
+import ru.oniip.tetraleafletmap.option.TooltipOptions;
 
 public class LayerImpl extends AbstractEvented implements Layer {
 
@@ -34,5 +37,84 @@ public class LayerImpl extends AbstractEvented implements Layer {
   @Override
   public void removeFrom(LayerGroup layerGroup) {
     call("removeFrom", layerGroup);
+  }
+
+  @Override
+  public void bindPopup(String content, PopupOptions popupOptions) {
+    call("bindPopup", content, popupOptions);
+  }
+
+  @Override
+  public void unbindPopup() {
+    call("unbindPopup");
+  }
+
+  @Override
+  public void openPopup(LatLng latLng) {
+    call("openPopup", latLng);
+  }
+
+  @Override
+  public void closePopup() {
+    call("closePopup");
+  }
+
+  @Override
+  public void togglePopup() {
+    call("togglePopup");
+  }
+
+  @Override
+  public boolean isPopupOpen() {
+    final Object result = call("isPopupOpen");
+    if (result instanceof Boolean) {
+      return (Boolean) result;
+    }
+    return false;
+  }
+
+  @Override
+  public void setPopupContent(String content) {
+    call("setPopupContent", content);
+  }
+
+
+  @Override
+  public void bindTooltip(String content, TooltipOptions tooltipOptions) {
+    call("bindTooltip", content, tooltipOptions);
+  }
+
+  @Override
+  public void unbindTooltip() {
+    call("unbindTooltip");
+  }
+
+  @Override
+  public void openTooltip(LatLng latLng) {
+    call("openTooltip", latLng);
+  }
+
+  @Override
+  public void closeTooltip() {
+    call("closeTooltip");
+  }
+
+  @Override
+  public void toggleTooltip() {
+    call("toggleTooltip");
+  }
+
+  @Override
+  public boolean isTooltipOpen() {
+    final Object result = call("isTooltipOpen");
+    if (result instanceof Boolean) {
+      return (Boolean) result;
+    }
+    return false;
+  }
+
+  @Override
+  public void setTooltipContent(String content) {
+    call("setTooltipContent", content);
   }
 }

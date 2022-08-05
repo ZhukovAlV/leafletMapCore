@@ -4,12 +4,18 @@ import javafx.application.Platform;
 import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import ru.oniip.tetraleafletmap.draw.Icon;
+import ru.oniip.tetraleafletmap.draw.Marker;
 import ru.oniip.tetraleafletmap.entity.LatLng;
+import ru.oniip.tetraleafletmap.option.MapOptions;
+import ru.oniip.tetraleafletmap.entity.Point;
 import ru.oniip.tetraleafletmap.event.MapEvents;
 import ru.oniip.tetraleafletmap.gui.Leaflet;
 import ru.oniip.tetraleafletmap.gui.MapPaneImpl;
 import ru.oniip.tetraleafletmap.layer.TileLayer;
-import ru.oniip.tetraleafletmap.option.MapOptions;
+import ru.oniip.tetraleafletmap.option.IconOptions;
+import ru.oniip.tetraleafletmap.option.MarkerOptions;
+import ru.oniip.tetraleafletmap.option.PopupOptions;
 import ru.oniip.tetraleafletmap.option.TileLayerOptions;
 
 import java.util.concurrent.CompletableFuture;
@@ -45,7 +51,7 @@ public class MapController {
                             tileLayerOptions);
                     tileLayer.addTo(mapPaneImpl.getMapView().getMap());
                 }
-/*                {
+                {
                     final IconOptions iconOptions = new IconOptions();
                     iconOptions.setIconUrl(getClass().getResource("../markerIcon/subscriber/marker_green.png").toString());
                     iconOptions.setIconAnchor(new Point(20, 20));
@@ -59,7 +65,7 @@ public class MapController {
                     marker.setIcon(icon);
                     final PopupOptions popupOptions = new PopupOptions();
                     marker.bindPopup("Это всплывающее окно!", popupOptions);
-                }*/
+                }
 
 /*                {
                     List<LatLng> listLatLong = new ArrayList<>();

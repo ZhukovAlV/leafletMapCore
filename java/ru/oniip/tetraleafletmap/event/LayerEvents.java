@@ -1,4 +1,4 @@
-package ru.oniip.tetraleafletmap.layer;
+package ru.oniip.tetraleafletmap.event;
 
 public class LayerEvents {
 

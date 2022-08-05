@@ -1,12 +1,14 @@
 package ru.oniip.tetraleafletmap.layer;
 
+import ru.oniip.tetraleafletmap.draw.PopupSupport;
+import ru.oniip.tetraleafletmap.draw.TooltipSupport;
 import ru.oniip.tetraleafletmap.event.Evented;
 import ru.oniip.tetraleafletmap.gui.LeafletMap;
 
 /**
  * Layer (слой)
  */
-public interface Layer extends Evented {
+public interface Layer extends Evented, PopupSupport, TooltipSupport {
 
   /**
    * Добавление Layer в карту

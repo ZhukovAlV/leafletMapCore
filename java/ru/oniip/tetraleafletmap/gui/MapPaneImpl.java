@@ -7,6 +7,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import lombok.extern.log4j.Log4j2;
+import ru.oniip.tetraleafletmap.adapters.CircleDrawAdapter;
+import ru.oniip.tetraleafletmap.event.MapEvents;
 
 import java.io.InputStream;
 import java.util.Arrays;
@@ -289,7 +291,7 @@ public class MapPaneImpl extends AnchorPane implements MapPane {
 
         widthProperty().addListener((obs, oldVal, newVal) -> resizeMap());
 
-/*        circleSelectionButton.setOnAction(event -> {
+        circleSelectionButton.setOnAction(event -> {
          //   getMapView().getMap().on(MapEvents.MOUSE_MOVE, mapMouseMoveHandler);
             getMapView().getMap().on(MapEvents.CLICK, new CircleDrawAdapter(getMapView()));
         });
@@ -297,7 +299,7 @@ public class MapPaneImpl extends AnchorPane implements MapPane {
         cancelSelectionButton.setOnAction(event -> {
             // отменяет выбор действий, произведенных на карте
             getMapView().getLeaflet().layerGroup().clearLayers();
-        });*/
+        });
     }
 
     @Override

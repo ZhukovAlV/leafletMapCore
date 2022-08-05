@@ -31,4 +31,11 @@ public interface LayerGroup extends Layer {
    * Удаление всех layers из group.
    */
   void clearLayers();
+
+  /**
+   * Вызывает setZIndex для каждого слоя, содержащегося в этой группе, передавая z-index.
+   *
+   * @param zIndex z-index.
+   */
+  //void setZIndex(Number zIndex);
 }
