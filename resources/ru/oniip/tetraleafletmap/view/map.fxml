@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+<?import ru.oniip.tetraleafletmap.gui.MapPaneImpl?>
+<MapPaneImpl fx:id="mapPaneImpl" xmlns="http://javafx.com/javafx/18.0.1"
+             xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.oniip.tetraleafletmap.controller.MapController">
+    <children>
+        <HBox AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
+            <children>
+                <Label fx:id="locationLabel"/>
+            </children>
+        </HBox>
+    </children>
+</MapPaneImpl>
