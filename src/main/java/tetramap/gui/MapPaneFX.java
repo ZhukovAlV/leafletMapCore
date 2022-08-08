@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -153,6 +154,9 @@ public class MapPaneFX extends AnchorPane implements MapPane {
         });
 
         widthProperty().addListener((obs, oldVal, newVal) -> resizeMap());
+
+        // Слушатель на клик мыши
+        addEventHandler(MouseEvent.MOUSE_CLICKED, e -> mapView.onMapClick());
     }
 
     /**

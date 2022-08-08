@@ -6,10 +6,15 @@ import javafx.concurrent.Worker;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import netscape.javascript.JSObject;
 import org.mapsforge.core.model.LatLong;
 import tetramap.config.MapConfig;
 import tetramap.config.ScaleControlConfig;
 import tetramap.config.ZoomControlConfig;
+import tetramap.event.MapClickEventListener;
+import tetramap.event.MapClickEventManager;
+import tetramap.event.MapMoveEventListener;
+import tetramap.event.MapMoveEventManager;
 import tetramap.layer.MapLayer;
 
 import java.net.URL;
@@ -23,12 +28,20 @@ import java.util.concurrent.CompletableFuture;
  * Карта от Leaflet для JavaFX
  */
 public class MapViewLeafletFX extends StackPane implements MapView {
+    // Контейнер для html карты
     private final WebView webView = new WebView();
     private final WebEngine webEngine;
+
+    // Менеджер на нажатие мыши
+    private final MapClickEventManager mapClickEvent;
+    // Менеджер на перемещение мыши
+    private final MapMoveEventManager mapMoveEvent;
 
     public MapViewLeafletFX() {
         this.webEngine = this.webView.getEngine();
         this.getChildren().add(this.webView);
+        mapClickEvent = new MapClickEventManager();
+        mapMoveEvent = new MapMoveEventManager();
     }
 
     @Override
@@ -119,5 +132,56 @@ public class MapViewLeafletFX extends StackPane implements MapView {
     @Override
     public void setSize(double width, double height) {
         webView.setPrefSize(width, height);
+    }
+
+    /**
+     * Вызов метода mapMoveEvent у каждого слушателя при перемещении мыши
+     */
+    @Override
+    public void onMapMove() {
+        Object document = this.execScript("document");
+        if (document == null) {
+            throw new NullPointerException("null cannot be cast to non-null type netscape.javascript.JSObject");
+        } else {
+            JSObject win = (JSObject)document;
+            win.setMember("java", this);
+            execScript("myMap.on('moveend', function(e){ document.java.mapMove(myMap.getCenter().lat, myMap.getCenter().lng);});");
+        }
+    }
+
+    /**
+     * Вызов метода mapMoveEvent у каждого слушателя для определенного LatLong
+     * @param lat широта
+     * @param lng долгота
+     */
+    public void mapMove(double lat, double lng) {
+        LatLong latlng = new LatLong(lat, lng);
+        mapMoveEvent.mapMoveEvent(latlng);
+    }
+
+    /**
+     * Вызов метода mapClickEvent у каждого слушателя при нажатии мыши
+     */
+    @Override
+    public void onMapClick() {
+        Object document = this.execScript("document");
+        if (document == null) {
+            throw new NullPointerException("null cannot be cast to non-null type netscape.javascript.JSObject");
+        } else {
+            JSObject win = (JSObject)document;
+            win.setMember("java", this);
+            execScript("myMap.on('click', function(e){ document.java.mapClick(e.latlng.lat, e.latlng.lng);});");
+        }
+    }
+
+    /**
+     * Вызов метода mapClickEvent у каждого слушателя для определенного LatLong
+     * @param lat широта
+     * @param lng долгота
+     */
+    public void mapClick(double lat, double lng) {
+        LatLong latlng = new LatLong(lat, lng);
+        System.out.println(lat + " " + lng);
+        mapClickEvent.mapClickEvent(latlng);
     }
 }

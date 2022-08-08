@@ -1,6 +1,8 @@
 package tetramap.gui;
 
+import javafx.concurrent.Worker;
 import tetramap.config.MapConfig;
+import tetramap.event.MapClickEventListener;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -13,7 +15,7 @@ public interface MapView {
      * @param mapConfig настройки карты
      * @return CompletableFuture
      */
-    CompletableFuture displayMap(MapConfig mapConfig);
+    CompletableFuture<Worker.State> displayMap(MapConfig mapConfig);
 
     /**
      * Установка размеров
@@ -21,4 +23,14 @@ public interface MapView {
      * @param height высота
      */
     void setSize(double width, double height);
+
+    /**
+     * Обработка нажатия мыши
+     */
+    void onMapClick();
+
+    /**
+     * Обработка перемещения мыши
+     */
+    void onMapMove();
 }
