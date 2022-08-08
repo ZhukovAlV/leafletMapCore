@@ -1,5 +1,6 @@
 package tetramap.gui;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
@@ -19,7 +20,7 @@ import java.util.Arrays;
 public class MapPaneFX extends AnchorPane implements MapPane {
 
     // Карта
- //   private final MapView mapView;
+    private final MapView mapView;
 
     // Ширина отступа элементов от края панели
     private static final int BORDER_SIZE = 15;
@@ -77,13 +78,16 @@ public class MapPaneFX extends AnchorPane implements MapPane {
     private final Button loadSelectionButton = new Button();
     private final Button saveSelectionButton = new Button();
 
-/*    public MapPaneFX(MapView mapView) {
+    public MapPaneFX(MapView mapView) {
         super();
         this.mapView = mapView;
-    }*/
+    }
 
     @Override
     public void initialize() {
+
+        // Добавляем карту на отображение в панели
+        getChildren().add((Node)mapView);
 
         // Загрузка иконок для кнопок
         try {
@@ -193,12 +197,6 @@ public class MapPaneFX extends AnchorPane implements MapPane {
      * Масштабирование карты
      */
     public void resizeMap() {
-     /*   mapView.setSize((int)getWidth(), (int)getHeight());
-        mapPane.getCoordinatesPanel().setBounds(
-                (int)getWidth() - mapPane.getCoordinatesPanel().getWidth() - MapPaneFX.BORDER_SIZE,
-                (int)getHeight() - mapPane.getCoordinatesPanel().getHeight() - MapPaneFX.BORDER_SIZE,
-                mapPane.getCoordinatesPanel().getWidth(), mapPane.getCoordinatesPanel().getHeight()
-        );
-        mapPane.getBackgroundCoordinatePanel().setBounds(mapPane.getCoordinatesPanel().getBounds());*/
+        mapView.setSize(getWidth(), getHeight());
     }
 }
