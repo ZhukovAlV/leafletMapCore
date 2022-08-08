@@ -32,8 +32,8 @@ public class MapViewLeafletFX extends StackPane implements MapView {
     }
 
     @Override
-    public CompletableFuture displayMap(MapConfig mapConfig) {
-        CompletableFuture finalMapLoadState = new CompletableFuture();
+    public CompletableFuture<Worker.State> displayMap(MapConfig mapConfig) {
+        CompletableFuture<Worker.State> finalMapLoadState = new CompletableFuture<>();
         this.webEngine.getLoadWorker().stateProperty().addListener((new ChangeListener() {
             public void changed(ObservableValue var1, Object var2, Object var3) {
                 this.changed(var1, (Worker.State)var2, (Worker.State)var3);
@@ -80,16 +80,17 @@ public class MapViewLeafletFX extends StackPane implements MapView {
             StringBuilder sb = (new StringBuilder()).append('\'');
             destinationList.add(sb.append(layer.getDisplayName()).append("': layer").append(++index).toString());
         }
-
         StringBuffer jsLayers = new StringBuffer();
         destinationList.forEach(elem -> jsLayers.append(elem).append(","));
         execScript("var baseMaps = { " + jsLayers + " };");
-        stringBuilder = (new StringBuilder()).append("var myMap = L.map('map', {center: new L.LatLng(");
+
+        // Установка центра карты
         LatLng latLng = mapConfig.getInitialCenter();
-        stringBuilder = stringBuilder.append(latLng.getLatitude()).append(", ");
-        latLng = mapConfig.getInitialCenter();
-        String script = stringBuilder.append(latLng.getLongitude()).append("),zoom: 8,zoomControl: false,layers: [layer1]});var attribution = myMap.attributionControl;attribution.setPrefix('Leaflet');").toString();
-        execScript(script);
+        stringBuilder = (new StringBuilder()).append("var myMap = L.map('map', {center: new L.LatLng(");
+        stringBuilder.append(latLng.getLatitude()).append(", ")
+                .append(latLng.getLongitude()).append("),zoom: 14,zoomControl: false,layers: [layer1]});")
+                .append("var attribution = myMap.attributionControl;attribution.setPrefix('Leaflet');");
+        execScript(stringBuilder.toString());
         if (mapConfig.getLayers().size() > 1) {
             execScript("var overlayMaps = {};L.control.layers(baseMaps, overlayMaps).addTo(myMap);");
         }
@@ -98,10 +99,8 @@ public class MapViewLeafletFX extends StackPane implements MapView {
         ScaleControlConfig scaleControlConfig = mapConfig.getScaleControlConfig();
         if (scaleControlConfig.isShow()) {
             stringBuilder = (new StringBuilder()).append("L.control.scale({position: '");
-            stringBuilder = stringBuilder.append(scaleControlConfig.getPosition().getPositionName()).append("', ").append("metric: ");
-            scaleControlConfig = mapConfig.getScaleControlConfig();
-            stringBuilder = stringBuilder.append(scaleControlConfig.isMetric()).append(", ").append("imperial: ");
-            scaleControlConfig = mapConfig.getScaleControlConfig();
+            stringBuilder.append(scaleControlConfig.getPosition().getPositionName()).append("', ").append("metric: ");
+            stringBuilder.append(scaleControlConfig.isMetric()).append(", ").append("imperial: ");
             execScript(stringBuilder.append(!scaleControlConfig.isMetric()).append("})").append(".addTo(myMap);").toString());
         }
 
@@ -109,8 +108,7 @@ public class MapViewLeafletFX extends StackPane implements MapView {
         ZoomControlConfig zoomControlConfig = mapConfig.getZoomControlConfig();
         if (zoomControlConfig.isShow()) {
             stringBuilder = (new StringBuilder()).append("L.control.zoom({position: '");
-            ZoomControlConfig controlConfig = mapConfig.getZoomControlConfig();
-            execScript(stringBuilder.append(controlConfig.getPosition().getPositionName()).append("'})").append(".addTo(myMap);").toString());
+            execScript(stringBuilder.append(zoomControlConfig.getPosition().getPositionName()).append("'})").append(".addTo(myMap);").toString());
         }
     }
 
