@@ -13,6 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.8.1</junit.version>
         <javafx.version>11.0.1</javafx.version>
+        <mapsforge.version>0.18.0</mapsforge.version>
     </properties>
 
     <dependencies>
@@ -40,6 +41,31 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-web</artifactId>
             <version>${javafx.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.mapsforge/mapsforge-core -->
+        <dependency>
+            <groupId>org.mapsforge</groupId>
+            <artifactId>mapsforge-core</artifactId>
+            <version>${mapsforge.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.mapsforge/mapsforge-map -->
+        <dependency>
+            <groupId>org.mapsforge</groupId>
+            <artifactId>mapsforge-map</artifactId>
+            <version>${mapsforge.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.mapsforge/mapsforge-map-awt -->
+        <dependency>
+            <groupId>org.mapsforge</groupId>
+            <artifactId>mapsforge-map-awt</artifactId>
+            <version>${mapsforge.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.mapsforge/mapsforge-map-reader -->
+        <dependency>
+            <groupId>org.mapsforge</groupId>
+            <artifactId>mapsforge-map-reader</artifactId>
+            <version>${mapsforge.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->

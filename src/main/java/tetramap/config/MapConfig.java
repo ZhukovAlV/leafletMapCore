@@ -1,13 +1,13 @@
 package tetramap.config;
 
-import tetramap.entity.LatLng;
+import org.mapsforge.core.model.LatLong;
 import tetramap.layer.MapLayer;
 
 import java.util.List;
 
 public interface MapConfig {
     List<MapLayer> getLayers();
-    LatLng getInitialCenter();
+    LatLong getInitialCenter();
     ScaleControlConfig getScaleControlConfig();
     ZoomControlConfig getZoomControlConfig();
 }

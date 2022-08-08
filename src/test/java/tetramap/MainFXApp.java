@@ -3,8 +3,8 @@ package tetramap;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.mapsforge.core.model.LatLong;
 import tetramap.config.*;
-import tetramap.entity.LatLng;
 import tetramap.gui.MapPaneFX;
 import tetramap.gui.MapView;
 import tetramap.gui.MapViewLeafletFX;
@@ -23,7 +23,7 @@ public class MainFXApp extends Application {
                 List.of(MapLayer.OPENSTREETMAP, MapLayer.OPENCYCLEMAP),
                 new ZoomControlConfig(true, ControlPosition.BOTTOM_LEFT),
                 new ScaleControlConfig(true, ControlPosition.BOTTOM_LEFT,true),
-                new LatLng(55.030, 73.2695)
+                new LatLong(55.030, 73.2695)
         );
         MapView mapView = new MapViewLeafletFX();
         mapView.displayMap(mapConfig);

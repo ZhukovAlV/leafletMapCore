@@ -6,10 +6,10 @@ import javafx.concurrent.Worker;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import org.mapsforge.core.model.LatLong;
 import tetramap.config.MapConfig;
 import tetramap.config.ScaleControlConfig;
 import tetramap.config.ZoomControlConfig;
-import tetramap.entity.LatLng;
 import tetramap.layer.MapLayer;
 
 import java.net.URL;
@@ -85,7 +85,7 @@ public class MapViewLeafletFX extends StackPane implements MapView {
         execScript("var baseMaps = { " + jsLayers + " };");
 
         // Установка центра карты
-        LatLng latLng = mapConfig.getInitialCenter();
+        LatLong latLng = mapConfig.getInitialCenter();
         stringBuilder = (new StringBuilder()).append("var myMap = L.map('map', {center: new L.LatLng(");
         stringBuilder.append(latLng.getLatitude()).append(", ")
                 .append(latLng.getLongitude()).append("),zoom: 14,zoomControl: false,layers: [layer1]});")
