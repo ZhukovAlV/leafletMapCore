@@ -24,12 +24,12 @@ public interface MapView {
     void setSize(double width, double height);
 
     /**
-     * Обработка нажатия мыши
+     * Реализация слушателя на нажатие мыши
      */
-    void onMapClick();
+    void addMouseClickListener();
 
     /**
-     * Обработка перемещения мыши
+     * Реализация слушателя на перемещение мыши
      */
-    void onMapMove();
+    void addMouseMoveListener();
 }

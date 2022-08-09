@@ -121,6 +121,10 @@ public class MapViewLeaflet extends StackPane implements MapView {
             stringBuilder = (new StringBuilder()).append("L.control.zoom({position: '");
             execScript(stringBuilder.append(zoomControlConfig.getPosition().getPositionName()).append("'})").append(".addTo(myMap);").toString());
         }
+
+        // Установка слушателей на мышь
+        addMouseClickListener();
+        addMouseMoveListener();
     }
 
     public Object execScript(String script) {
@@ -132,18 +136,15 @@ public class MapViewLeaflet extends StackPane implements MapView {
         webView.setPrefSize(width, height);
     }
 
-    /**
-     * Вызов метода mapMoveEvent у каждого слушателя при перемещении мыши
-     */
     @Override
-    public void onMapMove() {
+    public void addMouseMoveListener() {
         Object document = this.execScript("document");
         if (document == null) {
             throw new NullPointerException("null cannot be cast to non-null type netscape.javascript.JSObject");
         } else {
             JSObject win = (JSObject)document;
             win.setMember("java", this);
-            execScript("myMap.on('moveend', function(e){ document.java.mapMove(myMap.getCenter().lat, myMap.getCenter().lng);});");
+            execScript("myMap.on('mousemove', function(e){ document.java.mapMove(e.latlng.lat, e.latlng.lng);});");
         }
     }
 
@@ -153,22 +154,19 @@ public class MapViewLeaflet extends StackPane implements MapView {
      * @param lng долгота
      */
     public void mapMove(double lat, double lng) {
+        System.out.println(lat + " " + lng);
         LatLong latlng = new LatLong(lat, lng);
         mapMoveEvent.mapMoveEvent(latlng);
     }
 
-    /**
-     * Вызов метода mapClickEvent у каждого слушателя при нажатии мыши
-     */
     @Override
-    public void onMapClick() {
+    public void addMouseClickListener() {
         Object document = this.execScript("document");
         if (document == null) {
             throw new NullPointerException("null cannot be cast to non-null type netscape.javascript.JSObject");
         } else {
             JSObject win = (JSObject)document;
             win.setMember("java", this);
-          //  addTrack();
             execScript("myMap.on('click', function(e){ document.java.mapClick(e.latlng.lat, e.latlng.lng);});");
         }
     }
@@ -179,12 +177,12 @@ public class MapViewLeaflet extends StackPane implements MapView {
      * @param lng долгота
      */
     public void mapClick(double lat, double lng) {
-     //   LatLong latlng = new LatLong(lat, lng);
         System.out.println(lat + " " + lng);
-     //   mapClickEvent.mapClickEvent(latlng);
+        LatLong latlng = new LatLong(lat, lng);
+        mapClickEvent.mapClickEvent(latlng);
     }
 
-    public void addTrack() {
+/*    public void addTrack() {
         Collection destination = new ArrayList();
         destination.add("    [" + 55.030 + ", " + 73.2695 + ']');
         destination.add("    [" + 55.130 + ", " + 73.3695 + ']');
@@ -194,5 +192,5 @@ public class MapViewLeaflet extends StackPane implements MapView {
 
         String script = "var latLngs = [" + jsPositions + "]; var polyline = L.polyline(latLngs, {color: 'red', weight: 2}).addTo(myMap); myMap.fitBounds(polyline.getBounds());";
         this.execScript(script);
-    }
+    }*/
 }
