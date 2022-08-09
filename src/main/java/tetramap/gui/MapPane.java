@@ -9,6 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import lombok.extern.log4j.Log4j2;
+import tetramap.draw.CircleDrawAdapter;
 import tetramap.event.impl.LabelLatLong;
 
 import java.io.InputStream;
@@ -163,6 +164,9 @@ public class MapPane extends AnchorPane {
         });
 
         widthProperty().addListener((obs, oldVal, newVal) -> resizeMap());
+
+        // Тестируем рисование круга
+        mapView.addMouseClickListener(new CircleDrawAdapter());
     }
 
     /**

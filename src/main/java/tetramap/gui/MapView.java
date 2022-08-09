@@ -2,7 +2,7 @@ package tetramap.gui;
 
 import javafx.concurrent.Worker;
 import tetramap.config.MapConfig;
-import tetramap.event.MapClickEventManager;
+import tetramap.event.MapClickEventListener;
 import tetramap.event.MapMoveEventListener;
 
 import java.util.concurrent.CompletableFuture;
@@ -28,7 +28,7 @@ public interface MapView {
     /**
      * Добавление слушателя на нажатие мыши
      */
-    void addMouseClickListener(MapClickEventManager mapClickEventManager);
+    void addMouseClickListener(MapClickEventListener mapClickEventListener);
 
     /**
      * Добавление слушателя на перемещение мыши

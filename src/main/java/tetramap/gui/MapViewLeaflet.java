@@ -11,6 +11,7 @@ import tetramap.config.MapConfig;
 import tetramap.config.ScaleControlConfig;
 import tetramap.config.ZoomControlConfig;
 import tetramap.entity.LatLong;
+import tetramap.event.MapClickEventListener;
 import tetramap.event.MapClickEventManager;
 import tetramap.event.MapMoveEventListener;
 import tetramap.event.MapMoveEventManager;
@@ -98,13 +99,13 @@ public class MapViewLeaflet extends StackPane implements MapView {
 
         // Установка центра карты, зума, отображения 1 слоя
         LatLong latLng = mapConfig.getInitialCenter();
-        stringBuilder = (new StringBuilder()).append("var myMap = L.map('map', {center: new L.LatLng(");
+        stringBuilder = (new StringBuilder()).append("var map = L.map('map', {center: new L.LatLng(");
         stringBuilder.append(latLng.getLatitude()).append(", ")
                 .append(latLng.getLongitude()).append("),zoom: 14,zoomControl: false,layers: [layer1]});")
-                .append("var attribution = myMap.attributionControl;attribution.setPrefix('Leaflet');");
+                .append("var attribution = map.attributionControl;attribution.setPrefix('Leaflet');");
         execScript(stringBuilder.toString());
         if (mapConfig.getLayers().size() > 1) {
-            execScript("var overlayMaps = {};L.control.layers(baseMaps, overlayMaps).addTo(myMap);");
+            execScript("var overlayMaps = {};L.control.layers(baseMaps, overlayMaps).addTo(map);");
         }
 
         // Настройки масштаба
@@ -113,14 +114,14 @@ public class MapViewLeaflet extends StackPane implements MapView {
             stringBuilder = (new StringBuilder()).append("L.control.scale({position: '");
             stringBuilder.append(scaleControlConfig.getPosition().getPositionName()).append("', ").append("metric: ");
             stringBuilder.append(scaleControlConfig.isMetric()).append(", ").append("imperial: ");
-            execScript(stringBuilder.append(!scaleControlConfig.isMetric()).append("})").append(".addTo(myMap);").toString());
+            execScript(stringBuilder.append(!scaleControlConfig.isMetric()).append("})").append(".addTo(map);").toString());
         }
 
         // Настройки Zoom
         ZoomControlConfig zoomControlConfig = mapConfig.getZoomControlConfig();
         if (zoomControlConfig.isShow()) {
             stringBuilder = (new StringBuilder()).append("L.control.zoom({position: '");
-            execScript(stringBuilder.append(zoomControlConfig.getPosition().getPositionName()).append("'})").append(".addTo(myMap);").toString());
+            execScript(stringBuilder.append(zoomControlConfig.getPosition().getPositionName()).append("'})").append(".addTo(map);").toString());
         }
 
         // Установка слушателей на мышь
@@ -147,7 +148,7 @@ public class MapViewLeaflet extends StackPane implements MapView {
         } else {
             JSObject win = (JSObject)document;
             win.setMember("java", this);
-            execScript("myMap.on('mousemove', function(e){ document.java.mapMove(e.latlng.lat, e.latlng.lng);});");
+            execScript("map.on('mousemove', function(e){ document.java.mapMove(e.latlng.lat, e.latlng.lng);});");
         }
     }
 
@@ -163,7 +164,7 @@ public class MapViewLeaflet extends StackPane implements MapView {
      */
     public void mapMove(double lat, double lng) {
         LatLong latlng = new LatLong(lat, lng);
-        mapMoveEventManager.mapMoveEvent(latlng);
+        mapMoveEventManager.mapMoveEvent(latlng, this);
     }
 
     /**
@@ -176,13 +177,13 @@ public class MapViewLeaflet extends StackPane implements MapView {
         } else {
             JSObject win = (JSObject)document;
             win.setMember("java", this);
-            execScript("myMap.on('click', function(e){ document.java.mapClick(e.latlng.lat, e.latlng.lng);});");
+            execScript("map.on('click', function(e){ document.java.mapClick(e.latlng.lat, e.latlng.lng);});");
         }
     }
 
     @Override
-    public void addMouseClickListener(MapClickEventManager mapClickEventManager) {
-
+    public void addMouseClickListener(MapClickEventListener mapClickEventListener) {
+        mapClickEventManager.addListener(mapClickEventListener);
     }
 
     /**
@@ -193,7 +194,7 @@ public class MapViewLeaflet extends StackPane implements MapView {
     public void mapClick(double lat, double lng) {
         System.out.println(lat + " " + lng);
         LatLong latlng = new LatLong(lat, lng);
-        mapClickEventManager.mapClickEvent(latlng);
+        mapClickEventManager.mapClickEvent(latlng, this);
     }
 
 /*    public void addTrack() {
@@ -204,7 +205,7 @@ public class MapViewLeaflet extends StackPane implements MapView {
         StringBuffer jsPositions = new StringBuffer();
         destination.forEach(elem -> jsPositions.append(elem).append(", \n"));
 
-        String script = "var latLngs = [" + jsPositions + "]; var polyline = L.polyline(latLngs, {color: 'red', weight: 2}).addTo(myMap); myMap.fitBounds(polyline.getBounds());";
+        String script = "var latLngs = [" + jsPositions + "]; var polyline = L.polyline(latLngs, {color: 'red', weight: 2}).addTo(map); map.fitBounds(polyline.getBounds());";
         this.execScript(script);
     }*/
 }
