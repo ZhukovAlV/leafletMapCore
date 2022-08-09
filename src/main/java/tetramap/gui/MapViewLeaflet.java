@@ -12,6 +12,7 @@ import tetramap.config.ScaleControlConfig;
 import tetramap.config.ZoomControlConfig;
 import tetramap.entity.LatLong;
 import tetramap.event.MapClickEventManager;
+import tetramap.event.MapMoveEventListener;
 import tetramap.event.MapMoveEventManager;
 import tetramap.layer.MapLayer;
 
@@ -31,15 +32,15 @@ public class MapViewLeaflet extends StackPane implements MapView {
     private final WebEngine webEngine;
 
     // Менеджер на нажатие мыши
-    private final MapClickEventManager mapClickEvent;
+    private final MapClickEventManager mapClickEventManager;
     // Менеджер на перемещение мыши
-    private final MapMoveEventManager mapMoveEvent;
+    private final MapMoveEventManager mapMoveEventManager;
 
     public MapViewLeaflet() {
         this.webEngine = this.webView.getEngine();
         this.getChildren().add(this.webView);
-        mapClickEvent = new MapClickEventManager();
-        mapMoveEvent = new MapMoveEventManager();
+        mapClickEventManager = new MapClickEventManager();
+        mapMoveEventManager = new MapMoveEventManager();
     }
 
     @Override
@@ -123,8 +124,8 @@ public class MapViewLeaflet extends StackPane implements MapView {
         }
 
         // Установка слушателей на мышь
-        addMouseClickListener();
-        addMouseMoveListener();
+        addMouseClickEvent();
+        addMouseMoveEvent();
     }
 
     public Object execScript(String script) {
@@ -136,8 +137,10 @@ public class MapViewLeaflet extends StackPane implements MapView {
         webView.setPrefSize(width, height);
     }
 
-    @Override
-    public void addMouseMoveListener() {
+    /**
+     * Реализация события вызова метода mapMove() при перемещении мыши
+     */
+    public void addMouseMoveEvent() {
         Object document = this.execScript("document");
         if (document == null) {
             throw new NullPointerException("null cannot be cast to non-null type netscape.javascript.JSObject");
@@ -148,19 +151,25 @@ public class MapViewLeaflet extends StackPane implements MapView {
         }
     }
 
+    @Override
+    public void addMouseMoveListener(MapMoveEventListener mapMoveEventListener) {
+        mapMoveEventManager.addListener(mapMoveEventListener);
+    }
+
     /**
      * Вызов метода mapMoveEvent у каждого слушателя для определенного LatLong
      * @param lat широта
      * @param lng долгота
      */
     public void mapMove(double lat, double lng) {
-        System.out.println(lat + " " + lng);
         LatLong latlng = new LatLong(lat, lng);
-        mapMoveEvent.mapMoveEvent(latlng);
+        mapMoveEventManager.mapMoveEvent(latlng);
     }
 
-    @Override
-    public void addMouseClickListener() {
+    /**
+     * Реализация события вызова метода mapClick() при нажатии мыши
+     */
+    public void addMouseClickEvent() {
         Object document = this.execScript("document");
         if (document == null) {
             throw new NullPointerException("null cannot be cast to non-null type netscape.javascript.JSObject");
@@ -171,6 +180,11 @@ public class MapViewLeaflet extends StackPane implements MapView {
         }
     }
 
+    @Override
+    public void addMouseClickListener(MapClickEventManager mapClickEventManager) {
+
+    }
+
     /**
      * Вызов метода mapClickEvent у каждого слушателя для определенного LatLong
      * @param lat широта
@@ -179,7 +193,7 @@ public class MapViewLeaflet extends StackPane implements MapView {
     public void mapClick(double lat, double lng) {
         System.out.println(lat + " " + lng);
         LatLong latlng = new LatLong(lat, lng);
-        mapClickEvent.mapClickEvent(latlng);
+        mapClickEventManager.mapClickEvent(latlng);
     }
 
 /*    public void addTrack() {

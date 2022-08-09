@@ -9,6 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import lombok.extern.log4j.Log4j2;
+import tetramap.event.impl.LabelLatLong;
 
 import java.io.InputStream;
 import java.util.Arrays;
@@ -78,6 +79,8 @@ public class MapPane extends AnchorPane {
     private final Button loadSelectionButton = new Button();
     private final Button saveSelectionButton = new Button();
 
+    private final LabelLatLong textLatLong = new LabelLatLong();
+
     public MapPane(MapView mapView) {
         super();
         this.mapView = mapView;
@@ -109,6 +112,13 @@ public class MapPane extends AnchorPane {
         // Отключаем кнопки для сохранения и открытия файла geoJson
         repeatSelectionButton.setDisable(true);
         saveSelectionButton.setDisable(true);
+
+        // Добавляем Label с координатами
+        AnchorPane.setRightAnchor(textLatLong, BORDER_SIZE * 2.0);
+        AnchorPane.setBottomAnchor(textLatLong, BORDER_SIZE * 2.0);
+        getChildren().add(textLatLong);
+        // Добавляем ее как слушателя на перемещение мыши
+        mapView.addMouseMoveListener(textLatLong);
 
         // Задаем размеры кнопкам и расположение
         for (Button button : Arrays.asList(zoomInButton, zoomOutButton,

@@ -2,6 +2,8 @@ package tetramap.gui;
 
 import javafx.concurrent.Worker;
 import tetramap.config.MapConfig;
+import tetramap.event.MapClickEventManager;
+import tetramap.event.MapMoveEventListener;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -24,12 +26,12 @@ public interface MapView {
     void setSize(double width, double height);
 
     /**
-     * Реализация слушателя на нажатие мыши
+     * Добавление слушателя на нажатие мыши
      */
-    void addMouseClickListener();
+    void addMouseClickListener(MapClickEventManager mapClickEventManager);
 
     /**
-     * Реализация слушателя на перемещение мыши
+     * Добавление слушателя на перемещение мыши
      */
-    void addMouseMoveListener();
+    void addMouseMoveListener(MapMoveEventListener mapMoveEventListener);
 }
