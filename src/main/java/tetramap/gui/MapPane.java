@@ -153,7 +153,8 @@ public class MapPane extends AnchorPane {
         updatePanelHeight();
 
         // Добавляем панели для отображения
-        getChildren().addAll(zoomBox, selectionBox, tileSourceComboBox);
+      //  getChildren().addAll(zoomBox, selectionBox, tileSourceComboBox);
+        getChildren().addAll(zoomBox, selectionBox);
 
         // Слушатель на изменение окна
         heightProperty().addListener((obs, oldVal, newVal) -> {

@@ -20,7 +20,12 @@ public class MainFXApp extends Application {
     public void start(Stage primaryStage) {
         // Загрузка карты
         MapConfig mapConfig = new MapConfigLeaflet(
-                List.of(MapLayer.OPENSTREETMAP, MapLayer.OPENCYCLEMAP),
+                List.of(MapLayer.OPENSTREETMAP,
+                        MapLayer.OPENCYCLEMAP,
+                        MapLayer.YANDEXMAP,
+                        MapLayer.GISMAP,
+                        MapLayer.WORLDSTREETMAP,
+                        MapLayer.GOOGLEMAP),
                 new ZoomControlConfig(true, ControlPosition.BOTTOM_LEFT),
                 new ScaleControlConfig(true, ControlPosition.BOTTOM_LEFT,true),
                 new LatLong(55.030, 73.2695)
