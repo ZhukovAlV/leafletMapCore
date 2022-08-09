@@ -1,6 +1,6 @@
 package tetramap.event;
 
-import org.mapsforge.core.model.LatLong;
+import tetramap.entity.LatLong;
 
 import java.util.ArrayList;
 import java.util.Iterator;

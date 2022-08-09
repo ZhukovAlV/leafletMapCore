@@ -2,7 +2,6 @@ package tetramap.gui;
 
 import javafx.concurrent.Worker;
 import tetramap.config.MapConfig;
-import tetramap.event.MapClickEventListener;
 
 import java.util.concurrent.CompletableFuture;
 

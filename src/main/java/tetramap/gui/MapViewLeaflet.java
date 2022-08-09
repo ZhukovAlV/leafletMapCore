@@ -7,10 +7,10 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
-import org.mapsforge.core.model.LatLong;
 import tetramap.config.MapConfig;
 import tetramap.config.ScaleControlConfig;
 import tetramap.config.ZoomControlConfig;
+import tetramap.entity.LatLong;
 import tetramap.event.MapClickEventManager;
 import tetramap.event.MapMoveEventManager;
 import tetramap.layer.MapLayer;
@@ -168,6 +168,7 @@ public class MapViewLeaflet extends StackPane implements MapView {
         } else {
             JSObject win = (JSObject)document;
             win.setMember("java", this);
+          //  addTrack();
             execScript("myMap.on('click', function(e){ document.java.mapClick(e.latlng.lat, e.latlng.lng);});");
         }
     }
@@ -181,5 +182,17 @@ public class MapViewLeaflet extends StackPane implements MapView {
      //   LatLong latlng = new LatLong(lat, lng);
         System.out.println(lat + " " + lng);
      //   mapClickEvent.mapClickEvent(latlng);
+    }
+
+    public void addTrack() {
+        Collection destination = new ArrayList();
+        destination.add("    [" + 55.030 + ", " + 73.2695 + ']');
+        destination.add("    [" + 55.130 + ", " + 73.3695 + ']');
+
+        StringBuffer jsPositions = new StringBuffer();
+        destination.forEach(elem -> jsPositions.append(elem).append(", \n"));
+
+        String script = "var latLngs = [" + jsPositions + "]; var polyline = L.polyline(latLngs, {color: 'red', weight: 2}).addTo(myMap); myMap.fitBounds(polyline.getBounds());";
+        this.execScript(script);
     }
 }

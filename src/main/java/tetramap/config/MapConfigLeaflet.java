@@ -1,6 +1,6 @@
 package tetramap.config;
 
-import org.mapsforge.core.model.LatLong;
+import tetramap.entity.LatLong;
 import tetramap.layer.MapLayer;
 
 import java.util.List;
