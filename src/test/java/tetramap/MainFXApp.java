@@ -5,9 +5,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.mapsforge.core.model.LatLong;
 import tetramap.config.*;
-import tetramap.gui.MapPaneFX;
+import tetramap.gui.MapPane;
 import tetramap.gui.MapView;
-import tetramap.gui.MapViewLeafletFX;
+import tetramap.gui.MapViewLeaflet;
 import tetramap.layer.MapLayer;
 
 import java.util.List;
@@ -25,10 +25,10 @@ public class MainFXApp extends Application {
                 new ScaleControlConfig(true, ControlPosition.BOTTOM_LEFT,true),
                 new LatLong(55.030, 73.2695)
         );
-        MapView mapView = new MapViewLeafletFX();
+        MapView mapView = new MapViewLeaflet();
         mapView.displayMap(mapConfig);
 
-        MapPaneFX mapPane = new MapPaneFX(mapView);
+        MapPane mapPane = new MapPane(mapView);
         mapPane.initialize();
 
         Scene scene = new Scene(mapPane, WIGHT, HIGHT);

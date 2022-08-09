@@ -11,9 +11,7 @@ import org.mapsforge.core.model.LatLong;
 import tetramap.config.MapConfig;
 import tetramap.config.ScaleControlConfig;
 import tetramap.config.ZoomControlConfig;
-import tetramap.event.MapClickEventListener;
 import tetramap.event.MapClickEventManager;
-import tetramap.event.MapMoveEventListener;
 import tetramap.event.MapMoveEventManager;
 import tetramap.layer.MapLayer;
 
@@ -27,7 +25,7 @@ import java.util.concurrent.CompletableFuture;
 /**
  * Карта от Leaflet для JavaFX
  */
-public class MapViewLeafletFX extends StackPane implements MapView {
+public class MapViewLeaflet extends StackPane implements MapView {
     // Контейнер для html карты
     private final WebView webView = new WebView();
     private final WebEngine webEngine;
@@ -37,7 +35,7 @@ public class MapViewLeafletFX extends StackPane implements MapView {
     // Менеджер на перемещение мыши
     private final MapMoveEventManager mapMoveEvent;
 
-    public MapViewLeafletFX() {
+    public MapViewLeaflet() {
         this.webEngine = this.webView.getEngine();
         this.getChildren().add(this.webView);
         mapClickEvent = new MapClickEventManager();
@@ -97,7 +95,7 @@ public class MapViewLeafletFX extends StackPane implements MapView {
         destinationList.forEach(elem -> jsLayers.append(elem).append(","));
         execScript("var baseMaps = { " + jsLayers + " };");
 
-        // Установка центра карты
+        // Установка центра карты, зума, отображения 1 слоя
         LatLong latLng = mapConfig.getInitialCenter();
         stringBuilder = (new StringBuilder()).append("var myMap = L.map('map', {center: new L.LatLng(");
         stringBuilder.append(latLng.getLatitude()).append(", ")
@@ -180,8 +178,8 @@ public class MapViewLeafletFX extends StackPane implements MapView {
      * @param lng долгота
      */
     public void mapClick(double lat, double lng) {
-        LatLong latlng = new LatLong(lat, lng);
+     //   LatLong latlng = new LatLong(lat, lng);
         System.out.println(lat + " " + lng);
-        mapClickEvent.mapClickEvent(latlng);
+     //   mapClickEvent.mapClickEvent(latlng);
     }
 }
