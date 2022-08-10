@@ -40,13 +40,14 @@ public class MapViewLeaflet extends StackPane implements MapView {
     private final MapMoveEventManager mapMoveEventManager;
 
     // Draw адаптеры для рисования фигур
-    private final CircleDrawAdapter circleDrawAdapter = new CircleDrawAdapterLeaflet(this);
+    private final CircleDrawAdapter circleDrawAdapter;
 
     public MapViewLeaflet() {
         this.webEngine = this.webView.getEngine();
         this.getChildren().add(this.webView);
         mapClickEventManager = new MapClickEventManager();
         mapMoveEventManager = new MapMoveEventManager();
+        circleDrawAdapter = new CircleDrawAdapterLeaflet(this);
     }
 
     @Override
@@ -162,6 +163,11 @@ public class MapViewLeaflet extends StackPane implements MapView {
         mapMoveEventManager.addListener(mapMoveEventListener);
     }
 
+    @Override
+    public void removeMouseMoveListener(MapMoveEventListener mapMoveEventListener) {
+        mapMoveEventManager.removeListener(mapMoveEventListener);
+    }
+
     /**
      * Вызов метода mapMoveEvent у каждого слушателя для определенного LatLong
      * @param lat широта
@@ -191,6 +197,11 @@ public class MapViewLeaflet extends StackPane implements MapView {
         mapClickEventManager.addListener(mapClickEventListener);
     }
 
+    @Override
+    public void removeMouseClickListener(MapClickEventListener mapClickEventListener) {
+        mapClickEventManager.removeListener(mapClickEventListener);
+    }
+
     /**
      * Вызов метода mapClickEvent у каждого слушателя для определенного LatLong
      * @param lat широта
@@ -213,6 +224,12 @@ public class MapViewLeaflet extends StackPane implements MapView {
         String script = "var latLngs = [" + jsPositions + "]; var polyline = L.polyline(latLngs, {color: 'red', weight: 2}).addTo(map); map.fitBounds(polyline.getBounds());";
         this.execScript(script);
     }*/
+
+    @Override
+    public void runCircleDraw() {
+        addMouseClickListener(circleDrawAdapter);
+        addMouseMoveListener(circleDrawAdapter);
+    }
 
     @Override
     public CircleDrawAdapter getCircleDrawAdapter() {

@@ -11,6 +11,10 @@ public class MapClickEventManager {
         listeners.add(toAdd);
     }
 
+    public void removeListener(MapClickEventListener toRemove) {
+        listeners.remove(toRemove);
+    }
+
     public void mapClickEvent(LatLong latLong) {
         for (MapClickEventListener mapClickEventListener : listeners) {
             mapClickEventListener.mouseClicked(latLong);

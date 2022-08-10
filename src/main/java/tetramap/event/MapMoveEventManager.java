@@ -11,6 +11,10 @@ public class MapMoveEventManager {
         listeners.add(toAdd);
     }
 
+    public void removeListener(MapMoveEventListener toRemove) {
+        listeners.remove(toRemove);
+    }
+
     public void mapMoveEvent(LatLong latLong) {
         for (MapMoveEventListener mapMoveEventListener : listeners) {
             mapMoveEventListener.mouseMoved(latLong);

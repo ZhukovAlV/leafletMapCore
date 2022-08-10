@@ -32,12 +32,27 @@ public interface MapView {
     void addMouseClickListener(MapClickEventListener mapClickEventListener);
 
     /**
+     * Удаление слушателя на нажатие мыши
+     */
+    void removeMouseClickListener(MapClickEventListener mapClickEventListener);
+
+    /**
      * Добавление слушателя на перемещение мыши
      */
     void addMouseMoveListener(MapMoveEventListener mapMoveEventListener);
 
     /**
-     * Возвращает адаптер для рисования круга
+     * Добавление слушателя на перемещение мыши
+     */
+    void removeMouseMoveListener(MapMoveEventListener mapMoveEventListener);
+
+    /**
+     * Адаптер для рисования круга
      */
     CircleDrawAdapter getCircleDrawAdapter();
+
+    /**
+     * Запуск рисования круга
+     */
+    void runCircleDraw();
 }

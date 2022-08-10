@@ -164,8 +164,13 @@ public class MapPane extends AnchorPane {
 
         widthProperty().addListener((obs, oldVal, newVal) -> resizeMap());
 
-        // Тестируем рисование круга
-        mapView.addMouseClickListener(mapView.getCircleDrawAdapter());
+        // Добавляем слушателя на кнопки
+        circleSelectionButton.setOnAction(event -> mapView.runCircleDraw());
+
+        cancelSelectionButton.setOnAction(event -> {
+            // отменяет выбор маркеров по области
+           // mapPane.getMapView().getAdapterManager().clearAdapters(mapPane.getCircleDrawAdapter());
+        });
     }
 
     /**
