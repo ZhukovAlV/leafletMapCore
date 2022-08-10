@@ -226,12 +226,6 @@ public class MapViewLeaflet extends StackPane implements MapView {
     }*/
 
     @Override
-    public void runCircleDraw() {
-        addMouseClickListener(circleDrawAdapter);
-        addMouseMoveListener(circleDrawAdapter);
-    }
-
-    @Override
     public CircleDrawAdapter getCircleDrawAdapter() {
         return circleDrawAdapter;
     }

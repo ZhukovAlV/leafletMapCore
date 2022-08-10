@@ -47,12 +47,8 @@ public interface MapView {
     void removeMouseMoveListener(MapMoveEventListener mapMoveEventListener);
 
     /**
-     * Адаптер для рисования круга
+     * Возвращает CircleDrawAdapter для  рисования круга
+     * @return возвращает CircleDrawAdapter для рисования круга
      */
     CircleDrawAdapter getCircleDrawAdapter();
-
-    /**
-     * Запуск рисования круга
-     */
-    void runCircleDraw();
 }

@@ -35,7 +35,7 @@ public class CircleDrawAdapterLeaflet implements CircleDrawAdapter {
     @Override
     public void mouseClicked(LatLong latLong) {
         // Если рисуем фигуру повторно удаляем предыдущий круг
-        if (isShapeComplete && circle.getCenterPoint() != null) clearShape();
+        if (isShapeComplete && circle.getCenterPoint() != null) clear();
 
         clickCount++;
 
@@ -67,10 +67,16 @@ public class CircleDrawAdapterLeaflet implements CircleDrawAdapter {
     }
 
     @Override
-    public void clearShape() {
+    public void clear() {
         mapView.execScript("circle.remove()");
         clickCount = 0;
         isShapeComplete = false;
         circle = new Circle();
+    }
+
+    @Override
+    public void draw() {
+        mapView.addMouseClickListener(this);
+        mapView.addMouseMoveListener(this);
     }
 }

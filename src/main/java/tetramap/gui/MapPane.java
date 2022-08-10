@@ -165,7 +165,7 @@ public class MapPane extends AnchorPane {
         widthProperty().addListener((obs, oldVal, newVal) -> resizeMap());
 
         // Добавляем слушателя на кнопки
-        circleSelectionButton.setOnAction(event -> mapView.runCircleDraw());
+        circleSelectionButton.setOnAction(event -> mapView.getCircleDrawAdapter().draw());
 
         cancelSelectionButton.setOnAction(event -> {
             // отменяет выбор маркеров по области

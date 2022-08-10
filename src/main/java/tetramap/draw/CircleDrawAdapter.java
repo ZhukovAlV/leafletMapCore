@@ -17,7 +17,12 @@ public interface CircleDrawAdapter extends MapClickEventListener, MapMoveEventLi
     void setShapeComplete(boolean shapeComplete);
 
     /**
-     * Удаляем фигуру круга
+     * Удаление фигуры круга
      */
-    void clearShape();
+    void clear();
+
+    /**
+     * Рисование фигуры круга
+     */
+    void draw();
 }
