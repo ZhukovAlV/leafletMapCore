@@ -2,6 +2,7 @@ package tetramap.gui;
 
 import javafx.concurrent.Worker;
 import tetramap.config.MapConfig;
+import tetramap.draw.CircleDrawAdapter;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapMoveEventListener;
 
@@ -34,4 +35,9 @@ public interface MapView {
      * Добавление слушателя на перемещение мыши
      */
     void addMouseMoveListener(MapMoveEventListener mapMoveEventListener);
+
+    /**
+     * Возвращает адаптер для рисования круга
+     */
+    CircleDrawAdapter getCircleDrawAdapter();
 }

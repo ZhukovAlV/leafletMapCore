@@ -19,7 +19,7 @@ public class MainFXApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         // Загрузка карты
-        MapConfig mapConfig = new MapConfigLeaflet(
+        MapConfig mapConfig = new MapConfig(
                 List.of(MapLayer.OPENSTREETMAP,
                         MapLayer.OPENCYCLEMAP,
                         MapLayer.YANDEXMAP,

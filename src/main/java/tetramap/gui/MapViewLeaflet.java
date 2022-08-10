@@ -10,6 +10,8 @@ import netscape.javascript.JSObject;
 import tetramap.config.MapConfig;
 import tetramap.config.ScaleControlConfig;
 import tetramap.config.ZoomControlConfig;
+import tetramap.draw.CircleDrawAdapter;
+import tetramap.draw.CircleDrawAdapterLeaflet;
 import tetramap.entity.LatLong;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapClickEventManager;
@@ -36,6 +38,9 @@ public class MapViewLeaflet extends StackPane implements MapView {
     private final MapClickEventManager mapClickEventManager;
     // Менеджер на перемещение мыши
     private final MapMoveEventManager mapMoveEventManager;
+
+    // Draw адаптеры для рисования фигур
+    private final CircleDrawAdapter circleDrawAdapter = new CircleDrawAdapterLeaflet(this);
 
     public MapViewLeaflet() {
         this.webEngine = this.webView.getEngine();
@@ -164,7 +169,7 @@ public class MapViewLeaflet extends StackPane implements MapView {
      */
     public void mapMove(double lat, double lng) {
         LatLong latlng = new LatLong(lat, lng);
-        mapMoveEventManager.mapMoveEvent(latlng, this);
+        mapMoveEventManager.mapMoveEvent(latlng);
     }
 
     /**
@@ -194,7 +199,7 @@ public class MapViewLeaflet extends StackPane implements MapView {
     public void mapClick(double lat, double lng) {
         System.out.println(lat + " " + lng);
         LatLong latlng = new LatLong(lat, lng);
-        mapClickEventManager.mapClickEvent(latlng, this);
+        mapClickEventManager.mapClickEvent(latlng);
     }
 
 /*    public void addTrack() {
@@ -208,4 +213,9 @@ public class MapViewLeaflet extends StackPane implements MapView {
         String script = "var latLngs = [" + jsPositions + "]; var polyline = L.polyline(latLngs, {color: 'red', weight: 2}).addTo(map); map.fitBounds(polyline.getBounds());";
         this.execScript(script);
     }*/
+
+    @Override
+    public CircleDrawAdapter getCircleDrawAdapter() {
+        return circleDrawAdapter;
+    }
 }
