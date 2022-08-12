@@ -171,6 +171,8 @@ public class MapPane extends AnchorPane {
             // отменяет выбор маркеров по области
            // mapPane.getMapView().getAdapterManager().clearAdapters(mapPane.getCircleDrawAdapter());
         });
+
+        mapView.getMarkerDrawAdapter().draw();
     }
 
     /**

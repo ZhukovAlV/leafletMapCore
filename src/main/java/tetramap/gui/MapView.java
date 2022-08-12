@@ -3,6 +3,8 @@ package tetramap.gui;
 import javafx.concurrent.Worker;
 import tetramap.config.MapConfig;
 import tetramap.draw.CircleDrawAdapter;
+import tetramap.draw.MarkerDrawAdapter;
+import tetramap.marker.MarkerManager;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapMoveEventListener;
 
@@ -51,4 +53,10 @@ public interface MapView {
      * @return возвращает CircleDrawAdapter для рисования круга
      */
     CircleDrawAdapter getCircleDrawAdapter();
+
+    /**
+     * Возвращает MarkerDrawAdapter для рисования маркеров
+     * @return возвращает MarkerDrawAdapter для рисования маркеров
+     */
+    MarkerDrawAdapter getMarkerDrawAdapter();
 }

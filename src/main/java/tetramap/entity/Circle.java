@@ -1,12 +1,28 @@
 package tetramap.entity;
 
-import lombok.Data;
+public interface Circle {
 
-@Data
-public class Circle {
-    // Точка центра
-    private LatLong centerPoint;
+    /**
+     * Получение центра круга
+     * @return координаты центра
+     */
+    LatLong getCenterPoint();
 
-    // Радиус
-    private double radius;
+    /**
+     * Установка центра круга
+     * @param centerPoint координаты центра
+     */
+    void setCenterPoint(LatLong centerPoint);
+
+    /**
+     * Радиус
+     * @return радиус
+     */
+    double getRadius();
+
+    /**
+     * Установка радиуса
+     * @return радиус
+     */
+    void setRadius(double radius);
 }

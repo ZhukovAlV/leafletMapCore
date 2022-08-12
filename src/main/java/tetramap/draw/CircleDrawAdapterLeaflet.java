@@ -1,6 +1,6 @@
 package tetramap.draw;
 
-import tetramap.entity.Circle;
+import tetramap.entity.CircleLeaflet;
 import tetramap.entity.LatLong;
 import tetramap.gui.MapViewLeaflet;
 import tetramap.util.LatLongUtil;
@@ -11,7 +11,7 @@ public class CircleDrawAdapterLeaflet implements CircleDrawAdapter {
     private final MapViewLeaflet mapView;
 
     // Круг
-    private Circle circle;
+    private CircleLeaflet circleLeaflet;
 
     // Объект еще рисуется или нет
     boolean isShapeComplete = false;
@@ -21,21 +21,21 @@ public class CircleDrawAdapterLeaflet implements CircleDrawAdapter {
 
     public CircleDrawAdapterLeaflet(MapViewLeaflet mapView) {
         this.mapView = mapView;
-        circle = new Circle();
+        circleLeaflet = new CircleLeaflet();
     }
 
     @Override
     public void mouseMoved(LatLong latLong) {
-        if (circle.getCenterPoint() != null && !isShapeComplete) {
-            circle.setRadius(LatLongUtil.sphericalDistance(circle.getCenterPoint(), latLong));
-            mapView.execScript("circle.setRadius(" + circle.getRadius() + ")");
+        if (circleLeaflet.getCenterPoint() != null && !isShapeComplete) {
+            circleLeaflet.setRadius(LatLongUtil.sphericalDistance(circleLeaflet.getCenterPoint(), latLong));
+            mapView.execScript("circle.setRadius(" + circleLeaflet.getRadius() + ");");
         }
     }
 
     @Override
     public void mouseClicked(LatLong latLong) {
         // Если рисуем фигуру повторно удаляем предыдущий круг
-        if (isShapeComplete && circle.getCenterPoint() != null) clear();
+        if (isShapeComplete && circleLeaflet.getCenterPoint() != null) clear();
 
         clickCount++;
 
@@ -48,9 +48,9 @@ public class CircleDrawAdapterLeaflet implements CircleDrawAdapter {
         // Если первый раз нажали ЛКМ, то рисуем круг с радиусом 0 по умолчанию
         }
         else if (!isShapeComplete) {
-            circle.setCenterPoint(latLong);
+            circleLeaflet.setCenterPoint(latLong);
             mapView.execScript("var circle = L.circle([" + latLong.getLatitude() + ", "+
-                    latLong.getLongitude() + "], {radius: " + circle.getRadius() + " }).addTo(map)");
+                    latLong.getLongitude() + "], {radius: " + circleLeaflet.getRadius() + " }).addTo(map);");
         }
 
         // TODO выбор маркеров в заданной зоне реализовать
@@ -71,7 +71,7 @@ public class CircleDrawAdapterLeaflet implements CircleDrawAdapter {
         mapView.execScript("circle.remove()");
         clickCount = 0;
         isShapeComplete = false;
-        circle = new Circle();
+        circleLeaflet = new CircleLeaflet();
     }
 
     @Override

@@ -12,6 +12,10 @@ import tetramap.config.ScaleControlConfig;
 import tetramap.config.ZoomControlConfig;
 import tetramap.draw.CircleDrawAdapter;
 import tetramap.draw.CircleDrawAdapterLeaflet;
+import tetramap.draw.MarkerDrawAdapter;
+import tetramap.draw.MarkerDrawAdapterLeaflet;
+import tetramap.marker.MarkerManager;
+import tetramap.marker.MarkerManagerLeaflet;
 import tetramap.entity.LatLong;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapClickEventManager;
@@ -41,6 +45,7 @@ public class MapViewLeaflet extends StackPane implements MapView {
 
     // Draw адаптеры для рисования фигур
     private final CircleDrawAdapter circleDrawAdapter;
+    private final MarkerDrawAdapter markerDrawAdapter;
 
     public MapViewLeaflet() {
         this.webEngine = this.webView.getEngine();
@@ -48,6 +53,7 @@ public class MapViewLeaflet extends StackPane implements MapView {
         mapClickEventManager = new MapClickEventManager();
         mapMoveEventManager = new MapMoveEventManager();
         circleDrawAdapter = new CircleDrawAdapterLeaflet(this);
+        markerDrawAdapter = new MarkerDrawAdapterLeaflet(this);
     }
 
     @Override
@@ -228,5 +234,10 @@ public class MapViewLeaflet extends StackPane implements MapView {
     @Override
     public CircleDrawAdapter getCircleDrawAdapter() {
         return circleDrawAdapter;
+    }
+
+    @Override
+    public MarkerDrawAdapter getMarkerDrawAdapter() {
+        return markerDrawAdapter;
     }
 }
