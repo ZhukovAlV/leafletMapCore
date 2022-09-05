@@ -4,7 +4,6 @@ import javafx.concurrent.Worker;
 import tetramap.config.MapConfig;
 import tetramap.draw.CircleDrawAdapter;
 import tetramap.draw.MarkerDrawAdapter;
-import tetramap.marker.MarkerManager;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapMoveEventListener;
 

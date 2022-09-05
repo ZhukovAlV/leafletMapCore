@@ -8,7 +8,7 @@ import tetramap.entity.LatLong;
 import tetramap.gui.MapPane;
 import tetramap.gui.MapView;
 import tetramap.gui.MapViewLeaflet;
-import tetramap.layer.MapLayer;
+import tetramap.layer.MapLayerEnum;
 
 import java.util.List;
 
@@ -20,12 +20,12 @@ public class MainFXApp extends Application {
     public void start(Stage primaryStage) {
         // Загрузка карты
         MapConfig mapConfig = new MapConfig(
-                List.of(MapLayer.OPENSTREETMAP,
-                        MapLayer.OPENCYCLEMAP,
-                        MapLayer.YANDEXMAP,
-                        MapLayer.GISMAP,
-                        MapLayer.WORLDSTREETMAP,
-                        MapLayer.GOOGLEMAP),
+                List.of(MapLayerEnum.OPENSTREETMAP,
+                        MapLayerEnum.OPENCYCLEMAP,
+                        MapLayerEnum.YANDEXMAP,
+                        MapLayerEnum.GISMAP,
+                        MapLayerEnum.WORLDSTREETMAP,
+                        MapLayerEnum.GOOGLEMAP),
                 new ZoomControlConfig(true, ControlPosition.BOTTOM_LEFT),
                 new ScaleControlConfig(true, ControlPosition.BOTTOM_LEFT,true),
                 new LatLong(55.030, 73.2695)

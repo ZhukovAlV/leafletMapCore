@@ -14,14 +14,12 @@ import tetramap.draw.CircleDrawAdapter;
 import tetramap.draw.CircleDrawAdapterLeaflet;
 import tetramap.draw.MarkerDrawAdapter;
 import tetramap.draw.MarkerDrawAdapterLeaflet;
-import tetramap.marker.MarkerManager;
-import tetramap.marker.MarkerManagerLeaflet;
 import tetramap.entity.LatLong;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapClickEventManager;
 import tetramap.event.MapMoveEventListener;
 import tetramap.event.MapMoveEventManager;
-import tetramap.layer.MapLayer;
+import tetramap.layer.MapLayerEnum;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -82,26 +80,26 @@ public class MapViewLeaflet extends StackPane implements MapView {
 
     private void executeMapSetupScripts(MapConfig mapConfig) {
         StringBuilder stringBuilder;
-        Iterator<MapLayer> iterator;
+        Iterator<MapLayerEnum> iterator;
         int index;
 
         // Настройки Layers
-        List<MapLayer> configLayers = mapConfig.getLayers();
+        List<MapLayerEnum> configLayers = mapConfig.getLayers();
         iterator = configLayers.iterator();
         index = 0;
         while(iterator.hasNext()) {
-            MapLayer layer = iterator.next();
+            MapLayerEnum layer = iterator.next();
             stringBuilder = (new StringBuilder()).append("var layer").append(++index).append(" = ");
             execScript(stringBuilder.append(layer.getJavaScriptCode()).append(';').toString());
         }
         configLayers = mapConfig.getLayers();
 
-        Iterable<MapLayer> iterable = configLayers;
+        Iterable<MapLayerEnum> iterable = configLayers;
         Collection<String> destinationList = new ArrayList<>();
         index = 0;
         iterator = iterable.iterator();
         while(iterator.hasNext()) {
-            MapLayer layer = iterator.next();
+            MapLayerEnum layer = iterator.next();
             StringBuilder sb = (new StringBuilder()).append('\'');
             destinationList.add(sb.append(layer.getDisplayName()).append("': layer").append(++index).toString());
         }

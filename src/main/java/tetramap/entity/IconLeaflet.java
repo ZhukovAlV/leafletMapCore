@@ -3,17 +3,17 @@ package tetramap.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.io.Serial;
+
 @Data
 @AllArgsConstructor
 public class IconLeaflet implements Icon {
 
-    String iconUrl;
+    @Serial
+    private static final long serialVersionUID = -5884170824139869060L;
 
-/*     'my-icon.png',
-    iconSize; [38, 95],
-    iconAnchor; [22, 94],
-    popupAnchor; [-3, -76],
-    URL shadowUrl; 'my-icon-shadow.png',
-    shadowSize; [68, 95],
-    shadowAnchor; [22, 94]*/
+    /**
+     * Ссылка на иконку
+     */
+    String iconUrl;
 }

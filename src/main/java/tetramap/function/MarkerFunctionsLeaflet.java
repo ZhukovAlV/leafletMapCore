@@ -1,13 +1,16 @@
-package tetramap.marker;
+package tetramap.function;
 
-import tetramap.entity.LatLong;
+import tetramap.entity.Icon;
 import tetramap.entity.Marker;
 import tetramap.gui.MapViewLeaflet;
+import tetramap.js.Identifiable;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class MarkerManagerLeaflet implements MarkerManager {
+public class MarkerFunctionsLeaflet {
 
     // Карта
     private final MapViewLeaflet mapView;
@@ -15,22 +18,14 @@ public class MarkerManagerLeaflet implements MarkerManager {
     // Подписчики на события выбора маркеров на карте
     private final List<Marker> markerList = new CopyOnWriteArrayList<>();
 
-    public MarkerManagerLeaflet(MapViewLeaflet mapView) {
+    public MarkerFunctionsLeaflet(MapViewLeaflet mapView) {
         this.mapView = mapView;
     }
 
-    /**
-     * Добавляет маркер в список
-     * @param marker маркер
-     */
     public void addMarker(Marker marker) {
         markerList.add(marker);
     }
 
-    /**
-     * Удаляет маркер из списка
-     * @param marker маркер
-     */
     public void removeMarker(Marker marker) {
         markerList.remove(marker);
     }

@@ -1,6 +1,6 @@
 package tetramap.entity;
 
-public interface Icon {
+public interface Icon extends BasicType {
 
     /**
      * Возвращает URL иконки
