@@ -1,4 +1,4 @@
-package tetramap.js;
+package tetramap.entity;
 
 /**
  * Используется для формирования уникальных значений

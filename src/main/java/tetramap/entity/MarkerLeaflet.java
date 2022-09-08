@@ -3,11 +3,7 @@ package tetramap.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import tetramap.function.MarkerFunctions;
-import tetramap.js.Identifiable;
 import tetramap.layer.InteractiveLayer;
-
-import java.io.Serializable;
-import java.util.concurrent.CompletableFuture;
 
 @Data
 @AllArgsConstructor

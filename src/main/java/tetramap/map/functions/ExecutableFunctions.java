@@ -1,5 +1,7 @@
-package tetramap.js;
+package tetramap.map.functions;
 
+
+import tetramap.entity.Identifiable;
 
 import java.io.Serializable;
 import java.util.concurrent.CompletableFuture;

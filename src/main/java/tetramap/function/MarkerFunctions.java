@@ -2,8 +2,7 @@ package tetramap.function;
 
 import tetramap.entity.Icon;
 import tetramap.entity.LatLong;
-import tetramap.entity.Marker;
-import tetramap.js.ExecutableFunctions;
+import tetramap.map.functions.ExecutableFunctions;
 
 import java.util.concurrent.CompletableFuture;
 

@@ -1,13 +1,9 @@
 package tetramap.function;
 
-import tetramap.entity.Icon;
 import tetramap.entity.Marker;
 import tetramap.gui.MapViewLeaflet;
-import tetramap.js.Identifiable;
 
-import java.io.Serializable;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MarkerFunctionsLeaflet {

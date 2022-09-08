@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import tetramap.annotations.LeafletArgument;
-import tetramap.js.ExecutableFunctions;
-import tetramap.js.Identifiable;
+import tetramap.map.functions.ExecutableFunctions;
+import tetramap.entity.Identifiable;
 
 import java.io.IOException;
 import java.io.Serial;
