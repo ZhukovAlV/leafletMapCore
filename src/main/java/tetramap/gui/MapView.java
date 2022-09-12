@@ -6,6 +6,7 @@ import tetramap.draw.CircleDrawAdapter;
 import tetramap.draw.MarkerDrawAdapter;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapMoveEventListener;
+import tetramap.layer.Layer;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -15,6 +16,7 @@ import java.util.concurrent.CompletableFuture;
 public interface MapView {
     /**
      * Отображение карты с заданными настрйоками
+     *
      * @param mapConfig настройки карты
      * @return CompletableFuture
      */
@@ -22,6 +24,7 @@ public interface MapView {
 
     /**
      * Установка размеров
+     *
      * @param width ширина
      * @param height высота
      */
@@ -49,13 +52,24 @@ public interface MapView {
 
     /**
      * Возвращает CircleDrawAdapter для  рисования круга
+     *
      * @return возвращает CircleDrawAdapter для рисования круга
      */
     CircleDrawAdapter getCircleDrawAdapter();
 
     /**
      * Возвращает MarkerDrawAdapter для рисования маркеров
+     *
      * @return возвращает MarkerDrawAdapter для рисования маркеров
      */
     MarkerDrawAdapter getMarkerDrawAdapter();
+
+    /**
+     * Добавление слоя на карту
+     *
+     * @param layer слой
+     */
+    void addTo(Layer layer);
+
+    void execScript(String script);
 }
