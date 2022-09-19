@@ -34,6 +34,9 @@ public class MainFXApp extends Application {
         );
         MapView mapView = new MapViewLeaflet();
         mapView.displayMap(mapConfig);
+        /* mapView.addMouseClickEvent();
+                mapView.addMouseMoveEvent();*/
+
 
         MapPane mapPane = new MapPane(mapView);
         mapPane.initialize();

@@ -27,12 +27,12 @@ public class LeafletMap {
     private final WebEngine webEngine;
 
     public LeafletMap() {
-        this.webEngine = this.webView.getEngine();
+        webEngine = webView.getEngine();
     }
 
     public CompletableFuture<Worker.State> displayMap(MapConfig mapConfig) {
         CompletableFuture<Worker.State> finalMapLoadState = new CompletableFuture<>();
-        this.webEngine.getLoadWorker().stateProperty().addListener((new ChangeListener() {
+        webEngine.getLoadWorker().stateProperty().addListener((new ChangeListener() {
             public void changed(ObservableValue var1, Object var2, Object var3) {
                 this.changed(var1, (Worker.State)var2, (Worker.State)var3);
             }
@@ -49,7 +49,7 @@ public class LeafletMap {
             }
         }));
         URL urlWeb = getClass().getResource("/web/leafletmap.html");
-        this.webEngine.load(urlWeb.toExternalForm());
+        webEngine.load(urlWeb.toExternalForm());
         return finalMapLoadState;
     }
 
@@ -108,76 +108,11 @@ public class LeafletMap {
             stringBuilder = (new StringBuilder()).append("L.control.zoom({position: '");
             execScript(stringBuilder.append(zoomControlConfig.getPosition().getPositionName()).append("'})").append(".addTo(map);").toString());
         }
-
-        // Установка слушателей на мышь
-        addMouseClickEvent();
-        addMouseMoveEvent();
     }
 
     public Object execScript(String script) {
-        return this.webEngine.executeScript(script);
+        return webEngine.executeScript(script);
     }
-
-    /**
-     * Реализация события вызова метода mapMove() при перемещении мыши
-     */
-    public void addMouseMoveEvent() {
-        Object document = this.execScript("document");
-        if (document == null) {
-            throw new NullPointerException("null cannot be cast to non-null type netscape.javascript.JSObject");
-        } else {
-            JSObject win = (JSObject)document;
-            win.setMember("java", this);
-            execScript("map.on('mousemove', function(e){ document.java.mapMove(e.latlng.lat, e.latlng.lng);});");
-        }
-    }
-
-    /**
-     * Вызов метода mapMoveEvent у каждого слушателя для определенного LatLong
-     * @param lat широта
-     * @param lng долгота
-     */
-    public void mapMove(double lat, double lng) {
-        LatLong latlng = new LatLong(lat, lng);
-    //    mapMoveEventManager.mapMoveEvent(latlng);
-    }
-
-    /**
-     * Реализация события вызова метода mapClick() при нажатии мыши
-     */
-    public void addMouseClickEvent() {
-        Object document = this.execScript("document");
-        if (document == null) {
-            throw new NullPointerException("null cannot be cast to non-null type netscape.javascript.JSObject");
-        } else {
-            JSObject win = (JSObject)document;
-            win.setMember("java", this);
-            execScript("map.on('click', function(e){ document.java.mapClick(e.latlng.lat, e.latlng.lng);});");
-        }
-    }
-
-    /**
-     * Вызов метода mapClickEvent у каждого слушателя для определенного LatLong
-     * @param lat широта
-     * @param lng долгота
-     */
-    public void mapClick(double lat, double lng) {
-        System.out.println(lat + " " + lng);
-        LatLong latlng = new LatLong(lat, lng);
-     //   mapClickEventManager.mapClickEvent(latlng);
-    }
-
-/*    public void addTrack() {
-        Collection destination = new ArrayList();
-        destination.add("    [" + 55.030 + ", " + 73.2695 + ']');
-        destination.add("    [" + 55.130 + ", " + 73.3695 + ']');
-
-        StringBuffer jsPositions = new StringBuffer();
-        destination.forEach(elem -> jsPositions.append(elem).append(", \n"));
-
-        String script = "var latLngs = [" + jsPositions + "]; var polyline = L.polyline(latLngs, {color: 'red', weight: 2}).addTo(map); map.fitBounds(polyline.getBounds());";
-        this.execScript(script);
-    }*/
 
     public WebView getWebView() {
         return webView;
