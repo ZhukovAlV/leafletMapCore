@@ -1,6 +1,6 @@
-package tetramap.layer;
+package tetramap.type;
 
-public enum MapLayerEnum {
+public enum MapLayerType {
     /** OpenStreetMap layer */
     OPENSTREETMAP("OpenStreetMap", """
         L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -56,7 +56,7 @@ public enum MapLayerEnum {
     private final String displayName;
     private final String javaScriptCode;
 
-    MapLayerEnum(String displayName, String javaScriptCode) {
+    MapLayerType(String displayName, String javaScriptCode) {
         this.displayName = displayName;
         this.javaScriptCode = javaScriptCode;
     }

@@ -2,11 +2,8 @@ package tetramap.gui;
 
 import javafx.concurrent.Worker;
 import tetramap.config.MapConfig;
-import tetramap.draw.CircleDrawAdapter;
-import tetramap.draw.MarkerDrawAdapter;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapMoveEventListener;
-import tetramap.layer.Layer;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -49,27 +46,4 @@ public interface MapView {
      * Добавление слушателя на перемещение мыши
      */
     void removeMouseMoveListener(MapMoveEventListener mapMoveEventListener);
-
-    /**
-     * Возвращает CircleDrawAdapter для  рисования круга
-     *
-     * @return возвращает CircleDrawAdapter для рисования круга
-     */
-    CircleDrawAdapter getCircleDrawAdapter();
-
-    /**
-     * Возвращает MarkerDrawAdapter для рисования маркеров
-     *
-     * @return возвращает MarkerDrawAdapter для рисования маркеров
-     */
-    MarkerDrawAdapter getMarkerDrawAdapter();
-
-    /**
-     * Добавление слоя на карту
-     *
-     * @param layer слой
-     */
-    void addTo(Layer layer);
-
-    void execScript(String script);
 }

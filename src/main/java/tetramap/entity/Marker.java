@@ -3,27 +3,29 @@ package tetramap.entity;
 public interface Marker {
 
     /**
-     * Установить координаты маркера
+     * Устанавка координат маркера
      *
      * @param latLong координаты маркера
      */
     void setLatLong(LatLong latLong);
 
     /**
-     * Получить координаты маркера
+     * Получение координат маркера
      *
      * @return координаты маркера
      */
     LatLong getLatLong();
 
     /**
-     * Установить иконку маркера
+     * Устанавка иконки маркера
+     *
      * @param icon иконка маркера
      */
     void setIcon(Icon icon);
 
     /**
-     * Получить иконку маркера
+     * Получение иконки маркера
+     *
      * @return иконка маркера
      */
     Icon getIcon();

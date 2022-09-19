@@ -1,13 +1,14 @@
-package tetramap.entity;
+package tetramap.entity.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import tetramap.function.MarkerFunctions;
-import tetramap.layer.InteractiveLayer;
+import tetramap.entity.Icon;
+import tetramap.entity.LatLong;
+import tetramap.entity.Marker;
 
 @Data
 @AllArgsConstructor
-public class MarkerLeaflet extends InteractiveLayer implements Marker, MarkerFunctions {
+public class MarkerLeaflet implements Marker {
 
     /**
      * Координаты маркера

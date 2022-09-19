@@ -1,23 +1,17 @@
-package tetramap.layer;
+package tetramap.gui;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import lombok.extern.log4j.Log4j2;
 import netscape.javascript.JSObject;
 import tetramap.config.MapConfig;
 import tetramap.config.ScaleControlConfig;
 import tetramap.config.ZoomControlConfig;
-import tetramap.draw.CircleDrawAdapter;
-import tetramap.draw.CircleDrawAdapterLeaflet;
-import tetramap.draw.MarkerDrawAdapter;
-import tetramap.draw.MarkerDrawAdapterLeaflet;
 import tetramap.entity.LatLong;
-import tetramap.event.MapClickEventListener;
-import tetramap.event.MapClickEventManager;
-import tetramap.event.MapMoveEventListener;
-import tetramap.event.MapMoveEventManager;
+import tetramap.type.MapLayerType;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,12 +20,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class MapLayerLeaflet extends Layer {
+@Log4j2
+public class LeafletMap {
     // Контейнер для html карты
     private final WebView webView = new WebView();
     private final WebEngine webEngine;
 
-    public MapLayerLeaflet() {
+    public LeafletMap() {
         this.webEngine = this.webView.getEngine();
     }
 
@@ -60,26 +55,26 @@ public class MapLayerLeaflet extends Layer {
 
     private void executeMapSetupScripts(MapConfig mapConfig) {
         StringBuilder stringBuilder;
-        Iterator<MapLayerEnum> iterator;
+        Iterator<MapLayerType> iterator;
         int index;
 
         // Настройки Layers
-        List<MapLayerEnum> configLayers = mapConfig.getLayers();
+        List<MapLayerType> configLayers = mapConfig.getLayers();
         iterator = configLayers.iterator();
         index = 0;
         while(iterator.hasNext()) {
-            MapLayerEnum layer = iterator.next();
+            MapLayerType layer = iterator.next();
             stringBuilder = (new StringBuilder()).append("var layer").append(++index).append(" = ");
             execScript(stringBuilder.append(layer.getJavaScriptCode()).append(';').toString());
         }
         configLayers = mapConfig.getLayers();
 
-        Iterable<MapLayerEnum> iterable = configLayers;
+        Iterable<MapLayerType> iterable = configLayers;
         Collection<String> destinationList = new ArrayList<>();
         index = 0;
         iterator = iterable.iterator();
         while(iterator.hasNext()) {
-            MapLayerEnum layer = iterator.next();
+            MapLayerType layer = iterator.next();
             StringBuilder sb = (new StringBuilder()).append('\'');
             destinationList.add(sb.append(layer.getDisplayName()).append("': layer").append(++index).toString());
         }
@@ -183,12 +178,6 @@ public class MapLayerLeaflet extends Layer {
         String script = "var latLngs = [" + jsPositions + "]; var polyline = L.polyline(latLngs, {color: 'red', weight: 2}).addTo(map); map.fitBounds(polyline.getBounds());";
         this.execScript(script);
     }*/
-
-    public void addTo(Layer layer) {
-        //logger.debug("add layer: {}", layer);
-       // this.addLayer(layer);
-        executeJs("addLayer", layer);
-    }
 
     public WebView getWebView() {
         return webView;

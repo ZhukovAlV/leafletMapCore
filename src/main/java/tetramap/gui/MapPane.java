@@ -165,14 +165,54 @@ public class MapPane extends AnchorPane {
         widthProperty().addListener((obs, oldVal, newVal) -> resizeMap());
 
         // Добавляем слушателя на кнопки
-        circleSelectionButton.setOnAction(event -> mapView.getCircleDrawAdapter().draw());
+    //    circleSelectionButton.setOnAction(event -> mapView.getCircleDrawAdapter().draw());
 
         cancelSelectionButton.setOnAction(event -> {
             // отменяет выбор маркеров по области
            // mapPane.getMapView().getAdapterManager().clearAdapters(mapPane.getCircleDrawAdapter());
+
+/*
+            mapView.execScript("""
+                    var myIcon = L.icon({
+                        iconUrl: '../../markerIcon/subscriber/marker_green.png',
+                        iconSize:     [24, 24],
+                        iconAnchor: [12, 12],
+                    });
+                                        
+                    var captionMarker = L.marker([55.030, 73.2795], {icon: myIcon})
+                        .bindTooltip("Test Label",\s
+                        {
+                            permanent: true,\s
+                            direction: 'bottom'
+                        }
+                    );
+                    captionMarker.addTo(map);
+                                        
+                    var marker = L.marker([55.030, 73.2695], {icon: myIcon});
+                    marker.bindPopup("<b>Здесь текст</b><br>для маркера.").openPopup();
+                    marker.addTo(map);
+                    """
+            );
+*/
+
+/*            IconLeaflet icon = new IconLeaflet(getClass().getResource("../../markerIcon/subscriber/marker_green.png").getPath());
+            MarkerLeaflet marker = new MarkerLeaflet(new LatLong(55.030, 73.2695), icon);
+            mapView.addTo(marker);*/
+
+            // Добавим маркер
+/*        LatLong latLong = new LatLong(55.030, 73.2695);
+        Icon icon = new IconLeaflet(getClass().getResource("../markerIcon/subscriber/marker_green.png").getPath());
+        mapView.execScript("var myIcon = L.icon({iconUrl: '" + icon.getIconUrl() + "', iconSize: [24, 24], iconAnchor: [12, 12], });");
+        mapView.execScript("L.marker([" + latLong.getLatitude() + "," + latLong.getLongitude() + "], {icon: myIcon}).addTo(map);");*/
+
+/*        LatLong latLong = new LatLong(55.030, 73.2695);
+        Icon icon = new IconLeaflet(getClass().getResource("../markerIcon/subscriber/marker_green.png").getPath());
+        MarkerLeaflet marker = new MarkerLeaflet(latLong, icon);
+        mapView.addTo(marker);*/
+
         });
 
-        mapView.getMarkerDrawAdapter().draw();
+      //  mapView.getMarkerDrawAdapter().draw();
     }
 
     /**

@@ -10,10 +10,7 @@ import java.io.Serial;
  */
 @Data
 @AllArgsConstructor
-public class LatLong implements BasicType {
-
-    @Serial
-    private static final long serialVersionUID = 8519525431224154852L;
+public class LatLong {
 
     /**
      * Широта
@@ -24,9 +21,4 @@ public class LatLong implements BasicType {
      * Долгота
      */
     private double longitude;
-
-    /**
-     * Высота
-     */
-  //  private double altitude;
 }
