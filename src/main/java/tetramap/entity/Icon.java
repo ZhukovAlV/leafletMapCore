@@ -6,14 +6,14 @@ package tetramap.entity;
 public interface Icon {
 
     /**
-     * Устанавка URL иконки
-     */
-    void setIconUrl(String url);
-
-    /**
      * Получение URL иконки
      *
      * @return URL иконки
      */
     String getIconUrl();
+
+    /**
+     * Устанавка URL иконки
+     */
+    void setIconUrl(String url);
 }

@@ -11,6 +11,7 @@ import java.util.concurrent.CompletableFuture;
  * Карта
  */
 public interface MapView {
+
     /**
      * Отображение карты с заданными настрйоками
      *
@@ -18,6 +19,12 @@ public interface MapView {
      * @return CompletableFuture
      */
     CompletableFuture<Worker.State> displayMap(MapConfig mapConfig);
+
+    /**
+     * Получение карты
+     * @return LeafletMap
+     */
+    LeafletMap getMap();
 
     /**
      * Установка размеров

@@ -5,9 +5,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import tetramap.config.*;
 import tetramap.entity.*;
-import tetramap.entity.impl.IconLeaflet;
-import tetramap.entity.impl.MarkerLeaflet;
-import tetramap.gui.MapPane;
+import tetramap.gui.MapPaneLeaflet;
 import tetramap.gui.MapView;
 import tetramap.gui.MapViewLeaflet;
 import tetramap.type.MapLayerType;
@@ -38,10 +36,10 @@ public class MainFXApp extends Application {
                 mapView.addMouseMoveEvent();*/
 
 
-        MapPane mapPane = new MapPane(mapView);
-        mapPane.initialize();
+        MapPaneLeaflet mapPaneLeaflet = new MapPaneLeaflet(mapView);
+        mapPaneLeaflet.initialize();
 
-        Scene scene = new Scene(mapPane, WIGHT, HIGHT);
+        Scene scene = new Scene(mapPaneLeaflet, WIGHT, HIGHT);
         primaryStage.setScene(scene);
         primaryStage.setTitle("TetraMap in JavaFX");
         primaryStage.show();

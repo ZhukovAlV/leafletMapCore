@@ -2,9 +2,7 @@ package tetramap.gui;
 
 import javafx.concurrent.Worker;
 import javafx.scene.layout.StackPane;
-import netscape.javascript.JSObject;
 import tetramap.config.MapConfig;
-import tetramap.entity.LatLong;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapClickEventManager;
 import tetramap.event.MapMoveEventListener;
@@ -59,6 +57,11 @@ public class MapViewLeaflet extends StackPane implements MapView {
     @Override
     public CompletableFuture<Worker.State> displayMap(MapConfig mapConfig) {
         return leafletMap.displayMap(mapConfig);
+    }
+
+    @Override
+    public LeafletMap getMap() {
+        return leafletMap;
     }
 
     /**

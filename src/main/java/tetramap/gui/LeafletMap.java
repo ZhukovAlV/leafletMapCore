@@ -6,13 +6,18 @@ import javafx.concurrent.Worker;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import lombok.extern.log4j.Log4j2;
-import netscape.javascript.JSObject;
 import tetramap.config.MapConfig;
 import tetramap.config.ScaleControlConfig;
 import tetramap.config.ZoomControlConfig;
 import tetramap.entity.LatLong;
+import tetramap.js.ExecutableFunctions;
+import tetramap.js.Identifiable;
+import tetramap.js.LeafletObject;
+import tetramap.layer.Layer;
+import tetramap.operations.LeafletOperation;
 import tetramap.type.MapLayerType;
 
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,7 +26,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Log4j2
-public class LeafletMap {
+public class LeafletMap implements ExecutableFunctions {
     // Контейнер для html карты
     private final WebView webView = new WebView();
     private final WebEngine webEngine;
@@ -116,5 +121,69 @@ public class LeafletMap {
 
     public WebView getWebView() {
         return webView;
+    }
+
+    @Override
+    public void executeJs(Identifiable target, String functionName, Serializable... arguments) {
+        // logger.info("Execute leaflet function: {}", functionName);
+        LeafletOperation leafletOperation = new LeafletOperation(target, functionName, arguments);
+     //   getElement().callJsFunction("callLeafletFunction", JsonSerializer.toJson(leafletOperation));
+        // TODO нужно скрипт размещения на карту доделать
+    }
+/*
+    @Override
+    public <T extends Serializable> CompletableFuture<T> call(Identifiable target, String functionName, Class<T> resultType, Serializable... arguments) {
+*//*        if (ready) {
+            logger.info("Call leaflet function: {}", functionName);
+            LeafletOperation leafletOperation = new LeafletOperation(target, functionName, arguments);
+            PendingJavaScriptResult javascriptResult = getElement().callJsFunction("callLeafletFunction", JsonSerializer.toJson(leafletOperation));
+
+            CompletableFuture<T> completableFuture = new CompletableFuture<>();
+            javascriptResult.then(value -> {
+                try {
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    T result;
+                    // Detect object type for value to be handled correctly (ex: getZoom)
+                    JsonType type = value.getType();
+                    if ( type.equals(JsonType.OBJECT)) {
+                        result = objectMapper.readValue(value.toString(), resultType);
+                    }
+                    else {
+                        result = objectMapper.readValue(value.asString(), resultType);
+                    }
+                    completableFuture.complete(result);
+                } catch (IOException e) {
+                    throw new RuntimeException("Failed to parse javascript result", e);
+                }
+            }, errorValue -> {
+                JavaScriptException exception = new JavaScriptException(errorValue);
+                completableFuture.completeExceptionally(exception);
+            });
+            return completableFuture;
+        } else {
+            return null;
+        }*//*
+        return null;
+    }
+
+    @Override
+    public String getUuid() {
+        return null;
+    }*/
+
+    public void addLayer(Layer layer) {
+      //  logger.debug("add layer: {}", layer);
+       // this.mapLayer.addLayer(layer);
+        executeJs("addLayer", layer);
+    }
+
+    @Override
+    public <T extends Serializable> CompletableFuture<T> call(Identifiable target, String functionName, Class<T> resultType, Serializable... arguments) {
+        return null;
+    }
+
+    @Override
+    public String getUuid() {
+        return null;
     }
 }
