@@ -1,5 +1,8 @@
 package tetramap.gui;
 
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
@@ -17,6 +20,7 @@ import tetramap.layer.Layer;
 import tetramap.operations.LeafletOperation;
 import tetramap.type.MapLayerType;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,7 +30,10 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Log4j2
-public class LeafletMap implements ExecutableFunctions {
+public class LeafletMap extends LeafletObject {
+
+    private static final long serialVersionUID = 3789693345308589828L;
+
     // Контейнер для html карты
     private final WebView webView = new WebView();
     private final WebEngine webEngine;
@@ -129,6 +136,14 @@ public class LeafletMap implements ExecutableFunctions {
         LeafletOperation leafletOperation = new LeafletOperation(target, functionName, arguments);
      //   getElement().callJsFunction("callLeafletFunction", JsonSerializer.toJson(leafletOperation));
         // TODO нужно скрипт размещения на карту доделать
+        System.out.println(leafletOperation.getArguments());
+/*        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String leafletOperationAsString = objectMapper.writeValueAsString(leafletOperation);
+            System.out.println(leafletOperationAsString);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
     }
 /*
     @Override
@@ -179,11 +194,6 @@ public class LeafletMap implements ExecutableFunctions {
 
     @Override
     public <T extends Serializable> CompletableFuture<T> call(Identifiable target, String functionName, Class<T> resultType, Serializable... arguments) {
-        return null;
-    }
-
-    @Override
-    public String getUuid() {
         return null;
     }
 }

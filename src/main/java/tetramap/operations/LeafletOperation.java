@@ -9,6 +9,7 @@ import java.io.Serializable;
 public class LeafletOperation implements Serializable {
 
     private static final long serialVersionUID = -7752937288867492721L;
+
     private String layerId;
  //   private boolean controlOperation;
     private String functionName;

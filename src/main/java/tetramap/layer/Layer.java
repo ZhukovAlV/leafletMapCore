@@ -9,16 +9,12 @@ import tetramap.js.LeafletObject;
 @EqualsAndHashCode(callSuper = true)
 public abstract class Layer extends LeafletObject {
 
+    private static final long serialVersionUID = -1803411573095089760L;
+
     public void addTo(LeafletMap leafletMap) {
-        setParent(leafletMap);
+      //  setParent(leafletMap);
         leafletMap.addLayer(this);
     }
 
-/*    public String getLayerId() {
 
-
-    }
-
-    public void setLayerId(String layerId) {
-    }*/
 }

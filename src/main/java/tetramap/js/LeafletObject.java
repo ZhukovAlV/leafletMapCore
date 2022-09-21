@@ -18,7 +18,10 @@ import java.util.stream.Collectors;
 
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(value = { "json" })
-public abstract class LeafletObject implements ExecutableFunctions, Serializable {
+public abstract class LeafletObject implements Serializable, ExecutableFunctions {
+
+    private static final long serialVersionUID = -1268468998583672106L;
+
     private String json;
     private String uuid;
     private ExecutableFunctions parent;
@@ -36,7 +39,7 @@ public abstract class LeafletObject implements ExecutableFunctions, Serializable
     public String getUuid() {
         return this.uuid;
     }
-    
+
     public String getJson() {
         if (this.json == null) {
             try {
@@ -67,7 +70,7 @@ public abstract class LeafletObject implements ExecutableFunctions, Serializable
         }
         return fields;
     }
-    
+
     @Override
     public void executeJs(Identifiable target, String functionName, Serializable... arguments) {
         if (parent instanceof ExecutableFunctions) {

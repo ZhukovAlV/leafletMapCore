@@ -13,6 +13,8 @@ import tetramap.layer.Layer;
 @AllArgsConstructor
 public class MarkerLeaflet extends Layer implements Marker {
 
+    private static final long serialVersionUID = 5997712572773708479L;
+
     /**
      * Координаты маркера
      */
