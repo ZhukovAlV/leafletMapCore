@@ -1,6 +1,11 @@
 package tetramap.entity;
 
-public interface Marker {
+import tetramap.layer.Layer;
+
+/**
+ * Leaflet маркер
+ */
+public interface Marker extends Layer {
 
     /**
      * Получение координат маркера

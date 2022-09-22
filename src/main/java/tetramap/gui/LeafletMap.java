@@ -1,8 +1,5 @@
 package tetramap.gui;
 
-import com.fasterxml.jackson.core.Version;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
@@ -13,15 +10,9 @@ import tetramap.config.MapConfig;
 import tetramap.config.ScaleControlConfig;
 import tetramap.config.ZoomControlConfig;
 import tetramap.entity.LatLong;
-import tetramap.js.ExecutableFunctions;
-import tetramap.js.Identifiable;
-import tetramap.js.LeafletObject;
 import tetramap.layer.Layer;
-import tetramap.operations.LeafletOperation;
 import tetramap.type.MapLayerType;
 
-import java.io.IOException;
-import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,7 +21,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Log4j2
-public class LeafletMap extends LeafletObject {
+public class LeafletMap {
 
     private static final long serialVersionUID = 3789693345308589828L;
 
@@ -130,70 +121,17 @@ public class LeafletMap extends LeafletObject {
         return webView;
     }
 
-    @Override
-    public void executeJs(Identifiable target, String functionName, Serializable... arguments) {
-        // logger.info("Execute leaflet function: {}", functionName);
-        LeafletOperation leafletOperation = new LeafletOperation(target, functionName, arguments);
-     //   getElement().callJsFunction("callLeafletFunction", JsonSerializer.toJson(leafletOperation));
-        // TODO нужно скрипт размещения на карту доделать
-        System.out.println(leafletOperation.getArguments());
-/*        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            String leafletOperationAsString = objectMapper.writeValueAsString(leafletOperation);
-            System.out.println(leafletOperationAsString);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-    }
-/*
-    @Override
-    public <T extends Serializable> CompletableFuture<T> call(Identifiable target, String functionName, Class<T> resultType, Serializable... arguments) {
-*//*        if (ready) {
-            logger.info("Call leaflet function: {}", functionName);
-            LeafletOperation leafletOperation = new LeafletOperation(target, functionName, arguments);
-            PendingJavaScriptResult javascriptResult = getElement().callJsFunction("callLeafletFunction", JsonSerializer.toJson(leafletOperation));
-
-            CompletableFuture<T> completableFuture = new CompletableFuture<>();
-            javascriptResult.then(value -> {
-                try {
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    T result;
-                    // Detect object type for value to be handled correctly (ex: getZoom)
-                    JsonType type = value.getType();
-                    if ( type.equals(JsonType.OBJECT)) {
-                        result = objectMapper.readValue(value.toString(), resultType);
-                    }
-                    else {
-                        result = objectMapper.readValue(value.asString(), resultType);
-                    }
-                    completableFuture.complete(result);
-                } catch (IOException e) {
-                    throw new RuntimeException("Failed to parse javascript result", e);
-                }
-            }, errorValue -> {
-                JavaScriptException exception = new JavaScriptException(errorValue);
-                completableFuture.completeExceptionally(exception);
-            });
-            return completableFuture;
-        } else {
-            return null;
-        }*//*
-        return null;
-    }
-
-    @Override
-    public String getUuid() {
-        return null;
-    }*/
-
     public void addLayer(Layer layer) {
       //  logger.debug("add layer: {}", layer);
        // this.mapLayer.addLayer(layer);
-        executeJs("addLayer", layer);
+       // executeJs("addLayer", layer);
+        System.out.println(layer);
+
+        if (layer.getLeafletType().equals("MarkerLeaflet"))
+            execScript("L.marker(" + layer + ").addTo(map);");
+        else execScript("var " + layer.getId() + " = L.icon(" + layer + ");");
+      //  mapView.execScript("var myIcon = L.icon({iconUrl: '" + icon.getIconUrl() + "', iconSize: [24, 24], iconAnchor: [12, 12], });");
+      //  mapView.execScript("L.marker([" + latLong.getLatitude() + "," + latLong.getLongitude() + "], {icon: myIcon}).addTo(map);");*/
     }
 
-    @Override
-    public <T extends Serializable> CompletableFuture<T> call(Identifiable target, String functionName, Class<T> resultType, Serializable... arguments) {
-        return null;
-    }
 }

@@ -6,13 +6,16 @@ import lombok.EqualsAndHashCode;
 import tetramap.entity.Icon;
 import tetramap.entity.LatLong;
 import tetramap.entity.Marker;
-import tetramap.layer.Layer;
+import tetramap.leaflet.LeafletObject;
 
-@Data
+import java.io.Serial;
+
 @EqualsAndHashCode(callSuper = true)
+@Data
 @AllArgsConstructor
-public class MarkerLeaflet extends Layer implements Marker {
+public class MarkerLeaflet extends LeafletObject implements Marker {
 
+    @Serial
     private static final long serialVersionUID = 5997712572773708479L;
 
     /**
@@ -24,4 +27,9 @@ public class MarkerLeaflet extends Layer implements Marker {
      * Иконка маркера
      */
     private Icon icon;
+
+    @Override
+    public String toString() {
+        return latLong + ", {icon: " + icon.getId() + '}';
+    }
 }

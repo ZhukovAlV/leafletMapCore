@@ -1,20 +1,19 @@
 package tetramap.layer;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+
+import tetramap.entity.BasicType;
 import tetramap.gui.LeafletMap;
-import tetramap.js.LeafletObject;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
-public abstract class Layer extends LeafletObject {
+/**
+ * Leaflet методы для слоев
+ */
+public interface Layer extends BasicType {
 
-    private static final long serialVersionUID = -1803411573095089760L;
-
-    public void addTo(LeafletMap leafletMap) {
-      //  setParent(leafletMap);
+    /**
+     * Добавления слоя на карту
+     * @param leafletMap карта
+     */
+    default void addTo(LeafletMap leafletMap) {
         leafletMap.addLayer(this);
     }
-
-
 }
