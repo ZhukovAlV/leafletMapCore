@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import tetramap.entity.Icon;
 import tetramap.entity.Point;
 import tetramap.leaflet.LeafletObject;
+import tetramap.type.TypeInstantiatesMap;
 
 import java.io.Serial;
 
@@ -47,5 +48,10 @@ public class IconLeaflet extends LeafletObject implements Icon {
         return "{iconUrl: '" + iconUrl +
                 "', iconSize: " + iconSize +
                 ", iconAnchor: " + iconAnchor + "}";
+    }
+
+    @Override
+    public String getTypeInstantiatesMap() {
+        return TypeInstantiatesMap.icon.toString();
     }
 }

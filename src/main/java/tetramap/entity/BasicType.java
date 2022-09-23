@@ -20,4 +20,10 @@ public interface BasicType extends Serializable {
      * @return ID объекта
      */
     String getId();
+
+    /**
+     * Возвращает тип экземпляра
+     * @return тип экземпляра
+     */
+    String getTypeInstantiatesMap();
 }

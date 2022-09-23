@@ -211,8 +211,9 @@ public class MapPaneLeaflet extends AnchorPane implements MapPane {
             mapView.addTo(marker);*/
 
             IconLeaflet icon = new IconLeaflet(getClass().getResource("../../markerIcon/subscriber/marker_green.png").getPath());
-            icon.addTo(mapView.getMap());
+            icon.createTo(mapView.getMap());
             MarkerLeaflet marker = new MarkerLeaflet(new LatLong(55.030, 73.2695), icon);
+            marker.createTo(mapView.getMap());
             marker.addTo(mapView.getMap());
 
         });

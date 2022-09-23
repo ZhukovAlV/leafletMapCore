@@ -1,4 +1,4 @@
-package tetramap.gui;
+package tetramap.entity.impl;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Log4j2
-public class LeafletMap {
+public class LMapLeaflet {
 
     private static final long serialVersionUID = 3789693345308589828L;
 
@@ -29,7 +29,7 @@ public class LeafletMap {
     private final WebView webView = new WebView();
     private final WebEngine webEngine;
 
-    public LeafletMap() {
+    public LMapLeaflet() {
         webEngine = webView.getEngine();
     }
 
@@ -122,16 +122,12 @@ public class LeafletMap {
     }
 
     public void addLayer(Layer layer) {
-      //  logger.debug("add layer: {}", layer);
-       // this.mapLayer.addLayer(layer);
-       // executeJs("addLayer", layer);
-        System.out.println(layer);
-
-        if (layer.getLeafletType().equals("MarkerLeaflet"))
-            execScript("L.marker(" + layer + ").addTo(map);");
-        else execScript("var " + layer.getId() + " = L.icon(" + layer + ");");
-      //  mapView.execScript("var myIcon = L.icon({iconUrl: '" + icon.getIconUrl() + "', iconSize: [24, 24], iconAnchor: [12, 12], });");
-      //  mapView.execScript("L.marker([" + latLong.getLatitude() + "," + latLong.getLongitude() + "], {icon: myIcon}).addTo(map);");*/
+        log.info("add layer: {}", layer);
+        execScript(layer.getId() + ".addTo(map);");
     }
 
+    public void createLayer(Layer layer) {
+        log.info("create layer: {}", layer);
+        execScript("var " + layer.getId() + " = L." + layer.getTypeInstantiatesMap() + "(" + layer + ");");
+    }
 }

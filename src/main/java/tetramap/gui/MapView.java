@@ -2,6 +2,7 @@ package tetramap.gui;
 
 import javafx.concurrent.Worker;
 import tetramap.config.MapConfig;
+import tetramap.entity.impl.LMapLeaflet;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapMoveEventListener;
 
@@ -24,7 +25,7 @@ public interface MapView {
      * Получение карты
      * @return LeafletMap
      */
-    LeafletMap getMap();
+    LMapLeaflet getMap();
 
     /**
      * Установка размеров

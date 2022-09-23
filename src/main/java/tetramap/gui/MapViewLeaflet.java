@@ -3,6 +3,7 @@ package tetramap.gui;
 import javafx.concurrent.Worker;
 import javafx.scene.layout.StackPane;
 import tetramap.config.MapConfig;
+import tetramap.entity.impl.LMapLeaflet;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapClickEventManager;
 import tetramap.event.MapMoveEventListener;
@@ -16,7 +17,7 @@ import java.util.concurrent.CompletableFuture;
 public class MapViewLeaflet extends StackPane implements MapView {
 
     // Карта
-    private final LeafletMap leafletMap = new LeafletMap();
+    private final LMapLeaflet LMapLeaflet = new LMapLeaflet();
 
     // Менеджер на нажатие мыши
     private final MapClickEventManager mapClickEventManager;
@@ -24,14 +25,14 @@ public class MapViewLeaflet extends StackPane implements MapView {
     private final MapMoveEventManager mapMoveEventManager;
 
     public MapViewLeaflet() {
-        getChildren().add(leafletMap.getWebView());
+        getChildren().add(LMapLeaflet.getWebView());
         mapClickEventManager = new MapClickEventManager();
         mapMoveEventManager = new MapMoveEventManager();
     }
 
     @Override
     public void setSize(double width, double height) {
-        leafletMap.getWebView().setPrefSize(width, height);
+        LMapLeaflet.getWebView().setPrefSize(width, height);
     }
 
     @Override
@@ -56,12 +57,12 @@ public class MapViewLeaflet extends StackPane implements MapView {
 
     @Override
     public CompletableFuture<Worker.State> displayMap(MapConfig mapConfig) {
-        return leafletMap.displayMap(mapConfig);
+        return LMapLeaflet.displayMap(mapConfig);
     }
 
     @Override
-    public LeafletMap getMap() {
-        return leafletMap;
+    public LMapLeaflet getMap() {
+        return LMapLeaflet;
     }
 
     /**

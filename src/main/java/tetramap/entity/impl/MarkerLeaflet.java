@@ -7,6 +7,7 @@ import tetramap.entity.Icon;
 import tetramap.entity.LatLong;
 import tetramap.entity.Marker;
 import tetramap.leaflet.LeafletObject;
+import tetramap.type.TypeInstantiatesMap;
 
 import java.io.Serial;
 
@@ -31,5 +32,10 @@ public class MarkerLeaflet extends LeafletObject implements Marker {
     @Override
     public String toString() {
         return latLong + ", {icon: " + icon.getId() + '}';
+    }
+
+    @Override
+    public String getTypeInstantiatesMap() {
+        return TypeInstantiatesMap.marker.toString();
     }
 }

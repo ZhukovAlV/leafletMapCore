@@ -2,7 +2,7 @@ package tetramap.layer;
 
 
 import tetramap.entity.BasicType;
-import tetramap.gui.LeafletMap;
+import tetramap.entity.impl.LMapLeaflet;
 
 /**
  * Leaflet методы для слоев
@@ -10,10 +10,18 @@ import tetramap.gui.LeafletMap;
 public interface Layer extends BasicType {
 
     /**
-     * Добавления слоя на карту
-     * @param leafletMap карта
+     * Создание слоя на карте
+     * @param LMapLeaflet карта
      */
-    default void addTo(LeafletMap leafletMap) {
-        leafletMap.addLayer(this);
+    default void createTo(LMapLeaflet LMapLeaflet) {
+        LMapLeaflet.createLayer(this);
+    }
+
+    /**
+     * Добавления слоя на карту
+     * @param LMapLeaflet карта
+     */
+    default void addTo(LMapLeaflet LMapLeaflet) {
+        LMapLeaflet.addLayer(this);
     }
 }
