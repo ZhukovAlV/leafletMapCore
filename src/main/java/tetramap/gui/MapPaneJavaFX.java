@@ -10,8 +10,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import lombok.extern.log4j.Log4j2;
 import tetramap.entity.LatLong;
-import tetramap.entity.impl.IconLeaflet;
-import tetramap.entity.impl.MarkerLeaflet;
+import tetramap.entity.LIcon;
+import tetramap.entity.LMarker;
 import tetramap.event.impl.LabelLatLong;
 
 import java.io.InputStream;
@@ -21,7 +21,7 @@ import java.util.Arrays;
  * Реализованная панель для JavaFx
  */
 @Log4j2
-public class MapPaneLeaflet extends AnchorPane implements MapPane {
+public class MapPaneJavaFX extends AnchorPane implements MapPane {
 
     // Карта
     private final MapView mapView;
@@ -84,7 +84,7 @@ public class MapPaneLeaflet extends AnchorPane implements MapPane {
 
     private final LabelLatLong textLatLong = new LabelLatLong();
 
-    public MapPaneLeaflet(MapView mapView) {
+    public MapPaneJavaFX(MapView mapView) {
         super();
         this.mapView = mapView;
     }
@@ -210,9 +210,9 @@ public class MapPaneLeaflet extends AnchorPane implements MapPane {
             MarkerLeaflet marker = new MarkerLeaflet(latLong, icon);
             mapView.addTo(marker);*/
 
-            IconLeaflet icon = new IconLeaflet(getClass().getResource("../../markerIcon/subscriber/marker_green.png").getPath());
+            LIcon icon = new LIcon(getClass().getResource("../../markerIcon/subscriber/marker_green.png").getPath());
             icon.createTo(mapView.getMap());
-            MarkerLeaflet marker = new MarkerLeaflet(new LatLong(55.030, 73.2695), icon);
+            LMarker marker = new LMarker(new LatLong(55.030, 73.2695), icon);
             marker.createTo(mapView.getMap());
             marker.addTo(mapView.getMap());
 
@@ -239,7 +239,7 @@ public class MapPaneLeaflet extends AnchorPane implements MapPane {
      * @return возвращает иконку из файла с указанным путем и измененным размером width x height
      */
     private static ImageView loadIcon(String path, int width, int height) {
-        InputStream resource = MapPaneLeaflet.class.getClassLoader().getResourceAsStream(path);
+        InputStream resource = MapPaneJavaFX.class.getClassLoader().getResourceAsStream(path);
         if (resource == null) return null;
 
         Image image = new Image(resource);

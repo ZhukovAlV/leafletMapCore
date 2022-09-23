@@ -1,11 +1,9 @@
-package tetramap.entity.impl;
+package tetramap.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import tetramap.entity.Icon;
-import tetramap.entity.LatLong;
-import tetramap.entity.Marker;
+import tetramap.layer.Layer;
 import tetramap.leaflet.LeafletObject;
 import tetramap.type.TypeInstantiatesMap;
 
@@ -14,7 +12,7 @@ import java.io.Serial;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
-public class MarkerLeaflet extends LeafletObject implements Marker {
+public class LMarker extends LeafletObject implements Layer {
 
     @Serial
     private static final long serialVersionUID = 5997712572773708479L;
@@ -27,11 +25,11 @@ public class MarkerLeaflet extends LeafletObject implements Marker {
     /**
      * Иконка маркера
      */
-    private Icon icon;
+    private LIcon lIcon;
 
     @Override
     public String toString() {
-        return latLong + ", {icon: " + icon.getId() + '}';
+        return latLong + ", {icon: " + lIcon.getId() + '}';
     }
 
     @Override

@@ -1,4 +1,4 @@
-package tetramap.entity.impl;
+package tetramap.gui;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -21,18 +21,19 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Log4j2
-public class LMapLeaflet {
+public class ViewContainerJavaFX implements ViewContainer {
 
-    private static final long serialVersionUID = 3789693345308589828L;
+    private static final long serialVersionUID = 4789694456308589829L;
 
     // Контейнер для html карты
     private final WebView webView = new WebView();
     private final WebEngine webEngine;
 
-    public LMapLeaflet() {
+    public ViewContainerJavaFX() {
         webEngine = webView.getEngine();
     }
 
+    @Override
     public CompletableFuture<Worker.State> displayMap(MapConfig mapConfig) {
         CompletableFuture<Worker.State> finalMapLoadState = new CompletableFuture<>();
         webEngine.getLoadWorker().stateProperty().addListener((new ChangeListener() {
@@ -113,19 +114,23 @@ public class LMapLeaflet {
         }
     }
 
+    @Override
     public Object execScript(String script) {
         return webEngine.executeScript(script);
     }
 
+    @Override
     public WebView getWebView() {
         return webView;
     }
 
+    @Override
     public void addLayer(Layer layer) {
         log.info("add layer: {}", layer);
         execScript(layer.getId() + ".addTo(map);");
     }
 
+    @Override
     public void createLayer(Layer layer) {
         log.info("create layer: {}", layer);
         execScript("var " + layer.getId() + " = L." + layer.getTypeInstantiatesMap() + "(" + layer + ");");

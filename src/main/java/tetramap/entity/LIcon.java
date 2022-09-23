@@ -1,17 +1,19 @@
-package tetramap.entity.impl;
+package tetramap.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import tetramap.entity.Icon;
-import tetramap.entity.Point;
+import tetramap.layer.Layer;
 import tetramap.leaflet.LeafletObject;
 import tetramap.type.TypeInstantiatesMap;
 
 import java.io.Serial;
 
+/**
+ * Иконка для маркера Leaflet
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class IconLeaflet extends LeafletObject implements Icon {
+public class LIcon extends LeafletObject implements Layer {
 
     @Serial
     private static final long serialVersionUID = -5884170824139869060L;
@@ -31,13 +33,13 @@ public class IconLeaflet extends LeafletObject implements Icon {
 
     private Point iconAnchor;
 
-    public IconLeaflet(String iconUrl) {
+    public LIcon(String iconUrl) {
         this.iconUrl = iconUrl;
         this.iconSize = DEFAULT_ICON_SIZE;
         this.iconAnchor = DEFAULT_ICON_ANCHOR;
     }
 
-    public IconLeaflet(String iconUrl, Point iconSize, Point iconAnchor) {
+    public LIcon(String iconUrl, Point iconSize, Point iconAnchor) {
         this.iconUrl = iconUrl;
         this.iconSize = iconSize;
         this.iconAnchor = iconAnchor;
