@@ -5,17 +5,13 @@ import tetramap.type.TypeInstantiatesMap;
 
 import java.io.Serial;
 
-public class LMap extends LeafletObject {
+public class TileLayer extends LeafletObject {
 
     @Serial
-    private static final long serialVersionUID = 3789693345308589828L;
-
-
-
-
+    private static final long serialVersionUID = 2989693312308589756L;
 
     @Override
     public String getTypeInstantiatesMap() {
-        return TypeInstantiatesMap.map.toString();
+        return TypeInstantiatesMap.tileLayer.toString();
     }
 }

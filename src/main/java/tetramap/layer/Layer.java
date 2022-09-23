@@ -2,7 +2,6 @@ package tetramap.layer;
 
 
 import tetramap.entity.BasicType;
-import tetramap.entity.LMap;
 import tetramap.gui.ViewContainer;
 
 /**

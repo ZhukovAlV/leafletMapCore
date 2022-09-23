@@ -9,6 +9,7 @@ import lombok.extern.log4j.Log4j2;
 import tetramap.config.MapConfig;
 import tetramap.config.ScaleControlConfig;
 import tetramap.config.ZoomControlConfig;
+import tetramap.entity.LMap;
 import tetramap.entity.LatLong;
 import tetramap.layer.Layer;
 import tetramap.type.MapLayerType;
@@ -25,9 +26,12 @@ public class ViewContainerJavaFX implements ViewContainer {
 
     private static final long serialVersionUID = 4789694456308589829L;
 
-    // Контейнер для html карты
+    // Контейнер для html
     private final WebView webView = new WebView();
     private final WebEngine webEngine;
+
+    // Карта
+    private final LMap lMap = new LMap();
 
     public ViewContainerJavaFX() {
         webEngine = webView.getEngine();
@@ -133,6 +137,6 @@ public class ViewContainerJavaFX implements ViewContainer {
     @Override
     public void createLayer(Layer layer) {
         log.info("create layer: {}", layer);
-        execScript("var " + layer.getId() + " = L." + layer.getTypeInstantiatesMap() + "(" + layer + ");");
+        execScript("var " + layer.getId() + " = L." + layer.getTypeInstantiatesMap() + layer);
     }
 }

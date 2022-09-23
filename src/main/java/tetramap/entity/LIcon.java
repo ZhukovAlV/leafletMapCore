@@ -47,9 +47,9 @@ public class LIcon extends LeafletObject implements Layer {
 
     @Override
     public String toString() {
-        return "{iconUrl: '" + iconUrl +
+        return "({iconUrl: '" + iconUrl +
                 "', iconSize: " + iconSize +
-                ", iconAnchor: " + iconAnchor + "}";
+                ", iconAnchor: " + iconAnchor + "});";
     }
 
     @Override
