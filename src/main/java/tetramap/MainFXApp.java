@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import tetramap.config.*;
 import tetramap.entity.*;
+import tetramap.entity.control.LAttributionControl;
 import tetramap.gui.MapPaneJavaFX;
 import tetramap.gui.MapView;
 import tetramap.gui.MapViewJavaFX;
@@ -43,12 +44,21 @@ public class MainFXApp extends Application {
                 ,"0123"
                 ,0
                 ,18));
-        // Загрузка карты
+
+        // Установка значения (названия) префикса внизу карты справа (по умолчанию пусто)
+        LAttributionControl attributionControl = new LAttributionControl();
+
+        // Создаем настройки для карты
+        LMap map  = new LMap("map", new LatLong(55.030, 73.2695), 14,
+                true, layers.get(0), attributionControl);
+
+
+        // Добавляем это все в конфигурационный файл
         MapConfig mapConfig = new MapConfig(
                 layers,
                 new ZoomControlConfig(true, ControlPosition.BOTTOM_LEFT),
                 new ScaleControlConfig(true, ControlPosition.BOTTOM_LEFT,true),
-                new LatLong(55.030, 73.2695)
+                map
         );
 
         MapView mapView = new MapViewJavaFX();

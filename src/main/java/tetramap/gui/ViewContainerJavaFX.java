@@ -12,7 +12,6 @@ import tetramap.config.ZoomControlConfig;
 import tetramap.entity.LBaseMaps;
 import tetramap.entity.LMap;
 import tetramap.entity.LTileLayer;
-import tetramap.entity.LatLong;
 import tetramap.layer.Layer;
 
 import java.net.URL;
@@ -29,7 +28,7 @@ public class ViewContainerJavaFX implements ViewContainer {
     private final WebEngine webEngine;
 
     // Карта
-    private final LMap lMap = new LMap();
+    private LMap map;
 
     public ViewContainerJavaFX() {
         webEngine = webView.getEngine();
@@ -69,16 +68,16 @@ public class ViewContainerJavaFX implements ViewContainer {
         LBaseMaps baseMaps = new LBaseMaps(tileLayerList);
         baseMaps.createTo(this);
 
-        // Установка центра карты, зума, отображения 1 слоя
-        LatLong latLng = mapConfig.getInitialCenter();
-        stringBuilder = (new StringBuilder()).append("var map = L.map('map', {center: new L.LatLng(");
-        stringBuilder.append(latLng.getLatitude()).append(", ")
-                .append(latLng.getLongitude()).append("),zoom: 14,zoomControl: false,layers: [" + tileLayerList.get(0).getId() + "]});")
-                .append("var attribution = map.attributionControl;attribution.setPrefix('');");
-        execScript(stringBuilder.toString());
-        if (mapConfig.getLayers().size() > 1) {
-            execScript("var overlayMaps = {};L.control.layers(" + baseMaps.getId() + ", overlayMaps).addTo(map);");
-        }
+        // Создаем карту (map здесь это div контейнер)
+        map = mapConfig.getMap();
+        map.createTo(this);
+
+       // execScript("var attribution = " + map.getId() + ".attributionControl;attribution.setPrefix('');");
+
+
+/*        if (mapConfig.getLayers().size() > 1) {
+            execScript("var overlayMaps = {};L.control.layers(" + baseMaps.getId() + ", overlayMaps).addTo(" + map.getId() + ");");
+        }*/
 
         // Настройки масштаба
         ScaleControlConfig scaleControlConfig = mapConfig.getScaleControlConfig();
@@ -86,14 +85,14 @@ public class ViewContainerJavaFX implements ViewContainer {
             stringBuilder = (new StringBuilder()).append("L.control.scale({position: '");
             stringBuilder.append(scaleControlConfig.getPosition().getPositionName()).append("', ").append("metric: ");
             stringBuilder.append(scaleControlConfig.isMetric()).append(", ").append("imperial: ");
-            execScript(stringBuilder.append(!scaleControlConfig.isMetric()).append("})").append(".addTo(map);").toString());
+            execScript(stringBuilder.append(!scaleControlConfig.isMetric()).append("})").append(".addTo(" + map.getId() + ");").toString());
         }
 
         // Настройки Zoom
         ZoomControlConfig zoomControlConfig = mapConfig.getZoomControlConfig();
         if (zoomControlConfig.isShow()) {
             stringBuilder = (new StringBuilder()).append("L.control.zoom({position: '");
-            execScript(stringBuilder.append(zoomControlConfig.getPosition().getPositionName()).append("'})").append(".addTo(map);").toString());
+            execScript(stringBuilder.append(zoomControlConfig.getPosition().getPositionName()).append("'})").append(".addTo(" + map.getId() + ");").toString());
         }
     }
 
@@ -110,6 +109,6 @@ public class ViewContainerJavaFX implements ViewContainer {
     @Override
     public void addLayer(Layer layer) {
         log.info("add layer: {}", layer);
-        execScript(layer.getId() + ".addTo(map);");
+        execScript(layer.getId() + ".addTo(" + map.getId() + ");");
     }
 }
