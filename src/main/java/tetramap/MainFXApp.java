@@ -10,6 +10,7 @@ import tetramap.gui.MapView;
 import tetramap.gui.MapViewJavaFX;
 import tetramap.type.MapLayerType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainFXApp extends Application {
@@ -18,18 +19,38 @@ public class MainFXApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
+        // Создаем список тайловых слоев
+        List<LTileLayer> layers = new ArrayList<>();
+        layers.add(new LTileLayer("OpenStreetMap"
+                , "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                ,"OpenStreetMap"
+                , false
+                ,"abc"
+                ,0
+                ,18));
+        layers.add(new LTileLayer("YandexMap"
+                , "http://sat0{s}.maps.yandex.net/tiles?l=sat&x={x}&y={y}&z={z}"
+                ,"YandexMap"
+                , true
+                ,"123"
+                ,0
+                ,18));
+        layers.add(new LTileLayer("2GIS"
+                , "http://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}"
+                ,"2GIS"
+                , false
+                ,"0123"
+                ,0
+                ,18));
         // Загрузка карты
         MapConfig mapConfig = new MapConfig(
-                List.of(MapLayerType.OPENSTREETMAP,
-                        MapLayerType.OPENCYCLEMAP,
-                        MapLayerType.YANDEXMAP,
-                        MapLayerType.GISMAP,
-                        MapLayerType.WORLDSTREETMAP,
-                        MapLayerType.GOOGLEMAP),
+                layers,
                 new ZoomControlConfig(true, ControlPosition.BOTTOM_LEFT),
                 new ScaleControlConfig(true, ControlPosition.BOTTOM_LEFT,true),
                 new LatLong(55.030, 73.2695)
         );
+
         MapView mapView = new MapViewJavaFX();
         mapView.displayMap(mapConfig);
         /* mapView.addMouseClickEvent();

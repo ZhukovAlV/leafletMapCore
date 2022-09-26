@@ -19,9 +19,8 @@ public interface ViewContainer {
     /**
      * Выполнение скрипта на карте
      * @param script текст скрипта
-     * @return Object
      */
-    Object execScript(String script);
+    void execScript(String script);
 
     /**
      * Возвращает WebView
@@ -31,13 +30,7 @@ public interface ViewContainer {
 
     /**
      * Добавления слоя на карту
-     * @param layer
+     * @param layer слой на добавление
      */
     void addLayer(Layer layer);
-
-    /**
-     * Создание переменной на карту
-     * @param layer
-     */
-    void createLayer(Layer layer);
 }

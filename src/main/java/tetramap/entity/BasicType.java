@@ -1,5 +1,7 @@
 package tetramap.entity;
 
+import tetramap.gui.ViewContainer;
+
 import java.io.Serializable;
 
 /**
@@ -26,4 +28,12 @@ public interface BasicType extends Serializable {
      * @return тип экземпляра
      */
     String getTypeInstantiatesMap();
+
+    /**
+     * Создание слоя в контейнере HTML
+     * @param viewContainer контейнер
+     */
+    default void createTo(ViewContainer viewContainer) {
+        viewContainer.execScript("var " + this.getId() + " = L." + this.getTypeInstantiatesMap() + this + ";");
+    }
 }

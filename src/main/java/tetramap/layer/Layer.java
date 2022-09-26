@@ -10,14 +10,6 @@ import tetramap.gui.ViewContainer;
 public interface Layer extends BasicType {
 
     /**
-     * Создание слоя на карте
-     * @param viewContainer карта
-     */
-    default void createTo(ViewContainer viewContainer) {
-        viewContainer.createLayer(this);
-    }
-
-    /**
      * Добавления слоя на карту
      * @param viewContainer карта
      */

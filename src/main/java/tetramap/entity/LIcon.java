@@ -13,7 +13,7 @@ import java.io.Serial;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class LIcon extends LeafletObject implements Layer {
+public class LIcon extends LeafletObject implements BasicType {
 
     @Serial
     private static final long serialVersionUID = -5884170824139869060L;
@@ -49,7 +49,7 @@ public class LIcon extends LeafletObject implements Layer {
     public String toString() {
         return "({iconUrl: '" + iconUrl +
                 "', iconSize: " + iconSize +
-                ", iconAnchor: " + iconAnchor + "});";
+                ", iconAnchor: " + iconAnchor + "})";
     }
 
     @Override

@@ -4,5 +4,6 @@ public enum TypeInstantiatesMap {
     map, // Карта
     marker, // Маркер
     icon, // Иконка (для маркера)
-    tileLayer // Тайловый слой
+    tileLayer, // Тайловый слой
+    baseMaps // Набор карт
 }

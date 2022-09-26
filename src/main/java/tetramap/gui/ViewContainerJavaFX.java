@@ -9,15 +9,13 @@ import lombok.extern.log4j.Log4j2;
 import tetramap.config.MapConfig;
 import tetramap.config.ScaleControlConfig;
 import tetramap.config.ZoomControlConfig;
+import tetramap.entity.LBaseMaps;
 import tetramap.entity.LMap;
+import tetramap.entity.LTileLayer;
 import tetramap.entity.LatLong;
 import tetramap.layer.Layer;
-import tetramap.type.MapLayerType;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -63,42 +61,23 @@ public class ViewContainerJavaFX implements ViewContainer {
 
     private void executeMapSetupScripts(MapConfig mapConfig) {
         StringBuilder stringBuilder;
-        Iterator<MapLayerType> iterator;
-        int index;
 
-        // Настройки Layers
-        List<MapLayerType> configLayers = mapConfig.getLayers();
-        iterator = configLayers.iterator();
-        index = 0;
-        while(iterator.hasNext()) {
-            MapLayerType layer = iterator.next();
-            stringBuilder = (new StringBuilder()).append("var layer").append(++index).append(" = ");
-            execScript(stringBuilder.append(layer.getJavaScriptCode()).append(';').toString());
-        }
-        configLayers = mapConfig.getLayers();
+        // Создаем разные карты в контейнере HTML
+        List<LTileLayer> tileLayerList = mapConfig.getLayers();
+        tileLayerList.forEach(tileLayer -> tileLayer.createTo(this));
 
-        Iterable<MapLayerType> iterable = configLayers;
-        Collection<String> destinationList = new ArrayList<>();
-        index = 0;
-        iterator = iterable.iterator();
-        while(iterator.hasNext()) {
-            MapLayerType layer = iterator.next();
-            StringBuilder sb = (new StringBuilder()).append('\'');
-            destinationList.add(sb.append(layer.getDisplayName()).append("': layer").append(++index).toString());
-        }
-        StringBuffer jsLayers = new StringBuffer();
-        destinationList.forEach(elem -> jsLayers.append(elem).append(","));
-        execScript("var baseMaps = { " + jsLayers + " };");
+        LBaseMaps baseMaps = new LBaseMaps(tileLayerList);
+        baseMaps.createTo(this);
 
         // Установка центра карты, зума, отображения 1 слоя
         LatLong latLng = mapConfig.getInitialCenter();
         stringBuilder = (new StringBuilder()).append("var map = L.map('map', {center: new L.LatLng(");
         stringBuilder.append(latLng.getLatitude()).append(", ")
-                .append(latLng.getLongitude()).append("),zoom: 14,zoomControl: false,layers: [layer1]});")
-                .append("var attribution = map.attributionControl;attribution.setPrefix('Leaflet');");
+                .append(latLng.getLongitude()).append("),zoom: 14,zoomControl: false,layers: [" + tileLayerList.get(0).getId() + "]});")
+                .append("var attribution = map.attributionControl;attribution.setPrefix('');");
         execScript(stringBuilder.toString());
         if (mapConfig.getLayers().size() > 1) {
-            execScript("var overlayMaps = {};L.control.layers(baseMaps, overlayMaps).addTo(map);");
+            execScript("var overlayMaps = {};L.control.layers(" + baseMaps.getId() + ", overlayMaps).addTo(map);");
         }
 
         // Настройки масштаба
@@ -119,8 +98,8 @@ public class ViewContainerJavaFX implements ViewContainer {
     }
 
     @Override
-    public Object execScript(String script) {
-        return webEngine.executeScript(script);
+    public void execScript(String script) {
+        webEngine.executeScript(script);
     }
 
     @Override
@@ -132,11 +111,5 @@ public class ViewContainerJavaFX implements ViewContainer {
     public void addLayer(Layer layer) {
         log.info("add layer: {}", layer);
         execScript(layer.getId() + ".addTo(map);");
-    }
-
-    @Override
-    public void createLayer(Layer layer) {
-        log.info("create layer: {}", layer);
-        execScript("var " + layer.getId() + " = L." + layer.getTypeInstantiatesMap() + layer);
     }
 }
