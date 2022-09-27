@@ -11,23 +11,18 @@ import tetramap.layer.Layer;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Карта
+ * View для карты
  */
 public interface MapView {
 
 
     /**
      * Отображение карты
+     *
      * @param mapConfig файл конфигурации карты
      * @return CompletableFuture
      */
     CompletableFuture<Worker.State> displayMap(MapConfig mapConfig);
-
-    /**
-     * Получение карты
-     * @return LeafletMap
-     */
-    LMap getMap();
 
     /**
      * Установка размеров
@@ -36,6 +31,15 @@ public interface MapView {
      * @param height высота
      */
     void setSize(double width, double height);
+
+
+    /**
+     * Выполнение скрипта на карте
+     *
+     * @param script текст скрипта
+     * @return Object возвращает объект из webView
+     */
+    Object execScript(String script);
 
     /**
      * Добавление слушателя на нажатие мыши
@@ -58,20 +62,38 @@ public interface MapView {
     void removeMouseMoveListener(MapMoveEventListener mapMoveEventListener);
 
     /**
-     * Выполнение скрипта на карте
-     * @param script текст скрипта
+     * Получение карты
+     *
+     * @return LeafletMap карта Leaflet
      */
-    void execScript(String script);
+    LMap getMap();
 
     /**
      * Возвращает WebView
-     * @return WebView
+     *
+     * @return WebView веб-контейнер
      */
     WebView getWebView();
 
     /**
      * Добавления слоя на карту
+     *
      * @param layer слой на добавление
      */
     void addLayer(Layer layer);
+
+    /**
+     * Удаление слоя c карты
+     *
+     * @param layer слой на удаление
+     */
+    void removeLayer(Layer layer);
+
+    /**
+     * Проверка слоя на exist
+     *
+     * @param layer слой для проверки на exist
+     * @return true если слой существует
+     */
+    boolean hasLayer(Layer layer);
 }

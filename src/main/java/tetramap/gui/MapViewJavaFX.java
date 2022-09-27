@@ -113,8 +113,8 @@ public class MapViewJavaFX extends StackPane implements MapView {
     }
 
     @Override
-    public void execScript(String script) {
-        webEngine.executeScript(script);
+    public Object execScript(String script) {
+        return webEngine.executeScript(script);
     }
 
     @Override
@@ -192,8 +192,6 @@ public class MapViewJavaFX extends StackPane implements MapView {
 
     /**
      * Вызов метода mapClickEvent у каждого слушателя для определенного LatLong
-     * @param lat широта
-     * @param lng долгота
      */
 /*    public void mapClick(double lat, double lng) {
         System.out.println(lat + " " + lng);
@@ -215,7 +213,20 @@ public class MapViewJavaFX extends StackPane implements MapView {
 
     @Override
     public void addLayer(Layer layer) {
-        log.info("add layer: {}", layer);
+        log.info("Добавление layer: {}", layer.getLeafletType() + ", id: " + layer.getId());
         execScript(layer.getId() + ".addTo(" + map.getId() + ");");
+    }
+
+    @Override
+    public void removeLayer(Layer layer) {
+        log.info("Удаление layer: {}", layer.getLeafletType() + ", id: " + layer.getId());
+        execScript(layer.getId() + ".removeFrom(" + map.getId() + ");");
+    }
+
+    @Override
+    public boolean hasLayer(Layer layer) {
+        log.info("Проверка layer на exist: {}", layer.getLeafletType() + ", id: " + layer.getId());
+        // TODO доделать метод
+        return false;
     }
 }

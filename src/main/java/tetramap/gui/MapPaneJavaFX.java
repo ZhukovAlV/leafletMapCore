@@ -16,6 +16,7 @@ import tetramap.event.impl.LabelLatLong;
 
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Реализованная панель для JavaFx
@@ -171,6 +172,19 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
         // Добавляем слушателя на кнопки
     //    circleSelectionButton.setOnAction(event -> mapView.getCircleDrawAdapter().draw());
 
+        // Тестируем
+        AtomicReference<LMarker> markerTest = new AtomicReference<>();
+
+        circleSelectionButton.setOnAction(event -> {
+            LIcon icon = new LIcon(getClass().getResource("../../markerIcon/subscriber/marker_green.png").getPath());
+            icon.createTo(mapView);
+            LMarker marker = new LMarker(new LatLong(55.030, 73.2695), icon);
+            markerTest.set(marker);
+            marker.createTo(mapView);
+            marker.addTo(mapView);
+        });
+
+
         cancelSelectionButton.setOnAction(event -> {
             // отменяет выбор маркеров по области
            // mapPane.getMapView().getAdapterManager().clearAdapters(mapPane.getCircleDrawAdapter());
@@ -210,11 +224,7 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
             MarkerLeaflet marker = new MarkerLeaflet(latLong, icon);
             mapView.addTo(marker);*/
 
-            LIcon icon = new LIcon(getClass().getResource("../../markerIcon/subscriber/marker_green.png").getPath());
-            icon.createTo(mapView);
-            LMarker marker = new LMarker(new LatLong(55.030, 73.2695), icon);
-            marker.createTo(mapView);
-            marker.addTo(mapView);
+            markerTest.get().removeFrom(mapView);
         });
 
       //  mapView.getMarkerDrawAdapter().draw();
