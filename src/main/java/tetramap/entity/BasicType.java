@@ -1,6 +1,6 @@
 package tetramap.entity;
 
-import tetramap.gui.ViewContainer;
+import tetramap.gui.MapView;
 
 import java.io.Serializable;
 
@@ -31,9 +31,9 @@ public interface BasicType extends Serializable {
 
     /**
      * Создание слоя в контейнере HTML
-     * @param viewContainer контейнер
+     * @param mapView View карты
      */
-    default void createTo(ViewContainer viewContainer) {
-        viewContainer.execScript("var " + this.getId() + " = L." + this.getTypeInstantiatesMap() + this + ";");
+    default void createTo(MapView mapView) {
+        mapView.execScript("var " + this.getId() + " = L." + this.getTypeInstantiatesMap() + this + ";");
     }
 }

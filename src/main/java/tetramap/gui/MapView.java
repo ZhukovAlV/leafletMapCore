@@ -1,10 +1,12 @@
 package tetramap.gui;
 
 import javafx.concurrent.Worker;
+import javafx.scene.web.WebView;
 import tetramap.config.MapConfig;
 import tetramap.entity.LMap;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapMoveEventListener;
+import tetramap.layer.Layer;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -13,10 +15,10 @@ import java.util.concurrent.CompletableFuture;
  */
 public interface MapView {
 
+
     /**
-     * Отображение карты с заданными настрйоками
-     *
-     * @param mapConfig настройки карты
+     * Отображение карты
+     * @param mapConfig файл конфигурации карты
      * @return CompletableFuture
      */
     CompletableFuture<Worker.State> displayMap(MapConfig mapConfig);
@@ -25,7 +27,7 @@ public interface MapView {
      * Получение карты
      * @return LeafletMap
      */
-    ViewContainer getMap();
+    LMap getMap();
 
     /**
      * Установка размеров
@@ -54,4 +56,22 @@ public interface MapView {
      * Добавление слушателя на перемещение мыши
      */
     void removeMouseMoveListener(MapMoveEventListener mapMoveEventListener);
+
+    /**
+     * Выполнение скрипта на карте
+     * @param script текст скрипта
+     */
+    void execScript(String script);
+
+    /**
+     * Возвращает WebView
+     * @return WebView
+     */
+    WebView getWebView();
+
+    /**
+     * Добавления слоя на карту
+     * @param layer слой на добавление
+     */
+    void addLayer(Layer layer);
 }

@@ -2,7 +2,7 @@ package tetramap.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import tetramap.gui.ViewContainer;
+import tetramap.gui.MapView;
 import tetramap.leaflet.LeafletObject;
 import tetramap.type.TypeInstantiatesMap;
 
@@ -33,7 +33,7 @@ public class LBaseMaps extends LeafletObject {
     }
 
     @Override
-    public void createTo(ViewContainer viewContainer) {
-        viewContainer.execScript("var " + this.getId() + " = " + this + ";");
+    public void createTo(MapView mapView) {
+        mapView.execScript("var " + this.getId() + " = " + this + ";");
     }
 }

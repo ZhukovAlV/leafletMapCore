@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import tetramap.entity.control.LAttributionControl;
-import tetramap.gui.ViewContainer;
+import tetramap.gui.MapView;
 import tetramap.leaflet.LeafletObject;
 import tetramap.type.TypeInstantiatesMap;
 
@@ -40,9 +40,9 @@ public class LMap extends LeafletObject {
         return TypeInstantiatesMap.map.toString();
     }
 
-    public void createTo(ViewContainer viewContainer) {
-        viewContainer.execScript("var " + this.getId() + " = L." + this.getTypeInstantiatesMap() + this + ";");
-        viewContainer.execScript(this.getId() + "." + lAttributionControl.getTypeInstantiatesMap()
+    public void createTo(MapView mapView) {
+        mapView.execScript("var " + this.getId() + " = L." + this.getTypeInstantiatesMap() + this + ";");
+        mapView.execScript(this.getId() + "." + lAttributionControl.getTypeInstantiatesMap()
                 + ".setPrefix(" + lAttributionControl.getPrefix() + ");");
     }
 }

@@ -211,11 +211,10 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
             mapView.addTo(marker);*/
 
             LIcon icon = new LIcon(getClass().getResource("../../markerIcon/subscriber/marker_green.png").getPath());
-            icon.createTo(mapView.getMap());
+            icon.createTo(mapView);
             LMarker marker = new LMarker(new LatLong(55.030, 73.2695), icon);
-            marker.createTo(mapView.getMap());
-            marker.addTo(mapView.getMap());
-
+            marker.createTo(mapView);
+            marker.addTo(mapView);
         });
 
       //  mapView.getMarkerDrawAdapter().draw();
