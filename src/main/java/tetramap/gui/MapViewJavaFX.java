@@ -4,7 +4,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
 import javafx.scene.layout.StackPane;
-import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import lombok.extern.log4j.Log4j2;
 import tetramap.config.MapConfig;
@@ -13,6 +12,7 @@ import tetramap.config.ZoomControlConfig;
 import tetramap.entity.LBaseMaps;
 import tetramap.entity.LMap;
 import tetramap.entity.LTileLayer;
+import tetramap.entity.control.LeafletControl;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapClickEventManager;
 import tetramap.event.MapMoveEventListener;
@@ -30,8 +30,7 @@ import java.util.concurrent.CompletableFuture;
 public class MapViewJavaFX extends StackPane implements MapView {
 
     // Контейнер для html
-    private final WebView webView;
-    private final WebEngine webEngine;
+    private final WebView WEB_VIEW = new WebView();
 
     // Карта
     private LMap map;
@@ -42,9 +41,7 @@ public class MapViewJavaFX extends StackPane implements MapView {
     private final MapMoveEventManager mapMoveEventManager;
 
     public MapViewJavaFX() {
-        webView = new WebView();
-        webEngine = webView.getEngine();
-        getChildren().add(webView);
+        getChildren().add(WEB_VIEW);
 
         mapClickEventManager = new MapClickEventManager();
         mapMoveEventManager = new MapMoveEventManager();
@@ -53,7 +50,7 @@ public class MapViewJavaFX extends StackPane implements MapView {
     @Override
     public CompletableFuture<Worker.State> displayMap(MapConfig mapConfig) {
         CompletableFuture<Worker.State> finalMapLoadState = new CompletableFuture<>();
-        webEngine.getLoadWorker().stateProperty().addListener((new ChangeListener() {
+        WEB_VIEW.getEngine().getLoadWorker().stateProperty().addListener((new ChangeListener() {
             public void changed(ObservableValue var1, Object var2, Object var3) {
                 this.changed(var1, (Worker.State)var2, (Worker.State)var3);
             }
@@ -70,14 +67,14 @@ public class MapViewJavaFX extends StackPane implements MapView {
             }
         }));
         URL urlWeb = getClass().getResource("/web/leafletmap.html");
-        webEngine.load(urlWeb.toExternalForm());
+        WEB_VIEW.getEngine().load(urlWeb.toExternalForm());
         return finalMapLoadState;
     }
 
     private void executeMapSetupScripts(MapConfig mapConfig) {
         StringBuilder stringBuilder;
 
-        // Создаем разные карты в контейнере HTML
+        // Создаем тайловые слои для карты
         List<LTileLayer> tileLayerList = mapConfig.getLayers();
         tileLayerList.forEach(tileLayer -> tileLayer.createTo(this));
 
@@ -89,7 +86,6 @@ public class MapViewJavaFX extends StackPane implements MapView {
         map.createTo(this);
 
         // execScript("var attribution = " + map.getId() + ".attributionControl;attribution.setPrefix('');");
-
 
 /*        if (mapConfig.getLayers().size() > 1) {
             execScript("var overlayMaps = {};L.control.layers(" + baseMaps.getId() + ", overlayMaps).addTo(" + map.getId() + ");");
@@ -114,12 +110,12 @@ public class MapViewJavaFX extends StackPane implements MapView {
 
     @Override
     public Object execScript(String script) {
-        return webEngine.executeScript(script);
+        return WEB_VIEW.getEngine().executeScript(script);
     }
 
     @Override
     public void setSize(double width, double height) {
-        webView.setPrefSize(width, height);
+        WEB_VIEW.setPrefSize(width, height);
     }
 
     @Override
@@ -145,11 +141,6 @@ public class MapViewJavaFX extends StackPane implements MapView {
     @Override
     public LMap getMap() {
         return map;
-    }
-
-    @Override
-    public WebView getWebView() {
-        return webView;
     }
 
     /**
@@ -224,9 +215,21 @@ public class MapViewJavaFX extends StackPane implements MapView {
     }
 
     @Override
+    public void remove() {
+        log.info("Удаление карты со всеми слоями: {}", "id: " + map.getId());
+        // TODO доделать метод
+    }
+
+    @Override
     public boolean hasLayer(Layer layer) {
         log.info("Проверка layer на exist: {}", layer.getLeafletType() + ", id: " + layer.getId());
         // TODO доделать метод
         return false;
+    }
+
+    @Override
+    public void addControl(LeafletControl control) {
+        log.info("Добавление control: {}", control.getLeafletType() + ", id: " + control.getId());
+        execScript("var " + control.getId()  + " = " + map.getId() + "." + control.getTypeInstantiatesMap() + ";");
     }
 }

@@ -1,9 +1,9 @@
 package tetramap.gui;
 
 import javafx.concurrent.Worker;
-import javafx.scene.web.WebView;
 import tetramap.config.MapConfig;
 import tetramap.entity.LMap;
+import tetramap.entity.control.LeafletControl;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapMoveEventListener;
 import tetramap.layer.Layer;
@@ -14,7 +14,6 @@ import java.util.concurrent.CompletableFuture;
  * View для карты
  */
 public interface MapView {
-
 
     /**
      * Отображение карты
@@ -69,13 +68,6 @@ public interface MapView {
     LMap getMap();
 
     /**
-     * Возвращает WebView
-     *
-     * @return WebView веб-контейнер
-     */
-    WebView getWebView();
-
-    /**
      * Добавления слоя на карту
      *
      * @param layer слой на добавление
@@ -85,7 +77,7 @@ public interface MapView {
     /**
      * Удаление слоя c карты
      *
-     * @param layer слой на удаление
+     * @param layer слой на удаление c карты
      */
     void removeLayer(Layer layer);
 
@@ -96,4 +88,17 @@ public interface MapView {
      * @return true если слой существует
      */
     boolean hasLayer(Layer layer);
+
+    /**
+     * Добавление Control во View карты
+     *
+     * @param control контроль для Leaflet
+     */
+    void addControl(LeafletControl control);
+
+    /**
+     * Удаление карты и всех слоев
+     *
+     */
+    void remove();
 }

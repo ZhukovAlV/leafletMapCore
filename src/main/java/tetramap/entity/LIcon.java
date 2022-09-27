@@ -1,8 +1,8 @@
 package tetramap.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import tetramap.layer.Layer;
 import tetramap.leaflet.LeafletObject;
 import tetramap.type.TypeInstantiatesMap;
 
@@ -13,6 +13,7 @@ import java.io.Serial;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@AllArgsConstructor
 public class LIcon extends LeafletObject implements BasicType {
 
     @Serial
@@ -37,12 +38,6 @@ public class LIcon extends LeafletObject implements BasicType {
         this.iconUrl = iconUrl;
         this.iconSize = DEFAULT_ICON_SIZE;
         this.iconAnchor = DEFAULT_ICON_ANCHOR;
-    }
-
-    public LIcon(String iconUrl, Point iconSize, Point iconAnchor) {
-        this.iconUrl = iconUrl;
-        this.iconSize = iconSize;
-        this.iconAnchor = iconAnchor;
     }
 
     @Override

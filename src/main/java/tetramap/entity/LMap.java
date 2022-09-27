@@ -3,6 +3,7 @@ package tetramap.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.extern.log4j.Log4j2;
 import tetramap.entity.control.LAttributionControl;
 import tetramap.gui.MapView;
 import tetramap.leaflet.LeafletObject;
@@ -13,6 +14,7 @@ import java.io.Serial;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
+@Log4j2
 public class LMap extends LeafletObject {
 
     @Serial
@@ -41,8 +43,11 @@ public class LMap extends LeafletObject {
     }
 
     public void createTo(MapView mapView) {
+        log.info("Создание карты LMap: {}", "id: " + this.getId());
         mapView.execScript("var " + this.getId() + " = L." + this.getTypeInstantiatesMap() + this + ";");
-        mapView.execScript(this.getId() + "." + lAttributionControl.getTypeInstantiatesMap()
-                + ".setPrefix(" + lAttributionControl.getPrefix() + ");");
+
+        log.info("Установка аттрибутов для карты LMap: {}", "id: " + this.getId());
+        lAttributionControl.addTo(mapView);
+        lAttributionControl.setPrefix(mapView);
     }
 }

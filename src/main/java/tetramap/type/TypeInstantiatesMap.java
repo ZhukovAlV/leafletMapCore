@@ -6,5 +6,6 @@ public enum TypeInstantiatesMap {
     icon, // Иконка (для маркера)
     tileLayer, // Тайловый слой
     baseMaps, // Набор карт
-    attributionControl // Отвечает за префикс (название слоя карты)
+    attributionControl, // Отвечает за префикс (название слоя карты)
+    control // Методы Control
 }
