@@ -30,7 +30,7 @@ public interface LeafletBasicType extends Serializable {
     String getTypeInstantiatesMap();
 
     /**
-     * Создание слоя в контейнере HTML
+     * Создание слоя во View карты
      * @param mapView View карты
      */
     default void createTo(MapView mapView) {

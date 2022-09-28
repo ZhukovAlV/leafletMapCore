@@ -1,20 +1,20 @@
 package tetramap.config;
 
 import lombok.Getter;
-import tetramap.entity.LMap;
-import tetramap.entity.LTileLayer;
+import tetramap.leaflet.LeafletMap;
+import tetramap.entity.TileLayer;
 
 import java.util.List;
 
 @Getter
 public class MapConfig {
-    private final List<LTileLayer> layers;
+    private final List<TileLayer> layers;
     private final ZoomControlConfig zoomControlConfig;
     private final ScaleControlConfig scaleControlConfig;
-    private final LMap map;
+    private final LeafletMap map;
 
-    public MapConfig(List<LTileLayer> layers, ZoomControlConfig zoomControlConfig,
-                     ScaleControlConfig scaleControlConfig, LMap map) {
+    public MapConfig(List<TileLayer> layers, ZoomControlConfig zoomControlConfig,
+                     ScaleControlConfig scaleControlConfig, LeafletMap map) {
         this.layers = layers;
         this.zoomControlConfig = zoomControlConfig;
         this.scaleControlConfig = scaleControlConfig;

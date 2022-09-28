@@ -1,14 +1,11 @@
 package tetramap.gui;
 
-import javafx.concurrent.Worker;
 import tetramap.config.MapConfig;
-import tetramap.entity.LMap;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapMoveEventListener;
 import tetramap.layer.Layer;
 import tetramap.leaflet.LeafletControl;
-
-import java.util.concurrent.CompletableFuture;
+import tetramap.leaflet.LeafletMap;
 
 /**
  * View для карты
@@ -19,9 +16,8 @@ public interface MapView {
      * Отображение карты
      *
      * @param mapConfig файл конфигурации карты
-     * @return CompletableFuture
      */
-    CompletableFuture<Worker.State> displayMap(MapConfig mapConfig);
+    void displayMap(MapConfig mapConfig);
 
     /**
      * Установка размеров
@@ -65,7 +61,7 @@ public interface MapView {
      *
      * @return LeafletMap карта Leaflet
      */
-    LMap getMap();
+    LeafletMap getMap();
 
     /**
      * Добавления слоя на карту

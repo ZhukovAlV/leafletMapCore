@@ -5,11 +5,11 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import tetramap.config.*;
 import tetramap.entity.*;
-import tetramap.entity.control.LAttributionControl;
+import tetramap.entity.control.AttributionControl;
 import tetramap.gui.MapPaneJavaFX;
 import tetramap.gui.MapView;
 import tetramap.gui.MapViewJavaFX;
-import tetramap.type.MapLayerType;
+import tetramap.leaflet.LeafletMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,22 +22,22 @@ public class MainFXApp extends Application {
     public void start(Stage primaryStage) {
 
         // Создаем список тайловых слоев
-        List<LTileLayer> layers = new ArrayList<>();
-        layers.add(new LTileLayer("OpenStreetMap"
+        List<TileLayer> layers = new ArrayList<>();
+        layers.add(new TileLayer("OpenStreetMap"
                 , "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 ,"OpenStreetMap"
                 , false
                 ,"abc"
                 ,0
                 ,18));
-        layers.add(new LTileLayer("YandexMap"
+        layers.add(new TileLayer("YandexMap"
                 , "http://sat0{s}.maps.yandex.net/tiles?l=sat&x={x}&y={y}&z={z}"
                 ,"YandexMap"
                 , true
                 ,"123"
                 ,0
                 ,18));
-        layers.add(new LTileLayer("2GIS"
+        layers.add(new TileLayer("2GIS"
                 , "http://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}"
                 ,"2GIS"
                 , false
@@ -46,10 +46,10 @@ public class MainFXApp extends Application {
                 ,18));
 
         // Установка значения (названия) префикса внизу карты справа (по умолчанию пусто)
-        LAttributionControl attributionControl = new LAttributionControl();
+        AttributionControl attributionControl = new AttributionControl();
 
         // Создаем настройки для карты
-        LMap map  = new LMap("map", new LatLong(55.030, 73.2695), 14,
+        LeafletMap map  = new LeafletMap("map", new LatLong(55.030, 73.2695), 14,
                 true, layers.get(0), attributionControl);
 
 

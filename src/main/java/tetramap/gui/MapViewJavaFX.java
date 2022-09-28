@@ -9,9 +9,10 @@ import lombok.extern.log4j.Log4j2;
 import tetramap.config.MapConfig;
 import tetramap.config.ScaleControlConfig;
 import tetramap.config.ZoomControlConfig;
-import tetramap.entity.LBaseMaps;
-import tetramap.entity.LMap;
-import tetramap.entity.LTileLayer;
+import tetramap.entity.BaseMaps;
+import tetramap.entity.control.LayersControl;
+import tetramap.leaflet.LeafletMap;
+import tetramap.entity.TileLayer;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapClickEventManager;
 import tetramap.event.MapMoveEventListener;
@@ -33,7 +34,7 @@ public class MapViewJavaFX extends StackPane implements MapView {
     private final WebView WEB_VIEW = new WebView();
 
     // Карта
-    private LMap map;
+    private LeafletMap map;
 
     // Менеджер на нажатие мыши
     private final MapClickEventManager mapClickEventManager;
@@ -48,7 +49,7 @@ public class MapViewJavaFX extends StackPane implements MapView {
     }
 
     @Override
-    public CompletableFuture<Worker.State> displayMap(MapConfig mapConfig) {
+    public void displayMap(MapConfig mapConfig) {
         CompletableFuture<Worker.State> finalMapLoadState = new CompletableFuture<>();
         WEB_VIEW.getEngine().getLoadWorker().stateProperty().addListener((new ChangeListener() {
             public void changed(ObservableValue var1, Object var2, Object var3) {
@@ -57,38 +58,43 @@ public class MapViewJavaFX extends StackPane implements MapView {
 
             public void changed(ObservableValue observableValue, Worker.State workerState, Worker.State newValue) {
                 if (newValue == Worker.State.SUCCEEDED) {
+                    log.info("Выполняется инициализация карты с переданными параметрами.");
                     executeMapSetupScripts(mapConfig);
                 }
 
                 if (newValue == Worker.State.SUCCEEDED || newValue == Worker.State.FAILED) {
                     finalMapLoadState.complete(newValue);
+                    log.info("Карта успешно загружена.");
                 }
 
             }
         }));
         URL urlWeb = getClass().getResource("/web/leafletmap.html");
         WEB_VIEW.getEngine().load(urlWeb.toExternalForm());
-        return finalMapLoadState;
     }
 
     private void executeMapSetupScripts(MapConfig mapConfig) {
         StringBuilder stringBuilder;
 
         // Создаем тайловые слои для карты
-        List<LTileLayer> tileLayerList = mapConfig.getLayers();
+        List<TileLayer> tileLayerList = mapConfig.getLayers();
         tileLayerList.forEach(tileLayer -> tileLayer.createTo(this));
 
-        LBaseMaps baseMaps = new LBaseMaps(tileLayerList);
+        BaseMaps baseMaps = new BaseMaps(tileLayerList);
         baseMaps.createTo(this);
 
         // Создаем карту (map здесь это div контейнер)
         map = mapConfig.getMap();
         map.createTo(this);
 
-        // execScript("var attribution = " + map.getId() + ".attributionControl;attribution.setPrefix('');");
+        // Создаем меню выбора тайловых слоев
+        LayersControl layersControl = new LayersControl(baseMaps);
+        layersControl.createTo(this);
+        layersControl.addTo(this);
 
-/*        if (mapConfig.getLayers().size() > 1) {
-            execScript("var overlayMaps = {};L.control.layers(" + baseMaps.getId() + ", overlayMaps).addTo(" + map.getId() + ");");
+/*        execScript("var overlaysMap = L.control.layers(" + baseMaps.getId() + ", {});");
+        if (mapConfig.getLayers().size() > 1) {
+            execScript("overlaysMap.addTo(" + map.getId() + ");");
         }*/
 
         // Настройки масштаба
@@ -139,7 +145,7 @@ public class MapViewJavaFX extends StackPane implements MapView {
     }
 
     @Override
-    public LMap getMap() {
+    public LeafletMap getMap() {
         return map;
     }
 

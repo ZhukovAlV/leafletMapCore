@@ -1,12 +1,13 @@
-package tetramap.entity;
+package tetramap.leaflet;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
-import tetramap.entity.control.LAttributionControl;
+import tetramap.entity.LatLong;
+import tetramap.entity.TileLayer;
+import tetramap.entity.control.AttributionControl;
 import tetramap.gui.MapView;
-import tetramap.leaflet.LeafletObject;
 import tetramap.type.TypeInstantiatesMap;
 
 import java.io.Serial;
@@ -15,7 +16,7 @@ import java.io.Serial;
 @Data
 @AllArgsConstructor
 @Log4j2
-public class LMap extends LeafletObject {
+public class LeafletMap extends LeafletObject {
 
     @Serial
     private static final long serialVersionUID = 3789693345308589828L;
@@ -24,9 +25,9 @@ public class LMap extends LeafletObject {
     private LatLong center;
     private int zoom;
     private boolean zoomControl;
-    private LTileLayer tileLayer;
+    private TileLayer tileLayer;
 
-    private LAttributionControl lAttributionControl;
+    private AttributionControl attributionControl;
 
     @Override
     public String toString() {
@@ -43,11 +44,11 @@ public class LMap extends LeafletObject {
     }
 
     public void createTo(MapView mapView) {
-        log.info("Создание карты LMap: {}", "id: " + this.getId());
+        log.info("Создание карты LeafletMap: {}", "id: " + this.getId());
         mapView.execScript(String.join("","var ", this.getId(), " = L.", this.getTypeInstantiatesMap(), this.toString(), ";"));
 
-        log.info("Установка аттрибутов для карты LMap: {}", "id: " + this.getId());
-        lAttributionControl.addTo(mapView);
-        lAttributionControl.setPrefix(mapView);
+        log.info("Установка аттрибутов для карты LeafletMap: {}", "id: " + this.getId());
+        attributionControl.addTo(mapView);
+        attributionControl.setPrefix(mapView);
     }
 }

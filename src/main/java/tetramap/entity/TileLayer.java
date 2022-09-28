@@ -1,7 +1,6 @@
 package tetramap.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import tetramap.leaflet.LeafletObject;
@@ -12,7 +11,7 @@ import java.io.Serial;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
-public class LTileLayer extends LeafletObject {
+public class TileLayer extends LeafletObject {
 
     @Serial
     private static final long serialVersionUID = 2989693312308589756L;

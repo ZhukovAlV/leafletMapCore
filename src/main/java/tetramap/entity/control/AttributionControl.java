@@ -1,7 +1,6 @@
 package tetramap.entity.control;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.extern.log4j.Log4j2;
 import tetramap.gui.MapView;
 import tetramap.leaflet.LeafletControl;
@@ -12,21 +11,23 @@ import java.io.Serial;
 /**
  * Устанавливает префикс (название слоя карты)
  */
-@Getter
-@Setter
+@EqualsAndHashCode(callSuper = true)
 @Log4j2
-public class LAttributionControl extends LeafletControl {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class AttributionControl extends LeafletControl {
 
     @Serial
     private static final long serialVersionUID = 9098765502642340035L;
 
-    private String prefix = "";
+    private String prefix = "Leaflet";
 
     /**
      * Добавление префикса к карте
      */
     public void setPrefix(MapView mapView) {
-        log.info("Установка префикса объекту LAttributionControl: {}", "id: " + this.getId());
+        log.info("Установка префикса объекту AttributionControl: {}", "id: " + this.getId());
         mapView.execScript(String.join("", this.getId(), ".setPrefix('", this.getPrefix() , "');"));
     }
 

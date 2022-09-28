@@ -1,7 +1,9 @@
 package tetramap.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.extern.log4j.Log4j2;
 import tetramap.gui.MapView;
 import tetramap.leaflet.LeafletObject;
 import tetramap.type.TypeInstantiatesMap;
@@ -9,10 +11,12 @@ import tetramap.type.TypeInstantiatesMap;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
+@Log4j2
 @Data
-public class LBaseMaps extends LeafletObject {
+@AllArgsConstructor
+public class BaseMaps extends LeafletObject {
 
-    private final List<LTileLayer> tileLayers;
+    private final List<TileLayer> tileLayers;
 
     @Override
     public String toString() {

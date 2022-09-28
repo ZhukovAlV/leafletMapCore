@@ -15,7 +15,7 @@ import java.io.Serial;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
-public class LIcon extends LeafletObject implements LeafletBasicType {
+public class Icon extends LeafletObject implements LeafletBasicType {
 
     @Serial
     private static final long serialVersionUID = -5884170824139869060L;
@@ -35,7 +35,7 @@ public class LIcon extends LeafletObject implements LeafletBasicType {
 
     private Point iconAnchor;
 
-    public LIcon(String iconUrl) {
+    public Icon(String iconUrl) {
         this.iconUrl = iconUrl;
         this.iconSize = DEFAULT_ICON_SIZE;
         this.iconAnchor = DEFAULT_ICON_ANCHOR;

@@ -39,6 +39,5 @@ public abstract class LeafletControl extends LeafletObject {
     public void remove(MapView mapView) {
         log.info("Удаление control: {}", "id: " + this.getId());
         mapView.execScript(this.getId() + ".remove()");
-        //TODO проверить метод
     }
 }

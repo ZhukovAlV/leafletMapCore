@@ -10,8 +10,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import lombok.extern.log4j.Log4j2;
 import tetramap.entity.LatLong;
-import tetramap.entity.LIcon;
-import tetramap.entity.LMarker;
+import tetramap.entity.Icon;
+import tetramap.entity.Marker;
 import tetramap.event.impl.LabelLatLong;
 
 import java.io.InputStream;
@@ -173,12 +173,12 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
     //    circleSelectionButton.setOnAction(event -> mapView.getCircleDrawAdapter().draw());
 
         // Тестируем
-        AtomicReference<LMarker> markerTest = new AtomicReference<>();
+        AtomicReference<Marker> markerTest = new AtomicReference<>();
 
         circleSelectionButton.setOnAction(event -> {
-            LIcon icon = new LIcon(getClass().getResource("../../markerIcon/subscriber/marker_green.png").getPath());
+            Icon icon = new Icon(getClass().getResource("../../markerIcon/subscriber/marker_green.png").getPath());
             icon.createTo(mapView);
-            LMarker marker = new LMarker(new LatLong(55.030, 73.2695), icon);
+            Marker marker = new Marker(new LatLong(55.030, 73.2695), icon);
             markerTest.set(marker);
             marker.createTo(mapView);
             marker.addTo(mapView);

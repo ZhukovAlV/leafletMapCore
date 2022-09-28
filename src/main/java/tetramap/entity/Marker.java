@@ -12,7 +12,7 @@ import java.io.Serial;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
-public class LMarker extends LeafletObject implements Layer {
+public class Marker extends LeafletObject implements Layer {
 
     @Serial
     private static final long serialVersionUID = 5997712572773708479L;
@@ -25,11 +25,11 @@ public class LMarker extends LeafletObject implements Layer {
     /**
      * Иконка маркера
      */
-    private LIcon lIcon;
+    private Icon icon;
 
     @Override
     public String toString() {
-        return String.join("","(", latLong.toString(), ", {icon: ", lIcon.getId(), "})");
+        return String.join("","(", latLong.toString(), ", {icon: ", icon.getId(), "})");
     }
 
     @Override
