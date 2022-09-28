@@ -1,7 +1,6 @@
 package tetramap.leaflet;
 
 import lombok.Data;
-import tetramap.entity.BasicType;
 
 import java.util.UUID;
 
@@ -9,7 +8,7 @@ import java.util.UUID;
  * Родительский класс объекта Leaflet
  */
 @Data
-public abstract class LeafletObject implements BasicType {
+public abstract class LeafletObject implements LeafletBasicType {
 
     /**
      * Генерируется уникальный ID

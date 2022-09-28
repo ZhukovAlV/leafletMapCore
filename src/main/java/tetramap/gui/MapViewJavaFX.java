@@ -12,12 +12,12 @@ import tetramap.config.ZoomControlConfig;
 import tetramap.entity.LBaseMaps;
 import tetramap.entity.LMap;
 import tetramap.entity.LTileLayer;
-import tetramap.entity.control.LeafletControl;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapClickEventManager;
 import tetramap.event.MapMoveEventListener;
 import tetramap.event.MapMoveEventManager;
 import tetramap.layer.Layer;
+import tetramap.leaflet.LeafletControl;
 
 import java.net.URL;
 import java.util.List;

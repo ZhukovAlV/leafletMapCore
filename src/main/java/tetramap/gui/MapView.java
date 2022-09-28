@@ -3,10 +3,10 @@ package tetramap.gui;
 import javafx.concurrent.Worker;
 import tetramap.config.MapConfig;
 import tetramap.entity.LMap;
-import tetramap.entity.control.LeafletControl;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapMoveEventListener;
 import tetramap.layer.Layer;
+import tetramap.leaflet.LeafletControl;
 
 import java.util.concurrent.CompletableFuture;
 
