@@ -7,18 +7,18 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
 import lombok.extern.log4j.Log4j2;
 import tetramap.config.MapConfig;
-import tetramap.config.ScaleControlConfig;
-import tetramap.config.ZoomControlConfig;
 import tetramap.entity.BaseMaps;
-import tetramap.entity.control.LayersControl;
-import tetramap.leaflet.LeafletMap;
 import tetramap.entity.TileLayer;
+import tetramap.entity.control.LayersControl;
+import tetramap.entity.control.ScaleControl;
+import tetramap.entity.control.ZoomControl;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapClickEventManager;
 import tetramap.event.MapMoveEventListener;
 import tetramap.event.MapMoveEventManager;
 import tetramap.layer.Layer;
 import tetramap.leaflet.LeafletControl;
+import tetramap.leaflet.LeafletMap;
 
 import java.net.URL;
 import java.util.List;
@@ -92,25 +92,20 @@ public class MapViewJavaFX extends StackPane implements MapView {
         layersControl.createTo(this);
         layersControl.addTo(this);
 
-/*        execScript("var overlaysMap = L.control.layers(" + baseMaps.getId() + ", {});");
-        if (mapConfig.getLayers().size() > 1) {
-            execScript("overlaysMap.addTo(" + map.getId() + ");");
-        }*/
-
         // Настройки масштаба
-        ScaleControlConfig scaleControlConfig = mapConfig.getScaleControlConfig();
+        ScaleControl scaleControlConfig = mapConfig.getScaleControl();
         if (scaleControlConfig.isShow()) {
             stringBuilder = (new StringBuilder()).append("L.control.scale({position: '");
-            stringBuilder.append(scaleControlConfig.getPosition().getPositionName()).append("', ").append("metric: ");
+            stringBuilder.append(scaleControlConfig.getPosition()).append("', ").append("metric: ");
             stringBuilder.append(scaleControlConfig.isMetric()).append(", ").append("imperial: ");
             execScript(stringBuilder.append(!scaleControlConfig.isMetric()).append("})").append(".addTo(" + map.getId() + ");").toString());
         }
 
         // Настройки Zoom
-        ZoomControlConfig zoomControlConfig = mapConfig.getZoomControlConfig();
+        ZoomControl zoomControlConfig = mapConfig.getZoomControl();
         if (zoomControlConfig.isShow()) {
             stringBuilder = (new StringBuilder()).append("L.control.zoom({position: '");
-            execScript(stringBuilder.append(zoomControlConfig.getPosition().getPositionName()).append("'})").append(".addTo(" + map.getId() + ");").toString());
+            execScript(stringBuilder.append(zoomControlConfig.getPosition()).append("'})").append(".addTo(" + map.getId() + ");").toString());
         }
     }
 

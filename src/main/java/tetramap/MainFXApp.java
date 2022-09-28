@@ -3,12 +3,16 @@ package tetramap;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import tetramap.config.*;
-import tetramap.entity.*;
+import tetramap.config.MapConfig;
+import tetramap.entity.LatLong;
+import tetramap.entity.TileLayer;
 import tetramap.entity.control.AttributionControl;
+import tetramap.entity.control.ScaleControl;
+import tetramap.entity.control.ZoomControl;
 import tetramap.gui.MapPaneJavaFX;
 import tetramap.gui.MapView;
 import tetramap.gui.MapViewJavaFX;
+import tetramap.leaflet.LeafletControl;
 import tetramap.leaflet.LeafletMap;
 
 import java.util.ArrayList;
@@ -56,8 +60,8 @@ public class MainFXApp extends Application {
         // Добавляем это все в конфигурационный файл
         MapConfig mapConfig = new MapConfig(
                 layers,
-                new ZoomControlConfig(true, ControlPosition.BOTTOM_LEFT),
-                new ScaleControlConfig(true, ControlPosition.BOTTOM_LEFT,true),
+                new ZoomControl(true, LeafletControl.ControlPosition.bottomleft),
+                new ScaleControl(true, LeafletControl.ControlPosition.bottomleft,true),
                 map
         );
 

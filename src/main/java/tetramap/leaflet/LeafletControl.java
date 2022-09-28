@@ -12,11 +12,6 @@ public abstract class LeafletControl extends LeafletObject {
     @Serial
     private static final long serialVersionUID = -9057192899900276429L;
 
-    @Override
-    public String getTypeInstantiatesMap() {
-        return TypeInstantiatesMap.control.toString();
-    }
-
     /**
      * Используется для расположения элементов
      */
@@ -39,5 +34,10 @@ public abstract class LeafletControl extends LeafletObject {
     public void remove(MapView mapView) {
         log.info("Удаление control: {}", "id: " + this.getId());
         mapView.execScript(this.getId() + ".remove()");
+    }
+
+    @Override
+    public String getTypeInstantiatesMap() {
+        return TypeInstantiatesMap.control.toString();
     }
 }
