@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 import tetramap.config.MapConfig;
 import tetramap.entity.LatLong;
 import tetramap.entity.TileLayer;
-import tetramap.entity.control.AttributionControl;
+import tetramap.entity.Attribution;
 import tetramap.entity.control.ScaleControl;
 import tetramap.entity.control.ZoomControl;
 import tetramap.gui.MapPaneJavaFX;
@@ -50,11 +50,11 @@ public class MainFXApp extends Application {
                 ,18));
 
         // Установка значения (названия) префикса внизу карты справа (по умолчанию пусто)
-        AttributionControl attributionControl = new AttributionControl();
+        Attribution attribution = new Attribution();
 
         // Создаем настройки для карты
         LeafletMap map  = new LeafletMap("map", new LatLong(55.030, 73.2695), 14,
-                true, layers.get(0), attributionControl);
+                true, layers.get(0), attribution);
 
 
         // Добавляем это все в конфигурационный файл

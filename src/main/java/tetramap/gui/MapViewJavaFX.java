@@ -17,7 +17,6 @@ import tetramap.event.MapClickEventManager;
 import tetramap.event.MapMoveEventListener;
 import tetramap.event.MapMoveEventManager;
 import tetramap.layer.Layer;
-import tetramap.leaflet.LeafletControl;
 import tetramap.leaflet.LeafletMap;
 
 import java.net.URL;
@@ -93,19 +92,17 @@ public class MapViewJavaFX extends StackPane implements MapView {
         layersControl.addTo(this);
 
         // Настройки масштаба
-        ScaleControl scaleControlConfig = mapConfig.getScaleControl();
-        if (scaleControlConfig.isShow()) {
-            stringBuilder = (new StringBuilder()).append("L.control.scale({position: '");
-            stringBuilder.append(scaleControlConfig.getPosition()).append("', ").append("metric: ");
-            stringBuilder.append(scaleControlConfig.isMetric()).append(", ").append("imperial: ");
-            execScript(stringBuilder.append(!scaleControlConfig.isMetric()).append("})").append(".addTo(" + map.getId() + ");").toString());
+        ScaleControl scaleControl = mapConfig.getScaleControl();
+        if (scaleControl.isShow()) {
+            scaleControl.createTo(this);
+            scaleControl.addTo(this);
         }
 
         // Настройки Zoom
-        ZoomControl zoomControlConfig = mapConfig.getZoomControl();
-        if (zoomControlConfig.isShow()) {
-            stringBuilder = (new StringBuilder()).append("L.control.zoom({position: '");
-            execScript(stringBuilder.append(zoomControlConfig.getPosition()).append("'})").append(".addTo(" + map.getId() + ");").toString());
+        ZoomControl zoomControl = mapConfig.getZoomControl();
+        if (zoomControl.isShow()) {
+            zoomControl.createTo(this);
+            zoomControl.addTo(this);
         }
     }
 
@@ -226,11 +223,5 @@ public class MapViewJavaFX extends StackPane implements MapView {
         log.info("Проверка layer на exist: {}", String.join("",layer.getLeafletType(), ", id: ", layer.getId()));
         // TODO доделать метод
         return false;
-    }
-
-    @Override
-    public void addControl(LeafletControl control) {
-        log.info("Добавление control: {}", String.join("",control.getLeafletType(), ", id: ", control.getId()));
-        execScript(String.join("","var ", control.getId(), " = ", map.getId(), ".", control.getTypeInstantiatesMap(), ";"));
     }
 }

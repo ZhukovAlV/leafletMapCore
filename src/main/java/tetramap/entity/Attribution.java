@@ -1,22 +1,22 @@
-package tetramap.entity.control;
+package tetramap.entity;
 
 import lombok.*;
 import lombok.extern.log4j.Log4j2;
 import tetramap.gui.MapView;
-import tetramap.leaflet.LeafletControl;
+import tetramap.leaflet.LeafletObject;
 import tetramap.type.TypeInstantiatesMap;
 
 import java.io.Serial;
 
 /**
- * Устанавливает префикс (название слоя карты)
+ * Устанавливает префикс (название слоя карты) в углу карты
  */
 @EqualsAndHashCode(callSuper = true)
 @Log4j2
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AttributionControl extends LeafletControl {
+public class Attribution extends LeafletObject {
 
     @Serial
     private static final long serialVersionUID = 9098765502642340035L;
@@ -27,8 +27,13 @@ public class AttributionControl extends LeafletControl {
      * Добавление префикса к карте
      */
     public void setPrefix(MapView mapView) {
-        log.info("Установка префикса объекту AttributionControl: {}", "id: " + this.getId());
+        log.info("Установка префикса объекту Attribution (название слоя карты в углу карты), id: {}", this.getId());
         mapView.execScript(String.join("", this.getId(), ".setPrefix('", this.getPrefix() , "');"));
+    }
+
+    public void createTo(MapView mapView) {
+        log.info("Создание Attribution (название слоя карты в углу карты), id: {}", getId());
+        mapView.execScript(String.join("","var ", this.getId(), " = ", mapView.getMap().getId(), ".", this.getTypeInstantiatesMap(), ";"));
     }
 
     @Override

@@ -2,6 +2,7 @@ package tetramap.entity.control;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.extern.log4j.Log4j2;
 import tetramap.leaflet.LeafletControl;
 import tetramap.type.TypeInstantiatesMap;
 
@@ -16,6 +17,11 @@ public class ZoomControl extends LeafletControl {
 
     private final boolean show;
     private final LeafletControl.ControlPosition position;
+
+    @Override
+    public String toString() {
+        return String.join("", "({position:'", position.toString(), "'})");
+    }
 
     @Override
     public String getTypeInstantiatesMap() {

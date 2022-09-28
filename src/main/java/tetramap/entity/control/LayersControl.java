@@ -22,28 +22,16 @@ public class LayersControl extends LeafletControl {
 
     private final BaseMaps tileLayerList;
 
-    /**
-     * Создание слоя во View карты
-     * @param mapView View карты
-     */
     @Override
-    public void createTo(MapView mapView) {
-        log.info("Создание LayersControl: {}", ", id: " + this.getId());
-        mapView.execScript(String.join("","var ", this.getId(), " = L.",
-                super.getTypeInstantiatesMap(), ".", getTypeInstantiatesMap(), "(", tileLayerList.getId(), ", {});"));
+    public String toString() {
+        return "(" + tileLayerList.getId() + ", {})";
     }
 
-    /**
-     * Добавление control во View карты
-     *
-     * @param mapView View карты
-     */
     @Override
     public void addTo(MapView mapView) {
-        log.info("Добавление LayersControl: {}", "id: " + this.getId());
         if (tileLayerList.getTileLayers().size() > 1) {
-            mapView.execScript(this.getId() + ".addTo(" + mapView.getMap().getId() + ");");
-        } else log.warn("Список тайловых слоев пуст в LayersControl: {}", "id: " + this.getId());
+            super.addTo(mapView);
+        } else log.warn("Список тайловых слоев пуст в LayersControl: {}", this.getId());
     }
 
     @Override

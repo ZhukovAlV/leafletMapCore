@@ -4,7 +4,6 @@ import tetramap.config.MapConfig;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapMoveEventListener;
 import tetramap.layer.Layer;
-import tetramap.leaflet.LeafletControl;
 import tetramap.leaflet.LeafletMap;
 
 /**
@@ -84,13 +83,6 @@ public interface MapView {
      * @return true если слой существует
      */
     boolean hasLayer(Layer layer);
-
-    /**
-     * Добавление Control во View карты
-     *
-     * @param control контроль для Leaflet
-     */
-    void addControl(LeafletControl control);
 
     /**
      * Удаление карты и всех слоев

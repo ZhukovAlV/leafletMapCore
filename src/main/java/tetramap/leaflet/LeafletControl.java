@@ -19,20 +19,28 @@ public abstract class LeafletControl extends LeafletObject {
         topleft, topright, bottomleft, bottomright
     }
 
+    @Override
+    public void createTo(MapView mapView) {
+        log.info("Создание ZoomControl, id: {}", this.getId());
+        mapView.execScript(String.join("","var ", this.getId(), " = L.",
+                TypeInstantiatesMap.control.toString(), ".", this.getTypeInstantiatesMap(), this.toString(), ";"));
+    }
+
     /**
      * Добавление control во View карты
      *
      * @param mapView View карты
      */
-    public void addTo(MapView mapView) {
-        mapView.addControl(this);
+    public void addTo(MapView mapView){
+        log.info("Добавление control: {}", this.getLeafletType() + ", id: " + this.getId());
+        mapView.execScript(String.join("", this.getId(), ".addTo(", mapView.getMap().getId(), ");"));
     }
 
     /**
      * Удаление control
      */
     public void remove(MapView mapView) {
-        log.info("Удаление control: {}", "id: " + this.getId());
+        log.info("Удаление control: {}", this.getLeafletType() + ", id: " + this.getId());
         mapView.execScript(this.getId() + ".remove()");
     }
 

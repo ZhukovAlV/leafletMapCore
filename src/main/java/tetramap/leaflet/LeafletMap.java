@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
 import tetramap.entity.LatLong;
 import tetramap.entity.TileLayer;
-import tetramap.entity.control.AttributionControl;
+import tetramap.entity.Attribution;
 import tetramap.gui.MapView;
 import tetramap.type.TypeInstantiatesMap;
 
@@ -27,7 +27,7 @@ public class LeafletMap extends LeafletObject {
     private boolean zoomControl;
     private TileLayer tileLayer;
 
-    private AttributionControl attributionControl;
+    private Attribution attribution;
 
     @Override
     public String toString() {
@@ -44,11 +44,11 @@ public class LeafletMap extends LeafletObject {
     }
 
     public void createTo(MapView mapView) {
-        log.info("Создание карты LeafletMap: {}", "id: " + this.getId());
+        log.info("Создание карты LeafletMap, id: {}", this.getId());
         mapView.execScript(String.join("","var ", this.getId(), " = L.", this.getTypeInstantiatesMap(), this.toString(), ";"));
 
-        log.info("Установка аттрибутов для карты LeafletMap: {}", "id: " + this.getId());
-        attributionControl.addTo(mapView);
-        attributionControl.setPrefix(mapView);
+        log.info("Установка атрибутов для карты LeafletMap.");
+        attribution.createTo(mapView);
+        attribution.setPrefix(mapView);
     }
 }
