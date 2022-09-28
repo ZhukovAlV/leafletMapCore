@@ -12,7 +12,7 @@ import java.io.Serial;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
-public class Marker extends LeafletObject implements Layer {
+public class Marker extends Layer {
 
     @Serial
     private static final long serialVersionUID = 5997712572773708479L;

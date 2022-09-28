@@ -2,19 +2,19 @@ package tetramap.layer;
 
 
 import tetramap.gui.MapView;
-import tetramap.leaflet.LeafletBasicType;
+import tetramap.leaflet.LeafletObject;
 
 /**
  * Leaflet методы для Layer
  */
-public interface Layer extends LeafletBasicType {
+public abstract class Layer extends LeafletObject {
 
     /**
      * Добавления слоя на карту
      *
      * @param mapView карта
      */
-    default void addTo(MapView mapView) {
+    public void addTo(MapView mapView) {
         mapView.addLayer(this);
     }
 
@@ -23,7 +23,7 @@ public interface Layer extends LeafletBasicType {
      *
      * @param mapView карта
      */
-    default void removeFrom(MapView mapView){
+    public void removeFrom(MapView mapView){
         mapView.removeLayer(this);
     }
 }

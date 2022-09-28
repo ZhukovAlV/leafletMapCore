@@ -10,5 +10,10 @@ public enum TypeInstantiatesMap {
     attributionControl, // Отвечает за префикс (название слоя карты)
     control, // Control
     scale, // Масштаб
-    zoom // Зумм
+    zoom, // Зумм
+    polyline,
+    polygon,
+    circleMarker,
+    circle, // Круг
+    rectangle
 }
