@@ -27,13 +27,13 @@ public class LTileLayer extends LeafletObject {
 
     @Override
     public String toString() {
-        return  "('" + url + "', " +
-                "{attribution: '" + attribution + "'" +
-                ", isElliptical: " + isElliptical +
-                ", subdomains: '" + subdomains + "'" +
-                ", minZoom: " + minZoom +
-                ", maxZoom: " + maxZoom +
-                "})";
+        return String.join("","('", url, "', ",
+                "{attribution: '", attribution, "'",
+                ", isElliptical: " + isElliptical,
+                ", subdomains: '", subdomains, "'",
+                ", minZoom: " + minZoom,
+                ", maxZoom: " + maxZoom,
+                "})");
     }
 
     @Override

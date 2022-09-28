@@ -34,6 +34,6 @@ public class LBaseMaps extends LeafletObject {
 
     @Override
     public void createTo(MapView mapView) {
-        mapView.execScript("var " + this.getId() + " = " + this + ";");
+        mapView.execScript(String.join("", "var ", this.getId(), " = ", this.toString(), ";"));
     }
 }

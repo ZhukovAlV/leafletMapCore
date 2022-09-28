@@ -27,7 +27,7 @@ public class LAttributionControl extends LeafletControl {
      */
     public void setPrefix(MapView mapView) {
         log.info("Установка префикса объекту LAttributionControl: {}", "id: " + this.getId());
-        mapView.execScript(this.getId() + ".setPrefix('" + this.getPrefix() + "');");
+        mapView.execScript(String.join("", this.getId(), ".setPrefix('", this.getPrefix() , "');"));
     }
 
     @Override

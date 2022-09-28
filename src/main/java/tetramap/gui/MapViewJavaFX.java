@@ -204,14 +204,14 @@ public class MapViewJavaFX extends StackPane implements MapView {
 
     @Override
     public void addLayer(Layer layer) {
-        log.info("Добавление layer: {}", layer.getLeafletType() + ", id: " + layer.getId());
-        execScript(layer.getId() + ".addTo(" + map.getId() + ");");
+        log.info("Добавление layer: {}", String.join("",layer.getLeafletType(), ", id: ", layer.getId()));
+        execScript(String.join("",layer.getId(), ".addTo(", map.getId(), ");"));
     }
 
     @Override
     public void removeLayer(Layer layer) {
-        log.info("Удаление layer: {}", layer.getLeafletType() + ", id: " + layer.getId());
-        execScript(layer.getId() + ".removeFrom(" + map.getId() + ");");
+        log.info("Удаление layer: {}", String.join("",layer.getLeafletType(), ", id: ", layer.getId()));
+        execScript(String.join("",layer.getId(), ".removeFrom(", map.getId(), ");"));
     }
 
     @Override
@@ -222,14 +222,14 @@ public class MapViewJavaFX extends StackPane implements MapView {
 
     @Override
     public boolean hasLayer(Layer layer) {
-        log.info("Проверка layer на exist: {}", layer.getLeafletType() + ", id: " + layer.getId());
+        log.info("Проверка layer на exist: {}", String.join("",layer.getLeafletType(), ", id: ", layer.getId()));
         // TODO доделать метод
         return false;
     }
 
     @Override
     public void addControl(LeafletControl control) {
-        log.info("Добавление control: {}", control.getLeafletType() + ", id: " + control.getId());
-        execScript("var " + control.getId()  + " = " + map.getId() + "." + control.getTypeInstantiatesMap() + ";");
+        log.info("Добавление control: {}", String.join("",control.getLeafletType(), ", id: ", control.getId()));
+        execScript(String.join("","var ", control.getId(), " = ", map.getId(), ".", control.getTypeInstantiatesMap(), ";"));
     }
 }

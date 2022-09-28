@@ -29,7 +29,7 @@ public class LMarker extends LeafletObject implements Layer {
 
     @Override
     public String toString() {
-        return "(" + latLong + ", {icon: " + lIcon.getId() + "})";
+        return String.join("","(", latLong.toString(), ", {icon: ", lIcon.getId(), "})");
     }
 
     @Override

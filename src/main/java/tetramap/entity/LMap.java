@@ -30,11 +30,11 @@ public class LMap extends LeafletObject {
 
     @Override
     public String toString() {
-        return "(" + name +
-                ", {center: " + center +
-                ", zoom: " + zoom +
-                ", zoomControl: " + zoomControl +
-                ", layers: [" + tileLayer.getId() + "]})";
+        return String.join("","(", name,
+                ", {center: ", center.toString(),
+                ", zoom: " + zoom,
+                ", zoomControl: " + zoomControl,
+                ", layers: [", tileLayer.getId(), "]})");
     }
 
     @Override
@@ -44,7 +44,7 @@ public class LMap extends LeafletObject {
 
     public void createTo(MapView mapView) {
         log.info("Создание карты LMap: {}", "id: " + this.getId());
-        mapView.execScript("var " + this.getId() + " = L." + this.getTypeInstantiatesMap() + this + ";");
+        mapView.execScript(String.join("","var ", this.getId(), " = L.", this.getTypeInstantiatesMap(), this.toString(), ";"));
 
         log.info("Установка аттрибутов для карты LMap: {}", "id: " + this.getId());
         lAttributionControl.addTo(mapView);

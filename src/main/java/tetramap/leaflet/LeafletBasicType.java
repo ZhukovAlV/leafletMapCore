@@ -34,6 +34,6 @@ public interface LeafletBasicType extends Serializable {
      * @param mapView View карты
      */
     default void createTo(MapView mapView) {
-        mapView.execScript("var " + this.getId() + " = L." + this.getTypeInstantiatesMap() + this + ";");
+        mapView.execScript(String.join("","var ", this.getId(), " = L.", this.getTypeInstantiatesMap(), this.toString(), ";"));
     }
 }

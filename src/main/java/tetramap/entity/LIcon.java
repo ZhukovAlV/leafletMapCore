@@ -43,9 +43,9 @@ public class LIcon extends LeafletObject implements LeafletBasicType {
 
     @Override
     public String toString() {
-        return "({iconUrl: '" + iconUrl +
-                "', iconSize: " + iconSize +
-                ", iconAnchor: " + iconAnchor + "})";
+        return String.join("","({iconUrl: '", iconUrl,
+                "', iconSize: ", iconSize.toString(),
+                ", iconAnchor: ", iconAnchor.toString(), "})");
     }
 
     @Override

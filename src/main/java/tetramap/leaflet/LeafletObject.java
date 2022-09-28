@@ -13,7 +13,7 @@ public abstract class LeafletObject implements LeafletBasicType {
     /**
      * Генерируется уникальный ID
      */
-    private String id = getLeafletType() + "_" + UUID.randomUUID().toString().replaceAll("-", "_");
+    private String id = String.join("_",getLeafletType(), UUID.randomUUID().toString().replaceAll("-", "_"));
 
     @Override
     public String getId() {
