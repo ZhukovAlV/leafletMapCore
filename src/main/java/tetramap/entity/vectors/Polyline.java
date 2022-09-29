@@ -34,6 +34,11 @@ public class Polyline extends Path {
         this.latLongs = latLongs;
     }
 
+    @Override
+    public String toString() {
+        return "(" + latLongs + ", {color: '" + getColor() + "'})";
+    }
+
     /**
      * Returns true if the Polyline has no LatLongs.
      *

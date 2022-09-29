@@ -38,6 +38,11 @@ public class Polygon extends Polyline {
     }
 
     @Override
+    public String toString() {
+        return "(" + latLongs + ", {color: '" + getColor() + "'})";
+    }
+
+    @Override
     public GeometryStructure getLatLongs() {
         return this.latLongs;
     }

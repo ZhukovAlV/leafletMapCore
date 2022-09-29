@@ -1,5 +1,6 @@
 package tetramap.entity.vectors;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import tetramap.entity.LatLong;
@@ -9,6 +10,7 @@ import java.io.Serial;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@AllArgsConstructor
 public class CircleMarker extends Path {
 
     @Serial
@@ -16,6 +18,15 @@ public class CircleMarker extends Path {
 
     private final LatLong center;
     private final double radius;
+
+    /**
+     * Instantiates a circle marker object given a geographical point
+     *
+     * @param center geographical point
+     */
+    public CircleMarker(LatLong center) {
+        this(center, 10);
+    }
 
     @Override
     public String toString() {

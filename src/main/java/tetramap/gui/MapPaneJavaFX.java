@@ -9,13 +9,19 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import lombok.extern.log4j.Log4j2;
-import tetramap.entity.*;
+import tetramap.entity.Icon;
+import tetramap.entity.LatLong;
+import tetramap.entity.Marker;
 import tetramap.entity.vectors.Circle;
+import tetramap.entity.vectors.Polygon;
+import tetramap.entity.vectors.Polyline;
+import tetramap.entity.vectors.Rectangle;
+import tetramap.entity.vectors.structure.LatLongArray;
 import tetramap.event.impl.LabelLatLong;
 
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.List;
 
 /**
  * Реализованная панель для JavaFx
@@ -170,13 +176,14 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
 
         // Добавляем слушателя на кнопки
     //    circleSelectionButton.setOnAction(event -> mapView.getCircleDrawAdapter().draw());
-        
+
         circleSelectionButton.setOnAction(event -> {
-            Icon icon = new Icon(getClass().getResource("../../markerIcon/subscriber/marker_green.png").getPath());
+            // Добавим маркер
+/*            Icon icon = new Icon(getClass().getResource("../../markerIcon/subscriber/marker_green.png").getPath());
             icon.createTo(mapView);
             Marker marker = new Marker(new LatLong(55.040, 73.2695), icon);
             marker.createTo(mapView);
-            marker.addTo(mapView);
+            marker.addTo(mapView);*/
 
             // Добавим круг
             LatLong latLong = new LatLong(55.030, 73.2695);
@@ -185,12 +192,44 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
             circle.addTo(mapView);
         });
 
+        polygonSelectionButton.setOnAction(event -> {
+            // Добавим линию
+/*             LatLongArray latLongArray = new LatLongArray(
+                    List.of(new LatLong(55.030, 73.2695),
+                            new LatLong(55.040, 73.2795),
+                            new LatLong(55.030, 73.2795)));
+           Polyline polyline = new Polyline(latLongArray);
+            polyline.createTo(mapView);
+            polyline.addTo(mapView);*/
+
+            // Добавим полигон
+            LatLongArray latLongArray2 = new LatLongArray(
+                    List.of(new LatLong(55.030, 73.2695),
+                            new LatLong(55.040, 73.2795),
+                            new LatLong(55.030, 73.2795),
+                            new LatLong(55.030, 73.2795),
+                            new LatLong(55.020, 73.2495)));
+            Polygon polygon = new Polygon(latLongArray2);
+            polygon.createTo(mapView);
+            polygon.addTo(mapView);
+        });
+
+        boxSelectionButton.setOnAction(event -> {
+            // Рисуем прямоугольник
+            LatLongArray latLongArray = new LatLongArray(
+                    List.of(new LatLong(55.030, 73.2695),
+                            new LatLong(55.040, 73.2795)));
+            Rectangle rectangle = new Rectangle(latLongArray);
+            rectangle.createTo(mapView);
+            rectangle.addTo(mapView);
+        });
+
+
         cancelSelectionButton.setOnAction(event -> {
             // отменяет выбор маркеров по области
            // mapPane.getMapView().getAdapterManager().clearAdapters(mapPane.getCircleDrawAdapter());
 
             //   markerTest.get().removeFrom(mapView);
-
 
         });
 
