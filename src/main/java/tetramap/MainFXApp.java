@@ -4,11 +4,11 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import tetramap.config.MapConfig;
-import tetramap.entity.types.LatLong;
-import tetramap.entity.TileLayer;
 import tetramap.entity.Attribution;
+import tetramap.entity.TileLayer;
 import tetramap.entity.control.ScaleControl;
 import tetramap.entity.control.ZoomControl;
+import tetramap.entity.types.LatLong;
 import tetramap.gui.MapPaneJavaFX;
 import tetramap.gui.MapView;
 import tetramap.gui.MapViewJavaFX;
@@ -54,13 +54,13 @@ public class MainFXApp extends Application {
 
         // Создаем настройки для карты
         LeafletMap map  = new LeafletMap("map", new LatLong(55.030, 73.2695), 14,
-                true, layers.get(0), attribution);
+                false, layers.get(0), attribution);
 
 
         // Добавляем это все в конфигурационный файл
         MapConfig mapConfig = new MapConfig(
                 layers,
-                new ZoomControl(true, LeafletControl.ControlPosition.bottomleft),
+                new ZoomControl(false, LeafletControl.ControlPosition.bottomleft),
                 new ScaleControl(true, LeafletControl.ControlPosition.bottomleft,true),
                 map
         );

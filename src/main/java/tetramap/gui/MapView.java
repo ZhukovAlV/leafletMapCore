@@ -89,4 +89,19 @@ public interface MapView {
      *
      */
     void remove();
+
+    /**
+     * Уменьшение масштаба карты
+     */
+    void zoomIn();
+
+    /**
+     * Увеличение масштаба карты
+     */
+    void zoomOut();
+
+    /**
+     * Переход к центру карты
+     */
+    void moveToCenter();
 }

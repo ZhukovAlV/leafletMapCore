@@ -219,6 +219,24 @@ public class MapViewJavaFX extends StackPane implements MapView {
     }
 
     @Override
+    public void zoomIn() {
+        log.info("Масштаб карты уменьшен до: {}", "");
+        execScript(map.getId() + ".zoomIn();");
+    }
+
+    @Override
+    public void zoomOut() {
+        log.info("Масштаб карты увеличен до: {}", "");
+        execScript(map.getId() + ".zoomOut();");
+    }
+
+    @Override
+    public void moveToCenter() {
+        log.info("Перемещение карты к центру: {}", "");
+        execScript(map.getId() + ".panTo(" + map.getCenter() + ");");
+    }
+
+    @Override
     public boolean hasLayer(Layer layer) {
         log.info("Проверка layer на exist: {}", String.join("",layer.getLeafletType(), ", id: ", layer.getId()));
         // TODO доделать метод

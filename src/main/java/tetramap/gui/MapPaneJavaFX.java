@@ -174,6 +174,13 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
         // Добавляем слушателя на кнопки
     //    circleSelectionButton.setOnAction(event -> mapView.getCircleDrawAdapter().draw());
 
+        // Установка слушателей масштаба карты
+        zoomInButton.setOnAction(event -> mapView.zoomIn());
+        zoomOutButton.setOnAction(event -> mapView.zoomOut());
+
+        // Слушатель на центр карты
+        centerButton.setOnAction(event -> mapView.moveToCenter());
+
         circleSelectionButton.setOnAction(event -> {
             // Добавим маркер
 /*            Icon icon = new Icon(getClass().getResource("../../markerIcon/subscriber/marker_green.png").getPath());
