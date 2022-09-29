@@ -53,8 +53,8 @@ public class MainFXApp extends Application {
         Attribution attribution = new Attribution();
 
         // Создаем настройки для карты
-        LeafletMap map  = new LeafletMap("map", new LatLong(55.030, 73.2695), 14,
-                false, layers.get(0), attribution);
+        LeafletMap map  = new LeafletMap("map", new LatLong(55.030, 73.2695),
+                14, 0, 18,false, layers.get(0), attribution);
 
 
         // Добавляем это все в конфигурационный файл

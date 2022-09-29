@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
-import tetramap.entity.types.LatLong;
-import tetramap.entity.TileLayer;
 import tetramap.entity.Attribution;
+import tetramap.entity.TileLayer;
+import tetramap.entity.types.LatLong;
 import tetramap.gui.MapView;
 import tetramap.type.TypeInstantiatesMap;
 
@@ -22,8 +22,11 @@ public class LeafletMap extends LeafletObject {
     private static final long serialVersionUID = 3789693345308589828L;
 
     private String name;
+
     private LatLong center;
     private int zoom;
+    private int minZoom;
+    private int maxZoom;
     private boolean zoomControl;
     private TileLayer tileLayer;
 
