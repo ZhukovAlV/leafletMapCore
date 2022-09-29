@@ -1,4 +1,4 @@
-package tetramap.entity;
+package tetramap.entity.vectors;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,5 +1,6 @@
-package tetramap.entity;
+package tetramap.entity.vectors;
 
+import tetramap.entity.LatLong;
 import tetramap.type.TypeInstantiatesMap;
 
 import java.io.Serial;

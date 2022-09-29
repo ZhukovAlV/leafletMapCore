@@ -9,9 +9,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import lombok.extern.log4j.Log4j2;
-import tetramap.entity.LatLong;
-import tetramap.entity.Icon;
-import tetramap.entity.Marker;
+import tetramap.entity.*;
+import tetramap.entity.vectors.Circle;
 import tetramap.event.impl.LabelLatLong;
 
 import java.io.InputStream;
@@ -171,60 +170,28 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
 
         // Добавляем слушателя на кнопки
     //    circleSelectionButton.setOnAction(event -> mapView.getCircleDrawAdapter().draw());
-
-        // Тестируем
-        AtomicReference<Marker> markerTest = new AtomicReference<>();
-
+        
         circleSelectionButton.setOnAction(event -> {
             Icon icon = new Icon(getClass().getResource("../../markerIcon/subscriber/marker_green.png").getPath());
             icon.createTo(mapView);
-            Marker marker = new Marker(new LatLong(55.030, 73.2695), icon);
-            markerTest.set(marker);
+            Marker marker = new Marker(new LatLong(55.040, 73.2695), icon);
             marker.createTo(mapView);
             marker.addTo(mapView);
-        });
 
+            // Добавим круг
+            LatLong latLong = new LatLong(55.030, 73.2695);
+            Circle circle = new Circle(latLong, 300);
+            circle.createTo(mapView);
+            circle.addTo(mapView);
+        });
 
         cancelSelectionButton.setOnAction(event -> {
             // отменяет выбор маркеров по области
            // mapPane.getMapView().getAdapterManager().clearAdapters(mapPane.getCircleDrawAdapter());
 
-/*
-            mapView.execScript("""
-                    var myIcon = L.icon({
-                        iconUrl: '../../markerIcon/subscriber/marker_green.png',
-                        iconSize:     [24, 24],
-                        iconAnchor: [12, 12],
-                    });
-                                        
-                    var captionMarker = L.marker([55.030, 73.2795], {icon: myIcon})
-                        .bindTooltip("Test Label",\s
-                        {
-                            permanent: true,\s
-                            direction: 'bottom'
-                        }
-                    );
-                    captionMarker.addTo(map);
-                                        
-                    var marker = L.marker([55.030, 73.2695], {icon: myIcon});
-                    marker.bindPopup("<b>Здесь текст</b><br>для маркера.").openPopup();
-                    marker.addTo(map);
-                    """
-            );
-*/
+            //   markerTest.get().removeFrom(mapView);
 
-                // Добавим маркер
-    /*        LatLong latLong = new LatLong(55.030, 73.2695);
-            Icon icon = new IconLeaflet(getClass().getResource("../markerIcon/subscriber/marker_green.png").getPath());
-            mapView.execScript("var myIcon = L.icon({iconUrl: '" + icon.getIconUrl() + "', iconSize: [24, 24], iconAnchor: [12, 12], });");
-            mapView.execScript("L.marker([" + latLong.getLatitude() + "," + latLong.getLongitude() + "], {icon: myIcon}).addTo(map);");*/
 
-    /*        LatLong latLong = new LatLong(55.030, 73.2695);
-            Icon icon = new IconLeaflet(getClass().getResource("../markerIcon/subscriber/marker_green.png").getPath());
-            MarkerLeaflet marker = new MarkerLeaflet(latLong, icon);
-            mapView.addTo(marker);*/
-
-            markerTest.get().removeFrom(mapView);
         });
 
       //  mapView.getMarkerDrawAdapter().draw();

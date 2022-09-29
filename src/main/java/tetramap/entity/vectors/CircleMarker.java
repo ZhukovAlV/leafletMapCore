@@ -1,7 +1,8 @@
-package tetramap.entity;
+package tetramap.entity.vectors;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import tetramap.entity.LatLong;
 import tetramap.type.TypeInstantiatesMap;
 
 import java.io.Serial;
@@ -15,6 +16,13 @@ public class CircleMarker extends Path {
 
     private final LatLong center;
     private final double radius;
+
+    @Override
+    public String toString() {
+        return "([" + center.getLatitude() + "," +
+                center.getLongitude() + "], {radius: " +
+                radius + "})";
+    }
 
     @Override
     public String getTypeInstantiatesMap() {
