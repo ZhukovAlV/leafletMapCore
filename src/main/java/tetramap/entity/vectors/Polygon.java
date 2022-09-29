@@ -1,6 +1,6 @@
 package tetramap.entity.vectors;
 
-import tetramap.entity.LatLong;
+import tetramap.entity.types.LatLong;
 import tetramap.entity.vectors.structure.GeometryStructure;
 import tetramap.entity.vectors.structure.LatLongArray;
 import tetramap.entity.vectors.structure.MultiLatLongArray;

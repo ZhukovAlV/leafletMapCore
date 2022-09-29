@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
-import tetramap.entity.LatLong;
+import tetramap.entity.types.LatLong;
 import tetramap.entity.TileLayer;
 import tetramap.entity.Attribution;
 import tetramap.gui.MapView;

@@ -3,7 +3,7 @@ package tetramap.entity.vectors;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import tetramap.entity.LatLong;
+import tetramap.entity.types.LatLong;
 import tetramap.type.TypeInstantiatesMap;
 
 import java.io.Serial;

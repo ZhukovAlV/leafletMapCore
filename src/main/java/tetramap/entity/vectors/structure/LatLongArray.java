@@ -1,7 +1,7 @@
 package tetramap.entity.vectors.structure;
 
-import tetramap.entity.LatLong;
-import tetramap.entity.LatLongBounds;
+import tetramap.entity.types.LatLong;
+import tetramap.entity.types.LatLongBounds;
 
 import java.io.Serial;
 import java.util.ArrayList;

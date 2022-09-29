@@ -1,7 +1,7 @@
 package tetramap.event.impl;
 
 import javafx.scene.control.Label;
-import tetramap.entity.LatLong;
+import tetramap.entity.types.LatLong;
 import tetramap.event.MapMoveEventListener;
 
 public class LabelLatLong extends Label implements MapMoveEventListener {

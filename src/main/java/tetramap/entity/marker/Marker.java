@@ -1,10 +1,11 @@
-package tetramap.entity;
+package tetramap.entity.marker;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import tetramap.entity.types.Icon;
+import tetramap.entity.types.LatLong;
 import tetramap.layer.Layer;
-import tetramap.leaflet.LeafletObject;
 import tetramap.type.TypeInstantiatesMap;
 
 import java.io.Serial;

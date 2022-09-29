@@ -1,9 +1,8 @@
-package tetramap.entity;
+package tetramap.entity.types;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import tetramap.leaflet.LeafletBasicType;
 import tetramap.leaflet.LeafletObject;
 import tetramap.type.TypeInstantiatesMap;
 
@@ -15,7 +14,7 @@ import java.io.Serial;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
-public class Icon extends LeafletObject implements LeafletBasicType {
+public class Icon extends LeafletObject implements BasicType {
 
     @Serial
     private static final long serialVersionUID = -5884170824139869060L;

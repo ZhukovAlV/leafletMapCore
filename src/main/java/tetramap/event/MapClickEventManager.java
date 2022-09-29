@@ -1,6 +1,6 @@
 package tetramap.event;
 
-import tetramap.entity.LatLong;
+import tetramap.entity.types.LatLong;
 
 import java.util.ArrayList;
 

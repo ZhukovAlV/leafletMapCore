@@ -1,4 +1,4 @@
-package tetramap.leaflet;
+package tetramap.entity.types;
 
 import tetramap.gui.MapView;
 
@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Базовый тип для Leaflet объектов
  */
-public interface LeafletBasicType extends Serializable {
+public interface BasicType extends Serializable {
 
     /**
      * Получение класса для Leaflet

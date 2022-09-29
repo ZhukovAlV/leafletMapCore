@@ -1,6 +1,6 @@
 package tetramap.entity.vectors.structure;
 
-import tetramap.entity.LatLongBounds;
+import tetramap.entity.types.LatLongBounds;
 
 /**
  * Core interface to geometry structures

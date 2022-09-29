@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import tetramap.config.MapConfig;
-import tetramap.entity.LatLong;
+import tetramap.entity.types.LatLong;
 import tetramap.entity.TileLayer;
 import tetramap.entity.Attribution;
 import tetramap.entity.control.ScaleControl;
