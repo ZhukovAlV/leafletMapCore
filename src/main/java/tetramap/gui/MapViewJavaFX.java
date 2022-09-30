@@ -19,6 +19,7 @@ import tetramap.event.MapClickEventManager;
 import tetramap.event.MapMoveEventListener;
 import tetramap.event.MapMoveEventManager;
 import tetramap.layer.Layer;
+import tetramap.layer.groups.LayerGroup;
 import tetramap.leaflet.LeafletMap;
 
 import java.net.URL;
@@ -37,6 +38,9 @@ public class MapViewJavaFX extends StackPane implements MapView {
     // Карта
     private LeafletMap map;
 
+    // Все слои на карте
+    private final LayerGroup layerGroup;
+
     // Менеджер на нажатие мыши
     private final MapClickEventManager mapClickEventManager;
     // Менеджер на перемещение мыши
@@ -47,6 +51,8 @@ public class MapViewJavaFX extends StackPane implements MapView {
 
         mapClickEventManager = new MapClickEventManager();
         mapMoveEventManager = new MapMoveEventManager();
+
+        layerGroup = new LayerGroup();
     }
 
     @Override
@@ -104,8 +110,12 @@ public class MapViewJavaFX extends StackPane implements MapView {
             zoomControl.addTo(this);
         }
 
+        // Добавляем слушателей в mapView
         addMouseMoveEvent();
         addMouseClickEvent();
+
+        // Добавляем layerGroup в mapView
+        layerGroup.addTo(this);
     }
 
     @Override
@@ -230,6 +240,11 @@ public class MapViewJavaFX extends StackPane implements MapView {
     public void moveToCenter() {
         log.info("Перемещение карты к центру: {}", map.getCenter());
         execScript(map.getId() + ".panTo(" + map.getCenter() + ");");
+    }
+
+    @Override
+    public LayerGroup getLayerGroup() {
+        return layerGroup;
     }
 
     @Override

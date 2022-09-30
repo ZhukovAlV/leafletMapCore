@@ -67,9 +67,6 @@ public class MainFXApp extends Application {
 
         MapView mapView = new MapViewJavaFX();
         mapView.displayMap(mapConfig);
-        /* mapView.addMouseClickEvent();
-                mapView.addMouseMoveEvent();*/
-
 
         MapPaneJavaFX mapPaneJavaFX = new MapPaneJavaFX(mapView);
         mapPaneJavaFX.initialize();

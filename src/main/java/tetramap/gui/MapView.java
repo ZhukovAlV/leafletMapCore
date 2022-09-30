@@ -4,6 +4,7 @@ import tetramap.config.MapConfig;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapMoveEventListener;
 import tetramap.layer.Layer;
+import tetramap.layer.groups.LayerGroup;
 import tetramap.leaflet.LeafletMap;
 
 /**
@@ -104,4 +105,10 @@ public interface MapView {
      * Переход к центру карты
      */
     void moveToCenter();
+
+    /**
+     * Получения всех слоев на карте
+     * @return LayerGroup слоев на карте
+     */
+    LayerGroup getLayerGroup();
 }

@@ -9,13 +9,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import lombok.extern.log4j.Log4j2;
+import tetramap.entity.marker.Marker;
+import tetramap.entity.types.Icon;
 import tetramap.entity.types.LatLong;
 import tetramap.entity.vectors.Circle;
 import tetramap.entity.vectors.Polygon;
 import tetramap.entity.vectors.Rectangle;
 import tetramap.entity.vectors.structure.LatLongArray;
 import tetramap.event.impl.LabelLatLong;
-import tetramap.layer.groups.LayerGroup;
 
 import java.io.InputStream;
 import java.util.Arrays;
@@ -183,24 +184,26 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
         centerButton.setOnAction(event -> mapView.moveToCenter());
 
 
-        // Создадим групповой слой для тестирования, при нажатии на карте крестика все слои будут удаляться
-        LayerGroup layerGroup = new LayerGroup();
+        rulerToggleButton.setOnAction(event -> {
+
+            Icon icon = new Icon(getClass().getResource("../../markerIcon/subscriber/marker_green.png").getPath());
+            icon.addTo(mapView);
+
+            // Добавим маркер N раз
+            LatLong latLong = new LatLong(55.040, 73.2695);
+            for (int i = 0; i < 1000; i++) {
+                latLong = new LatLong(latLong.getLatitude() + 0.001, latLong.getLongitude() + 0.001);
+                Marker marker = new Marker(latLong, icon);
+                mapView.getLayerGroup().addLayer(marker);
+            }
+        });
 
         circleSelectionButton.setOnAction(event -> {
-            // Добавим маркер
-/*            Icon icon = new Icon(getClass().getResource("../../markerIcon/subscriber/marker_green.png").getPath());
-            icon.createTo(mapView);
-            Marker marker = new Marker(new LatLong(55.040, 73.2695), icon);
-            marker.createTo(mapView);
-            marker.addTo(mapView);*/
-
-            layerGroup.addTo(mapView);
-
             // Добавим круг
             LatLong latLong = new LatLong(55.030, 73.2695);
             Circle circle = new Circle(latLong, 300);
             //circle.addTo(mapView);
-            layerGroup.addLayer(circle);
+            mapView.getLayerGroup().addLayer(circle);
         });
 
         polygonSelectionButton.setOnAction(event -> {
@@ -212,7 +215,6 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
            Polyline polyline = new Polyline(latLongArray);
             polyline.createTo(mapView);
 */
-            layerGroup.addTo(mapView);
 
             // Добавим полигон
             LatLongArray latLongArray2 = new LatLongArray(
@@ -223,19 +225,17 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
                             new LatLong(55.020, 73.2495)));
             Polygon polygon = new Polygon(latLongArray2);
             //polygon.addTo(mapView);
-            layerGroup.addLayer(polygon);
+            mapView.getLayerGroup().addLayer(polygon);
         });
 
         boxSelectionButton.setOnAction(event -> {
-            layerGroup.addTo(mapView);
-
             // Рисуем прямоугольник
             LatLongArray latLongArray = new LatLongArray(
                     List.of(new LatLong(55.030, 73.2695),
                             new LatLong(55.040, 73.2795)));
             Rectangle rectangle = new Rectangle(latLongArray);
            // rectangle.addTo(mapView);
-            layerGroup.addLayer(rectangle);
+            mapView.getLayerGroup().addLayer(rectangle);
         });
 
 
@@ -243,7 +243,7 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
             // отменяет выбор маркеров по области
            // mapPane.getMapView().getAdapterManager().clearAdapters(mapPane.getCircleDrawAdapter());
 
-            layerGroup.clearLayers();
+            mapView.getLayerGroup().clearLayers();
         });
 
             /*    public void addTrack() {
