@@ -192,8 +192,12 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
             // Добавим круг
             LatLong latLong = new LatLong(55.030, 73.2695);
             Circle circle = new Circle(latLong, 300);
-            circle.createTo(mapView);
             circle.addTo(mapView);
+
+/*            LayerGroup layerGroup = new LayerGroup();
+            layerGroup.addTo(mapView);;
+
+            layerGroup.addLayer(circle);*/
         });
 
         polygonSelectionButton.setOnAction(event -> {
@@ -204,7 +208,7 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
                             new LatLong(55.030, 73.2795)));
            Polyline polyline = new Polyline(latLongArray);
             polyline.createTo(mapView);
-            polyline.addTo(mapView);*/
+*/
 
             // Добавим полигон
             LatLongArray latLongArray2 = new LatLongArray(
@@ -214,7 +218,6 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
                             new LatLong(55.030, 73.2795),
                             new LatLong(55.020, 73.2495)));
             Polygon polygon = new Polygon(latLongArray2);
-            polygon.createTo(mapView);
             polygon.addTo(mapView);
         });
 
@@ -224,7 +227,6 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
                     List.of(new LatLong(55.030, 73.2695),
                             new LatLong(55.040, 73.2795)));
             Rectangle rectangle = new Rectangle(latLongArray);
-            rectangle.createTo(mapView);
             rectangle.addTo(mapView);
         });
 

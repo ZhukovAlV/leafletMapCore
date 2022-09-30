@@ -33,7 +33,11 @@ public interface BasicType extends Serializable {
      * Создание слоя во View карты
      * @param mapView View карты
      */
-    default void createTo(MapView mapView) {
-        mapView.execScript(String.join("","var ", this.getId(), " = L.", this.getTypeInstantiatesMap(), this.toString(), ";"));
-    }
+    void addTo(MapView mapView);
+
+    /**
+     * Возвращает MapView, в котором был создан объект
+     * @return MapView
+     */
+    MapView getMapView();
 }

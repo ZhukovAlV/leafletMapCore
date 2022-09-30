@@ -77,31 +77,28 @@ public class MapViewJavaFX extends StackPane implements MapView {
 
         // Создаем тайловые слои для карты
         List<TileLayer> tileLayerList = mapConfig.getLayers();
-        tileLayerList.forEach(tileLayer -> tileLayer.createTo(this));
+        tileLayerList.forEach(tileLayer -> tileLayer.addTo(this));
 
         BaseMaps baseMaps = new BaseMaps(tileLayerList);
-        baseMaps.createTo(this);
+        baseMaps.addTo(this);
 
         // Создаем карту (map здесь это div контейнер)
         map = mapConfig.getMap();
-        map.createTo(this);
+        map.addTo(this);
 
         // Создаем меню выбора тайловых слоев
         LayersControl layersControl = new LayersControl(baseMaps);
-        layersControl.createTo(this);
         layersControl.addTo(this);
 
         // Настройки масштаба
         ScaleControl scaleControl = mapConfig.getScaleControl();
         if (scaleControl.isShow()) {
-            scaleControl.createTo(this);
             scaleControl.addTo(this);
         }
 
         // Настройки Zoom
         ZoomControl zoomControl = mapConfig.getZoomControl();
         if (zoomControl.isShow()) {
-            zoomControl.createTo(this);
             zoomControl.addTo(this);
         }
     }

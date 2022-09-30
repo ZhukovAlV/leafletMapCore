@@ -11,9 +11,10 @@ public enum TypeInstantiatesMap {
     control, // Control
     scale, // Масштаб
     zoom, // Зумм
-    polyline,
-    polygon,
-    circleMarker,
-    circle, // Круг
-    rectangle
+    polyline, // Линия
+    polygon, //Полигон
+    circleMarker, // Простая версия круга
+    circle, // Круг расширенный (наследуется от circleMarker)
+    rectangle, // Квадрат
+    layerGroup // Слой группировки других слоев
 }

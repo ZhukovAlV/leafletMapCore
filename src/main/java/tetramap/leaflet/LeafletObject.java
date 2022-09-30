@@ -2,6 +2,7 @@ package tetramap.leaflet;
 
 import lombok.Data;
 import tetramap.entity.types.BasicType;
+import tetramap.gui.MapView;
 
 import java.util.UUID;
 
@@ -12,12 +13,23 @@ import java.util.UUID;
 public abstract class LeafletObject implements BasicType {
 
     /**
+     * MapView в котором создан LeafletObject
+     */
+    private MapView mapView;
+
+    /**
      * Генерируется уникальный ID
      */
-    private String id = String.join("_", this.getLeafletType(), UUID.randomUUID().toString().replaceAll("-", "_"));
+    private final String ID = String.join("_", this.getLeafletType(), UUID.randomUUID().toString().replaceAll("-", "_"));
 
     @Override
     public String getId() {
-        return id;
+        return ID;
+    }
+
+    @Override
+    public void addTo(MapView mapView) {
+        this.mapView = mapView;
+        mapView.execScript(String.join("","var ", this.getId(), " = L.", this.getTypeInstantiatesMap(), this.toString(), ";"));
     }
 }

@@ -11,19 +11,16 @@ public abstract class Layer extends LeafletObject {
 
     /**
      * Добавления слоя на карту
-     *
-     * @param mapView карта
      */
     public void addTo(MapView mapView) {
-        mapView.addLayer(this);
+        super.addTo(mapView);
+        getMapView().addLayer(this);
     }
 
     /**
      * Удаление слоя с карты
-     *
-     * @param mapView карта
      */
-    public void removeFrom(MapView mapView){
-        mapView.removeLayer(this);
+    public void remove(){
+        getMapView().removeLayer(this);
     }
 }

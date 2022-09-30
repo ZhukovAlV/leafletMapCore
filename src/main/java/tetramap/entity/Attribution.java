@@ -26,12 +26,14 @@ public class Attribution extends LeafletObject {
     /**
      * Добавление префикса к карте
      */
-    public void setPrefix(MapView mapView) {
+    public void setPrefix() {
         log.info("Установка префикса объекту Attribution (название слоя карты в углу карты), id: {}", this.getId());
-        mapView.execScript(String.join("", this.getId(), ".setPrefix('", this.getPrefix() , "');"));
+        getMapView().execScript(String.join("", this.getId(), ".setPrefix('", this.getPrefix() , "');"));
     }
 
-    public void createTo(MapView mapView) {
+    public void addTo(MapView mapView) {
+        setMapView(mapView);
+
         log.info("Создание Attribution (название слоя карты в углу карты), id: {}", getId());
         mapView.execScript(String.join("","var ", this.getId(), " = ", mapView.getMap().getId(), ".", this.getTypeInstantiatesMap(), ";"));
     }
