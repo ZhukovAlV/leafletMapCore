@@ -246,6 +246,18 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
             layerGroup.clearLayers();
         });
 
+            /*    public void addTrack() {
+        Collection destination = new ArrayList();
+        destination.add("    [" + 55.030 + ", " + 73.2695 + ']');
+        destination.add("    [" + 55.130 + ", " + 73.3695 + ']');
+
+        StringBuffer jsPositions = new StringBuffer();
+        destination.forEach(elem -> jsPositions.append(elem).append(", \n"));
+
+        String script = "var latLngs = [" + jsPositions + "]; var polyline = L.polyline(latLngs, {color: 'red', weight: 2}).addTo(map); map.fitBounds(polyline.getBounds());";
+        this.execScript(script);
+    }*/
+
       //  mapView.getMarkerDrawAdapter().draw();
     }
 

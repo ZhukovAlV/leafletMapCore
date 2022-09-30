@@ -6,12 +6,14 @@ import javafx.concurrent.Worker;
 import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebView;
 import lombok.extern.log4j.Log4j2;
+import netscape.javascript.JSObject;
 import tetramap.config.MapConfig;
 import tetramap.entity.BaseMaps;
 import tetramap.entity.TileLayer;
 import tetramap.entity.control.LayersControl;
 import tetramap.entity.control.ScaleControl;
 import tetramap.entity.control.ZoomControl;
+import tetramap.entity.types.LatLong;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapClickEventManager;
 import tetramap.event.MapMoveEventListener;
@@ -141,61 +143,49 @@ public class MapViewJavaFX extends StackPane implements MapView {
     /**
      * Реализация события вызова метода mapMove() при перемещении мыши
      */
-/*    public void addMouseMoveEvent() {
-        Object document = leafletMap.execScript("document");
+    public void addMouseMoveEvent() {
+        Object document = execScript("document");
         if (document == null) {
             throw new NullPointerException("null cannot be cast to non-null type netscape.javascript.JSObject");
         } else {
             JSObject win = (JSObject)document;
             win.setMember("java", this);
-            leafletMap.execScript("map.on('mousemove', function(e){ document.java.mapMove(e.latlng.lat, e.latlng.lng);});");
+            execScript("map.on('mousemove', function(e){ document.java.mapMove(e.latlng.lat, e.latlng.lng);});");
         }
-    }*/
+    }
 
     /**
      * Вызов метода mapMoveEvent у каждого слушателя для определенного LatLong
      * @param lat широта
      * @param lng долгота
      */
-/*    public void mapMove(double lat, double lng) {
+    public void mapMove(double lat, double lng) {
         LatLong latlng = new LatLong(lat, lng);
         mapMoveEventManager.mapMoveEvent(latlng);
-    }*/
+    }
 
     /**
      * Реализация события вызова метода mapClick() при нажатии мыши
      */
-/*    public void addMouseClickEvent() {
-        Object document = leafletMap.execScript("document");
+    public void addMouseClickEvent() {
+        Object document = execScript("document");
         if (document == null) {
             throw new NullPointerException("null cannot be cast to non-null type netscape.javascript.JSObject");
         } else {
             JSObject win = (JSObject)document;
             win.setMember("java", this);
-            leafletMap.execScript("map.on('click', function(e){ document.java.mapClick(e.latlng.lat, e.latlng.lng);});");
+            execScript("map.on('click', function(e){ document.java.mapClick(e.latlng.lat, e.latlng.lng);});");
         }
-    }*/
+    }
 
     /**
      * Вызов метода mapClickEvent у каждого слушателя для определенного LatLong
      */
-/*    public void mapClick(double lat, double lng) {
+    public void mapClick(double lat, double lng) {
         System.out.println(lat + " " + lng);
         LatLong latlng = new LatLong(lat, lng);
         mapClickEventManager.mapClickEvent(latlng);
-    }*/
-
-    /*    public void addTrack() {
-        Collection destination = new ArrayList();
-        destination.add("    [" + 55.030 + ", " + 73.2695 + ']');
-        destination.add("    [" + 55.130 + ", " + 73.3695 + ']');
-
-        StringBuffer jsPositions = new StringBuffer();
-        destination.forEach(elem -> jsPositions.append(elem).append(", \n"));
-
-        String script = "var latLngs = [" + jsPositions + "]; var polyline = L.polyline(latLngs, {color: 'red', weight: 2}).addTo(map); map.fitBounds(polyline.getBounds());";
-        this.execScript(script);
-    }*/
+    }
 
     @Override
     public void addLayer(Layer layer) {
