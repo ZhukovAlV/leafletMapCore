@@ -198,6 +198,19 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
             }
         });
 
+        routeToggleButton.setOnAction(event -> {
+/*            List<String> destination = new ArrayList<>();
+            destination.add("[" + 55.030 + ", " + 73.2695 + "]");
+            destination.add("[" + 55.130 + ", " + 73.3695 + "]");
+
+            StringBuffer jsPositions = new StringBuffer();
+            destination.forEach(elem -> jsPositions.append(elem).append(", \n"));
+
+            String script = "var latLngs = [" + jsPositions + "]; var polyline = L.polyline(latLngs, {color: 'red', weight: 2}).addTo(" + mapView.getMap().getId() + "); "
+                    + mapView.getMap().getId() + ".fitBounds(polyline.getBounds());";
+            mapView.execScript(script);*/
+        });
+
         circleSelectionButton.setOnAction(event -> {
             // Добавим круг
             LatLong latLong = new LatLong(55.030, 73.2695);
@@ -245,18 +258,6 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
 
             mapView.getLayerGroup().clearLayers();
         });
-
-            /*    public void addTrack() {
-        Collection destination = new ArrayList();
-        destination.add("    [" + 55.030 + ", " + 73.2695 + ']');
-        destination.add("    [" + 55.130 + ", " + 73.3695 + ']');
-
-        StringBuffer jsPositions = new StringBuffer();
-        destination.forEach(elem -> jsPositions.append(elem).append(", \n"));
-
-        String script = "var latLngs = [" + jsPositions + "]; var polyline = L.polyline(latLngs, {color: 'red', weight: 2}).addTo(map); map.fitBounds(polyline.getBounds());";
-        this.execScript(script);
-    }*/
 
       //  mapView.getMarkerDrawAdapter().draw();
     }
