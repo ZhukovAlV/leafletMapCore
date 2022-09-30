@@ -103,6 +103,9 @@ public class MapViewJavaFX extends StackPane implements MapView {
         if (zoomControl.isShow()) {
             zoomControl.addTo(this);
         }
+
+        addMouseMoveEvent();
+        addMouseClickEvent();
     }
 
     @Override
@@ -150,7 +153,7 @@ public class MapViewJavaFX extends StackPane implements MapView {
         } else {
             JSObject win = (JSObject)document;
             win.setMember("java", this);
-            execScript("map.on('mousemove', function(e){ document.java.mapMove(e.latlng.lat, e.latlng.lng);});");
+            execScript(getMap().getId() + ".on('mousemove', function(e){ document.java.mapMove(e.latlng.lat, e.latlng.lng);});");
         }
     }
 
@@ -174,7 +177,7 @@ public class MapViewJavaFX extends StackPane implements MapView {
         } else {
             JSObject win = (JSObject)document;
             win.setMember("java", this);
-            execScript("map.on('click', function(e){ document.java.mapClick(e.latlng.lat, e.latlng.lng);});");
+            execScript(getMap().getId() + ".on('click', function(e){ document.java.mapClick(e.latlng.lat, e.latlng.lng);});");
         }
     }
 
