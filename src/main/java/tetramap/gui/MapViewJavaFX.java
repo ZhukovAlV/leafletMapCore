@@ -81,8 +81,6 @@ public class MapViewJavaFX extends StackPane implements MapView {
     }
 
     private void executeMapSetupScripts(MapConfig mapConfig) {
-        StringBuilder stringBuilder;
-
         // Создаем тайловые слои для карты
         List<TileLayer> tileLayerList = mapConfig.getLayers();
         tileLayerList.forEach(tileLayer -> tileLayer.addTo(this));
