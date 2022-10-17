@@ -32,21 +32,28 @@ public class MainFXApp extends Application {
                 ,"OpenStreetMap"
                 , false
                 ,"abc"
-                ,0
+                ,10
                 ,18));
         layers.add(new TileLayer("YandexMap"
-                , "http://sat0{s}.maps.yandex.net/tiles?l=sat&x={x}&y={y}&z={z}"
+                , "https://core-renderer-tiles.maps.yandex.net/tiles?l=map&x={x}&y={y}&z={z}&scale=1&lang=ru_RU"
                 ,"YandexMap"
                 , true
-                ,"123"
-                ,0
+                ,"1234"
+                ,10
+                ,18));
+        layers.add(new TileLayer("YandexMapSputnik"
+                , "http://sat0{s}.maps.yandex.net/tiles?l=sat&x={x}&y={y}&z={z}"
+                ,"YandexMapSputnik"
+                , true
+                ,"1234"
+                ,10
                 ,18));
         layers.add(new TileLayer("2GIS"
                 , "http://tile{s}.maps.2gis.com/tiles?x={x}&y={y}&z={z}"
                 ,"2GIS"
                 , false
                 ,"0123"
-                ,0
+                ,10
                 ,18));
 
         // Установка значения (названия) префикса внизу карты справа (по умолчанию пусто)
