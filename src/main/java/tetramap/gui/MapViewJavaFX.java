@@ -217,6 +217,12 @@ public class MapViewJavaFX extends StackPane implements MapView {
     }
 
     @Override
+    public void bindPopup(Layer layer) {
+/*        log.info("Добавляем Popup к layer: {}", );
+        execScript(layer.getId(), ".removeFrom(", map.getId(), ");");*/
+    }
+
+    @Override
     public void zoomIn() {
         if (map.getMaxZoom() > map.getZoom()) {
             map.setZoom(map.getZoom() + 1);

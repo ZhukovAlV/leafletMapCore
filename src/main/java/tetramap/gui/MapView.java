@@ -92,6 +92,12 @@ public interface MapView {
     void remove();
 
     /**
+     * Установка Popup (всплывающее сообщение) для объекта
+     *
+     */
+    void bindPopup(Layer layer);
+
+    /**
      * Уменьшение масштаба карты
      */
     void zoomIn();

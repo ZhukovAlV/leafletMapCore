@@ -16,5 +16,6 @@ public enum TypeInstantiatesMap {
     circleMarker, // Простая версия круга
     circle, // Круг расширенный (наследуется от circleMarker)
     rectangle, // Квадрат
-    layerGroup // Слой группировки других слоев
+    layerGroup, // Слой группировки других слоев
+    divOverlay // DivOverlay
 }
