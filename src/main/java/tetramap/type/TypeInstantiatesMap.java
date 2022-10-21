@@ -17,5 +17,6 @@ public enum TypeInstantiatesMap {
     circle, // Круг расширенный (наследуется от circleMarker)
     rectangle, // Квадрат
     layerGroup, // Слой группировки других слоев
-    divOverlay // DivOverlay
+    divOverlay, // DivOverlay
+    popup // Popup (всплывающее окошко)
 }

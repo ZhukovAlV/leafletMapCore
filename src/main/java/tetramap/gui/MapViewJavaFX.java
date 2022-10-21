@@ -13,6 +13,7 @@ import tetramap.entity.TileLayer;
 import tetramap.entity.control.LayersControl;
 import tetramap.entity.control.ScaleControl;
 import tetramap.entity.control.ZoomControl;
+import tetramap.entity.popup.Popup;
 import tetramap.entity.types.LatLong;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapClickEventManager;
@@ -217,9 +218,9 @@ public class MapViewJavaFX extends StackPane implements MapView {
     }
 
     @Override
-    public void bindPopup(Layer layer) {
-/*        log.info("Добавляем Popup к layer: {}", );
-        execScript(layer.getId(), ".removeFrom(", map.getId(), ");");*/
+    public void bindPopup(Layer layer, Popup popup) {
+        log.info("Добавляем Popup к layer: {}", layer.getId());
+        execScript(layer.getId() + ".bindPopup('" + popup.getContent() + "');");
     }
 
     @Override

@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import lombok.extern.log4j.Log4j2;
 import tetramap.entity.marker.Marker;
+import tetramap.entity.popup.Popup;
 import tetramap.entity.types.Icon;
 import tetramap.entity.types.LatLong;
 import tetramap.entity.vectors.Circle;
@@ -195,6 +196,12 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
                 latLong = new LatLong(latLong.getLatitude() + 0.001, latLong.getLongitude() + 0.001);
                 Marker marker = new Marker(latLong, icon, "Marker №" + i);
                 mapView.getLayerGroup().addLayer(marker);
+
+                Popup popup = new Popup("Тестовый маркер №" + i);
+                popup.addTo(mapView);
+
+                // Добавляем подпись маркеру
+                marker.bindPopup(popup);
             }
         });
 

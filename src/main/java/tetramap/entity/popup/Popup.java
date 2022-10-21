@@ -1,11 +1,22 @@
 package tetramap.entity.popup;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import tetramap.entity.DivOverlay;
 import tetramap.entity.types.Point;
+import tetramap.type.TypeInstantiatesMap;
 
+import java.io.Serial;
+
+@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
 public class Popup extends DivOverlay {
 
+    @Serial
     private static final long serialVersionUID = 4544720725678791374L;
+
     private Integer maxWidth = 300;
     private Integer minWidth = 50;
     private Integer maxHeight;
@@ -21,102 +32,28 @@ public class Popup extends DivOverlay {
 
     public Popup(String content) {
         super(content);
-        setPane("popupPane");
     }
 
-    public Integer getMaxWidth() {
-        return maxWidth;
+    @Override
+    public String toString() {
+        return "({" +
+                "maxWidth:" + maxWidth +
+                ", minWidth:" + minWidth +
+                ", maxHeight:" + maxHeight +
+                ", autoPan:" + autoPan +
+                ", autoPanPaddingTopLeft:" + autoPanPaddingTopLeft +
+                ", autoPanPaddingBottomRight:" + autoPanPaddingBottomRight +
+                ", autoPanPadding:" + autoPanPadding +
+                ", keepInView:" + keepInView +
+                ", closeButton:" + closeButton +
+                ", autoClose:" + autoClose +
+                ", closeOnEscapeKey:" + closeOnEscapeKey +
+                ", closeOnClick:" + closeOnClick +
+                "})";
     }
 
-    public void setMaxWidth(Integer maxWidth) {
-        this.maxWidth = maxWidth;
-    }
-
-    public Integer getMinWidth() {
-        return minWidth;
-    }
-
-    public void setMinWidth(Integer minWidth) {
-        this.minWidth = minWidth;
-    }
-
-    public Integer getMaxHeight() {
-        return maxHeight;
-    }
-
-    public void setMaxHeight(Integer maxHeight) {
-        this.maxHeight = maxHeight;
-    }
-
-    public boolean isAutoPan() {
-        return autoPan;
-    }
-
-    public void setAutoPan(boolean autoPan) {
-        this.autoPan = autoPan;
-    }
-
-    public Point getAutoPanPaddingTopLeft() {
-        return autoPanPaddingTopLeft;
-    }
-
-    public void setAutoPanPaddingTopLeft(Point autoPanPaddingTopLeft) {
-        this.autoPanPaddingTopLeft = autoPanPaddingTopLeft;
-    }
-
-    public Point getAutoPanPaddingBottomRight() {
-        return autoPanPaddingBottomRight;
-    }
-
-    public void setAutoPanPaddingBottomRight(Point autoPanPaddingBottomRight) {
-        this.autoPanPaddingBottomRight = autoPanPaddingBottomRight;
-    }
-
-    public Point getAutoPanPadding() {
-        return autoPanPadding;
-    }
-
-    public void setAutoPanPadding(Point autoPanPadding) {
-        this.autoPanPadding = autoPanPadding;
-    }
-
-    public boolean isKeepInView() {
-        return keepInView;
-    }
-
-    public void setKeepInView(boolean keepInView) {
-        this.keepInView = keepInView;
-    }
-
-    public boolean isCloseButton() {
-        return closeButton;
-    }
-
-    public void setCloseButton(boolean closeButton) {
-        this.closeButton = closeButton;
-    }
-
-    public boolean isAutoClose() {
-        return autoClose;
-    }
-
-    public void setAutoClose(boolean autoClose) {
-        this.autoClose = autoClose;
-    }
-
-    public boolean isCloseOnEscapeKey() {
-        return closeOnEscapeKey;
-    }
-
-    public void setCloseOnEscapeKey(boolean closeOnEscapeKey) {
-        this.closeOnEscapeKey = closeOnEscapeKey;
-    }
-
-    public boolean isCloseOnClick() {
-        return closeOnClick;
-    }
-
-    public void setCloseOnClick(boolean closeOnClick) {
-        this.closeOnClick = closeOnClick;
+    @Override
+    public String getTypeInstantiatesMap() {
+        return TypeInstantiatesMap.popup.toString();
     }
 }

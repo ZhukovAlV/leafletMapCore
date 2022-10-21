@@ -1,6 +1,7 @@
 package tetramap.gui;
 
 import tetramap.config.MapConfig;
+import tetramap.entity.popup.Popup;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapMoveEventListener;
 import tetramap.layer.Layer;
@@ -95,7 +96,7 @@ public interface MapView {
      * Установка Popup (всплывающее сообщение) для объекта
      *
      */
-    void bindPopup(Layer layer);
+    void bindPopup(Layer layer, Popup popup);
 
     /**
      * Уменьшение масштаба карты
