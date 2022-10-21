@@ -43,9 +43,9 @@ public class Marker extends Layer {
 
     @Override
     public String toString() {
-        return String.join("","(", latLong.toString(),
+        return String.join("",latLong.toString(),
                 ", {icon: ", icon.getId(), ", " +
-                        "title: '" + title + "'})");
+                        "title: '" + title + "'}");
     }
 
     @Override

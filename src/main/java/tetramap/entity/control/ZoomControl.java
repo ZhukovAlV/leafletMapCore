@@ -20,7 +20,7 @@ public class ZoomControl extends LeafletControl {
 
     @Override
     public String toString() {
-        return String.join("", "({position:'", position.toString(), "'})");
+        return String.join("", "{position:'", position.toString(), "'}");
     }
 
     @Override

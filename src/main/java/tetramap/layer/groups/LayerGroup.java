@@ -41,7 +41,7 @@ public class LayerGroup extends Layer implements LayerGroupFunctions {
 
     @Override
     public String toString() {
-        return "()";
+        return "";
     }
 
     @Override

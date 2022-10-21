@@ -36,7 +36,7 @@ public class Popup extends DivOverlay {
 
     @Override
     public String toString() {
-        return "({" +
+        return "{" +
                 "maxWidth:" + maxWidth +
                 ", minWidth:" + minWidth +
                 ", maxHeight:" + maxHeight +
@@ -49,7 +49,7 @@ public class Popup extends DivOverlay {
                 ", autoClose:" + autoClose +
                 ", closeOnEscapeKey:" + closeOnEscapeKey +
                 ", closeOnClick:" + closeOnClick +
-                "})";
+                "}";
     }
 
     @Override

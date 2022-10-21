@@ -220,7 +220,8 @@ public class MapViewJavaFX extends StackPane implements MapView {
     @Override
     public void bindPopup(Layer layer, Popup popup) {
         log.info("Добавляем Popup к layer: {}", layer.getId());
-        execScript(layer.getId() + ".bindPopup('" + popup.getContent() + "');");
+        execScript(layer.getId() + ".bindPopup('" + popup.getContent() + "'," + popup + ");");
+     //   execScript(layer.getId() + ".bindPopup(" + popup.getId() + ");");
     }
 
     @Override

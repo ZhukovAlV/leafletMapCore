@@ -34,11 +34,11 @@ public class LeafletMap extends LeafletObject {
 
     @Override
     public String toString() {
-        return String.join("","(", name,
+        return String.join("",name,
                 ", {center: ", center.toString(),
                 ", zoom: " + zoom,
                 ", zoomControl: " + zoomControl,
-                ", layers: [", tileLayer.getId(), "]})");
+                ", layers: [", tileLayer.getId(), "]}");
     }
 
     @Override
@@ -50,7 +50,7 @@ public class LeafletMap extends LeafletObject {
         setMapView(mapView);
 
         log.info("Создание карты LeafletMap, id: {}", this.getId());
-        mapView.execScript(String.join("","var ", this.getId(), " = L.", this.getTypeInstantiatesMap(), this.toString(), ";"));
+        mapView.execScript(String.join("","var ", this.getId(), " = L.", this.getTypeInstantiatesMap(),"(", this.toString(), ");"));
 
         // Скрипт, чтобы яндекс карты работали
         mapView.execScript(this.getId() + ".on('baselayerchange', function (e) {var center = " + this.getId() +

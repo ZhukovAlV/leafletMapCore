@@ -30,7 +30,7 @@ public abstract class LeafletControl extends LeafletObject {
 
         log.info("Создание ZoomControl, id: {}", this.getId());
         mapView.execScript(String.join("","var ", this.getId(), " = L.",
-                TypeInstantiatesMap.control.toString(), ".", this.getTypeInstantiatesMap(), this.toString(), ";"));
+                TypeInstantiatesMap.control.toString(), ".", this.getTypeInstantiatesMap(), "(",this.toString(), ");"));
 
         log.info("Добавление control: {}", this.getLeafletType() + ", id: " + this.getId());
         mapView.execScript(String.join("", this.getId(), ".addTo(", mapView.getMap().getId(), ");"));

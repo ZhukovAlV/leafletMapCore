@@ -26,13 +26,13 @@ public class TileLayer extends LeafletObject {
 
     @Override
     public String toString() {
-        return String.join("","('", url, "', ",
+        return String.join("","'", url, "', ",
                 "{attribution: '", attribution, "'",
                 ", isElliptical: " + isElliptical,
                 ", subdomains: '", subdomains, "'",
                 ", minZoom: " + minZoom,
                 ", maxZoom: " + maxZoom,
-                "})");
+                "}");
     }
 
     @Override

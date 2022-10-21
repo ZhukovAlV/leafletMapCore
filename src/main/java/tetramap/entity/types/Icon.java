@@ -42,9 +42,9 @@ public class Icon extends LeafletObject implements BasicType {
 
     @Override
     public String toString() {
-        return String.join("","({iconUrl: '", iconUrl,
+        return String.join("","{iconUrl: '", iconUrl,
                 "', iconSize: ", iconSize.toString(),
-                ", iconAnchor: ", iconAnchor.toString(), "})");
+                ", iconAnchor: ", iconAnchor.toString(), "}");
     }
 
     @Override

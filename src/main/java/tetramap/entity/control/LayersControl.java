@@ -24,7 +24,7 @@ public class LayersControl extends LeafletControl {
 
     @Override
     public String toString() {
-        return "(" + tileLayerList.getId() + ", {})";
+        return tileLayerList.getId() + ", {}";
     }
 
     @Override

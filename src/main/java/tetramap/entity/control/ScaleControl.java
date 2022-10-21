@@ -21,8 +21,8 @@ public class ScaleControl extends LeafletControl {
 
     @Override
     public String toString() {
-        return String.join("", "({position:'", position.toString(),
-                "', metric: ", String.valueOf(metric), ", imperial: ", String.valueOf(!metric), "})");
+        return String.join("", "{position:'", position.toString(),
+                "', metric: ", String.valueOf(metric), ", imperial: ", String.valueOf(!metric), "}");
     }
 
     @Override

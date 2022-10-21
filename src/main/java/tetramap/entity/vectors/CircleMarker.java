@@ -30,9 +30,9 @@ public class CircleMarker extends Path {
 
     @Override
     public String toString() {
-        return "([" + center.getLatitude() + "," +
+        return "[" + center.getLatitude() + "," +
                 center.getLongitude() + "], {radius: " +
-                radius + "})";
+                radius + "}";
     }
 
     @Override
