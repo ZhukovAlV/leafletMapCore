@@ -55,7 +55,7 @@ public class RouteManager {
         try {
             graphHopper.setOSMFile(osmDataFile.getAbsolutePath());
             graphHopper.setGraphHopperLocation(osmDataFile.getParent());
-            graphHopper.setEncodingManager(EncodingManager.create("car"));
+          //  graphHopper.setEncodingManager(EncodingManager.create("car"));
             graphHopper.setProfiles((new Profile("car")).setVehicle("car").setWeighting("fastest").setTurnCosts(false));
             graphHopper.getCHPreparationHandler().setCHProfiles(new CHProfile("car"));
             graphHopper.importOrLoad();
