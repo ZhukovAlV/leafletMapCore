@@ -214,13 +214,15 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
         routeToggleButton.setOnAction(event -> {
             LatLongArray latLongArray = new LatLongArray(
                     List.of(new LatLong(55.030, 73.2695),
-                            new LatLong(55.040, 73.2795),
-                            new LatLong(55.030, 73.2795),
-                            new LatLong(55.030, 73.2795),
                             new LatLong(55.000, 73.2495)));
 
             Polyline polyline = new Polyline(routeManager.getRouteFor(latLongArray));
             mapView.getLayerGroup().addLayer(polyline);
+
+            String script =  String.join("", "var decorator = L.polylineDecorator(",
+                    polyline.getId(), ", {patterns: [ {offset: 0, repeat: 100, symbol: L.Symbol.arrowHead({pixelSize: 15, pathOptions: {fillOpacity: 1, weight: 0}})} ]}).addTo("
+                            + mapView.getMap().getId() + ");" );
+            mapView.execScript(script);
 
 
 /*            List<String> destination = new ArrayList<>();
