@@ -197,18 +197,24 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
             icon.addTo(mapView);
 
             // Добавим маркер N раз
+
+            mapView.execScript("var markers = L.markerClusterGroup();");
             LatLong latLong = new LatLong(55.040, 73.2695);
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 100; i++) {
                 latLong = new LatLong(latLong.getLatitude() + 0.001, latLong.getLongitude() + 0.001);
                 Marker marker = new Marker(latLong, icon, "Marker №" + i);
-                mapView.getLayerGroup().addLayer(marker);
+               // mapView.getLayerGroup().addLayer(marker);
+
+                mapView.execScript("var " +  marker.getId() + " = L.marker(" + marker + ");");
+                mapView.execScript("markers.addLayer(" + marker.getId() + ");");
 
                 Popup popup = new Popup("Тестовый маркер №" + i);
                 popup.addTo(mapView);
 
                 // Добавляем подпись маркеру
-                marker.bindPopup(popup);
+               // marker.bindPopup(popup);
             }
+            mapView.execScript(mapView.getMap().getId() + ".addLayer(markers);");
         });
 
         routeToggleButton.setOnAction(event -> {
