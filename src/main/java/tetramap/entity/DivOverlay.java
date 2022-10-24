@@ -2,7 +2,6 @@ package tetramap.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import tetramap.entity.types.BasicType;
 import tetramap.entity.types.LatLong;
 import tetramap.entity.types.Point;
 import tetramap.leaflet.LeafletObject;
@@ -10,7 +9,7 @@ import tetramap.type.TypeInstantiatesMap;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class DivOverlay extends LeafletObject implements BasicType {
+public class DivOverlay extends LeafletObject {
 
     /**
      * Content of the overlay.

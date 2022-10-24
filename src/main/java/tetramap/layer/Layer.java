@@ -3,6 +3,7 @@ package tetramap.layer;
 import lombok.Data;
 
 import lombok.EqualsAndHashCode;
+import lombok.extern.log4j.Log4j2;
 import tetramap.entity.popup.Popup;
 import tetramap.gui.MapView;
 import tetramap.leaflet.LeafletObject;
@@ -10,6 +11,7 @@ import tetramap.leaflet.LeafletObject;
 /**
  * Leaflet методы для Layer
  */
+@Log4j2
 @EqualsAndHashCode(callSuper = true)
 @Data
 public abstract class Layer extends LeafletObject {
@@ -37,6 +39,7 @@ public abstract class Layer extends LeafletObject {
      * Popup (всплывающее сообщение) для объекта
      */
     public void bindPopup(Popup popup){
-        getMapView().bindPopup(this, popup);
+        log.info("Добавляется Popup к layer: {}", this.getId());
+        getMapView().execScript(this.getId() + ".bindPopup('" + popup.getContent() + "'," + popup + ");");
     }
 }
