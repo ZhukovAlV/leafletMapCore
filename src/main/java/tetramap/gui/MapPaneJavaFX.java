@@ -15,10 +15,13 @@ import tetramap.entity.types.Icon;
 import tetramap.entity.types.LatLong;
 import tetramap.entity.vectors.Circle;
 import tetramap.entity.vectors.Polygon;
+import tetramap.entity.vectors.Polyline;
 import tetramap.entity.vectors.Rectangle;
 import tetramap.entity.vectors.structure.LatLongArray;
 import tetramap.event.impl.LabelLatLong;
+import tetramap.route.RouteManager;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
@@ -67,6 +70,9 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
     private static final FileChooser fileChooser = new FileChooser();
     //private static final SelectionGeojsonParser selectionGeoJsonParser = new SelectionGeojsonParser();
     private static final String EXTENSION_FILE_GEO_JSON = ".geojson";
+
+    // RouteManager для построения маршрута
+    private final RouteManager routeManager = new RouteManager();
 
     // Кнопки управления масштабом
     private final VBox zoomBox = new VBox();
@@ -206,6 +212,17 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
         });
 
         routeToggleButton.setOnAction(event -> {
+            LatLongArray latLongArray = new LatLongArray(
+                    List.of(new LatLong(55.030, 73.2695),
+                            new LatLong(55.040, 73.2795),
+                            new LatLong(55.030, 73.2795),
+                            new LatLong(55.030, 73.2795),
+                            new LatLong(55.000, 73.2495)));
+
+            Polyline polyline = new Polyline(routeManager.getRouteFor(latLongArray));
+            mapView.getLayerGroup().addLayer(polyline);
+
+
 /*            List<String> destination = new ArrayList<>();
             destination.add("[" + 55.030 + ", " + 73.2695 + "]");
             destination.add("[" + 55.130 + ", " + 73.3695 + "]");
@@ -258,13 +275,17 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
             mapView.getLayerGroup().addLayer(rectangle);
         });
 
-
         cancelSelectionButton.setOnAction(event -> {
             // отменяет выбор маркеров по области
            // mapPane.getMapView().getAdapterManager().clearAdapters(mapPane.getCircleDrawAdapter());
 
             mapView.getLayerGroup().clearLayers();
         });
+
+        // Загружаем карты для graphhopper
+
+        File mapForRoute = new File(getClass().getResource("/route/RU-OMS.pbf").getFile());
+        routeManager.initializeData(mapForRoute);
 
       //  mapView.getMarkerDrawAdapter().draw();
     }
