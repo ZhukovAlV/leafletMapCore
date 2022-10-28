@@ -112,6 +112,9 @@ public class MapViewJavaFX extends StackPane implements MapView {
         addMouseMoveEvent();
         addMouseClickEvent();
 
+        // Слушатель на загруженные тайлы
+        addTilesLoadEvent();
+
         // Добавляем layerGroup в mapView
         layerGroup.addTo(this);
     }
@@ -196,6 +199,27 @@ public class MapViewJavaFX extends StackPane implements MapView {
         System.out.println(lat + " " + lng);
         LatLong latlng = new LatLong(lat, lng);
         mapClickEventManager.mapClickEvent(latlng);
+    }
+
+    /**
+     * Реализация события загрузки тайлов
+     */
+    public void addTilesLoadEvent() {
+        Object document = execScript("document");
+        if (document == null) {
+            throw new NullPointerException("null cannot be cast to non-null type netscape.javascript.JSObject");
+        } else {
+            JSObject win = (JSObject)document;
+            win.setMember("java", this);
+            execScript(getMap().getTileLayer().getId() + ".on('tileload', function(e){ document.java.getDataTileLoad(e.coords);});");
+        }
+    }
+
+    /**
+     * Вывод загруженного тайла в логи
+     */
+    public void getDataTileLoad(Object coord) {
+        log.info("Загружен тайл: " + coord + " Zoom(" + getMap().getZoom() + ")");
     }
 
     @Override

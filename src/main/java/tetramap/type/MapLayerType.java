@@ -7,6 +7,12 @@ public enum MapLayerType {
             attribution: 'Map data &copy; OpenStreetMap and contributors',
         })"""),
 
+    /** OpenStreetMap layer LOCAL*/
+    OPENSTREETMAP_LOCAL("OpenStreetMap", """
+        L.tileLayer('/home/user/Test/leafletLocal/moscow/{z}/{x}/{y}.png', {
+            attribution: 'Map data &copy; OpenStreetMap and contributors',
+        })"""),
+
     /** OpenCycleMap layer */
     OPENCYCLEMAP("OpenCycleMap", """
         L.tileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png', {

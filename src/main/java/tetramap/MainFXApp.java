@@ -34,6 +34,13 @@ public class MainFXApp extends Application {
                 ,"abc"
                 ,0
                 ,18));
+        layers.add(new TileLayer("OpenStreetMapLocal"
+                , "/home/user/Test/leafletLocal/moscow/{z}/{x}/{y}.png"
+                ,"OpenStreetMapLocal"
+                , false
+                ,""
+                ,0
+                ,18));
         layers.add(new TileLayer("Google map"
                 , "http://mts{s}.google.com/vt/hl=ru&x={x}&y={y}&z={z}"
                 ,"Google map"
