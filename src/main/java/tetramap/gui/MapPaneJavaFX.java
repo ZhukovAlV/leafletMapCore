@@ -9,6 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import lombok.extern.log4j.Log4j2;
+import tetramap.adapter.PolygonDrawAdapter;
 import tetramap.entity.marker.Marker;
 import tetramap.entity.popup.Popup;
 import tetramap.entity.types.Icon;
@@ -263,7 +264,7 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
 */
 
             // Добавим полигон
-            LatLongArray latLongArray2 = new LatLongArray(
+/*            LatLongArray latLongArray2 = new LatLongArray(
                     List.of(new LatLong(55.030, 73.2695),
                             new LatLong(55.040, 73.2795),
                             new LatLong(55.030, 73.2795),
@@ -271,7 +272,10 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
                             new LatLong(55.020, 73.2495)));
             Polygon polygon = new Polygon(latLongArray2);
             //polygon.addTo(mapView);
-            mapView.getLayerGroup().addLayer(polygon);
+            mapView.getLayerGroup().addLayer(polygon);*/
+
+            PolygonDrawAdapter polygonDrawAdapter = new PolygonDrawAdapter(mapView);
+            polygonDrawAdapter.onInvoke();
         });
 
         boxSelectionButton.setOnAction(event -> {
