@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import lombok.extern.log4j.Log4j2;
 import tetramap.adapter.PolygonDrawAdapter;
+import tetramap.adapter.PolylineDrawAdapter;
 import tetramap.entity.marker.Marker;
 import tetramap.entity.popup.Popup;
 import tetramap.entity.types.Icon;
@@ -194,7 +195,7 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
 
         rulerToggleButton.setOnAction(event -> {
 
-            Icon icon = new Icon(getClass().getResource("../../markerIcon/subscriber/marker_green.png").getPath());
+     /*       Icon icon = new Icon(getClass().getResource("../../markerIcon/subscriber/marker_green.png").getPath());
             icon.addTo(mapView);
 
             // Добавим маркер N раз
@@ -216,7 +217,10 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
                 // Добавляем подпись маркеру
                 marker.bindPopup(popup);
             }
-            mapView.execScript(mapView.getMap().getId() + ".addLayer(markers);");
+            mapView.execScript(mapView.getMap().getId() + ".addLayer(markers);");*/
+
+            PolylineDrawAdapter polylineDrawAdapter = new PolylineDrawAdapter(mapView);
+            polylineDrawAdapter.onInvoke();
         });
 
         routeToggleButton.setOnAction(event -> {
