@@ -1,10 +1,17 @@
 package tetramap.adapter;
 
+import tetramap.entity.types.LatLong;
+import tetramap.event.MapClickEventListener;
 import tetramap.gui.MapView;
 
-public class PolylineDrawAdapter implements Invokable {
+import java.util.ArrayList;
+import java.util.List;
+
+public class PolylineDrawAdapter implements Invokable, MapClickEventListener {
 
     private final MapView mapView;
+
+    private final List<LatLong> listLatLong = new ArrayList<>();
 
     public PolylineDrawAdapter(MapView mapView) {
         this.mapView = mapView;
@@ -12,15 +19,29 @@ public class PolylineDrawAdapter implements Invokable {
 
     @Override
     public void onInvoke() {
-        // enable polygon Draw Mode
+        // Включаем режим polygon Draw Mode
         mapView.execScript(mapView.getMap().getId() + ".pm.enableDraw('Line', {\n" +
                 "  snappable: true,\n" +
                 "  snapDistance: 20,\n" +
                 "});");
+
+        mapView.addMouseClickListener(this);
     }
 
     @Override
     public void onRevoke() {
+        // Выключаем режим polygon Draw Mode
         mapView.execScript(mapView.getMap().getId() + ".pm.disableDraw();");
+
+        mapView.removeMouseClickListener(this);
+    }
+
+    @Override
+    public void mouseClicked(LatLong latLong) {
+        listLatLong.add(latLong);
+    }
+
+    public List<LatLong> getListLatLong() {
+        return listLatLong;
     }
 }

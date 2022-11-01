@@ -11,6 +11,7 @@ import javafx.stage.FileChooser;
 import lombok.extern.log4j.Log4j2;
 import tetramap.adapter.PolygonDrawAdapter;
 import tetramap.adapter.PolylineDrawAdapter;
+import tetramap.adapter.RulerDrawAdapter;
 import tetramap.entity.marker.Marker;
 import tetramap.entity.popup.Popup;
 import tetramap.entity.types.Icon;
@@ -219,8 +220,8 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
             }
             mapView.execScript(mapView.getMap().getId() + ".addLayer(markers);");*/
 
-            PolylineDrawAdapter polylineDrawAdapter = new PolylineDrawAdapter(mapView);
-            polylineDrawAdapter.onInvoke();
+            RulerDrawAdapter rulerDrawAdapter = new RulerDrawAdapter(mapView);
+            rulerDrawAdapter.onInvoke();
         });
 
         routeToggleButton.setOnAction(event -> {
@@ -297,6 +298,8 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
            // mapPane.getMapView().getAdapterManager().clearAdapters(mapPane.getCircleDrawAdapter());
 
             mapView.getLayerGroup().clearLayers();
+
+            mapView.execScript(mapView.getMap().getId() + ".pm.Draw.getActiveShape();");
         });
 
         // Загружаем карты для graphhopper
