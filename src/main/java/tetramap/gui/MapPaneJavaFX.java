@@ -196,21 +196,24 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
 
         rulerToggleButton.setOnAction(event -> {
 
-     /*       Icon icon = new Icon(getClass().getResource("../../markerIcon/subscriber/marker_green.png").getPath());
+       /*     Icon icon = new Icon(getClass().getResource("../../markerIcon/subscriber/marker_green.png").getPath());
             icon.addTo(mapView);
 
             // Добавим маркер N раз
 
             mapView.execScript("var markers = L.markerClusterGroup();");
             LatLong latLong = new LatLong(55.040, 73.2695);
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 10; i++) {
                 latLong = new LatLong(latLong.getLatitude() + 0.001, latLong.getLongitude() + 0.001);
-                Marker marker = new Marker(latLong, icon, "Marker №" + i);
+                // Marker marker = new Marker(latLong, icon, "Marker №" + i);
+                Marker marker = new Marker(latLong, true, "тестовое сообщение", "Marker №" + i);
 
                // mapView.getLayerGroup().addLayer(marker);
-                mapView.execScript("var " +  marker.getId() + " = L.marker(" + marker + ");");
+                // Если кластеры использовать
+*//*                mapView.execScript("var " +  marker.getId() + " = L.marker(" + marker + ");");
                 mapView.execScript("markers.addLayer(" + marker.getId() + ");");
-                marker.setMapView(mapView);
+                marker.setMapView(mapView);*//*
+                marker.addTo(mapView);
 
                 Popup popup = new Popup("Тестовый маркер №" + i);
                 popup.addTo(mapView);
@@ -218,8 +221,8 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
                 // Добавляем подпись маркеру
                 marker.bindPopup(popup);
             }
-            mapView.execScript(mapView.getMap().getId() + ".addLayer(markers);");*/
-
+            mapView.execScript(mapView.getMap().getId() + ".addLayer(markers);");
+*/
             RulerDrawAdapter rulerDrawAdapter = new RulerDrawAdapter(mapView);
             rulerDrawAdapter.onInvoke();
         });

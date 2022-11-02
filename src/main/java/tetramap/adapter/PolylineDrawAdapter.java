@@ -22,7 +22,11 @@ public class PolylineDrawAdapter implements Invokable, MapClickEventListener {
     @Override
     public void onInvoke() {
         // Включаем режим polygon Draw Mode
-        mapView.execScript(mapView.getMap().getId() + ".pm.enableDraw('Line', { snappable: false, tooltips: false });");
+        mapView.execScript(mapView.getMap().getId() + ".pm.enableDraw('Line', {\n" +
+                "  snappable: true,\n" +
+                "  snapDistance: 20,\n" +
+                "  tooltips: false,\n" +
+                "});");
 
         mapView.addMouseClickListener(this);
     }

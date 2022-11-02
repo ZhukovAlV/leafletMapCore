@@ -82,6 +82,13 @@ public interface MapView {
     void addLayer(Layer layer);
 
     /**
+     * Обновление слоя на карте
+     *
+     * @param layer слой на обновление
+     */
+    void updateLayer(Layer layer);
+
+    /**
      * Удаление слоя c карты
      *
      * @param layer слой на удаление c карты
