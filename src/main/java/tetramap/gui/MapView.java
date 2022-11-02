@@ -1,6 +1,7 @@
 package tetramap.gui;
 
 import tetramap.config.MapConfig;
+import tetramap.event.DrawShapeEndEventListener;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapMoveEventListener;
 import tetramap.layer.Layer;
@@ -52,9 +53,19 @@ public interface MapView {
     void addMouseMoveListener(MapMoveEventListener mapMoveEventListener);
 
     /**
-     * Добавление слушателя на перемещение мыши
+     * Удаление слушателя на перемещение мыши
      */
     void removeMouseMoveListener(MapMoveEventListener mapMoveEventListener);
+
+    /**
+     * Добавление слушателя на окончание рисования фигуры
+     */
+    void addDrawEndShapeListener(DrawShapeEndEventListener drawShapeEndEventListener);
+
+    /**
+     * Удаление слушателя на окончание рисования фигуры
+     */
+    void removeDrawEndShapeListener(DrawShapeEndEventListener drawShapeEndEventListener);
 
     /**
      * Получение карты

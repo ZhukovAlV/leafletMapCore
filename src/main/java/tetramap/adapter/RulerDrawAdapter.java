@@ -1,6 +1,9 @@
 package tetramap.adapter;
 
+import lombok.extern.log4j.Log4j2;
 import tetramap.entity.types.LatLong;
+import tetramap.event.DrawShapeEndEventListener;
+import tetramap.event.MapMoveEventListener;
 import tetramap.gui.MapView;
 import tetramap.util.LatLongUtils;
 
@@ -10,7 +13,8 @@ import tetramap.util.LatLongUtils;
  * Линейка представляет собой ломаную линию из точек. На последней точке линейки располагается маркер
  * с указанием общей длины линии (в метрах). Также
  */
-public class RulerDrawAdapter extends PolylineDrawAdapter{
+@Log4j2
+public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEventListener, DrawShapeEndEventListener {
 
     // Подтвержденная дистанция - метры (не учитывается последняя точка, которая движется за курсором в режиме редактирования)
     protected double confirmedDistance = 0;
@@ -20,10 +24,26 @@ public class RulerDrawAdapter extends PolylineDrawAdapter{
     }
 
     @Override
+    public void onInvoke() {
+        super.onInvoke();
+
+        getMapView().addMouseMoveListener(this);
+        getMapView().addDrawEndShapeListener(this);
+    }
+
+    @Override
+    public void onRevoke() {
+        super.onRevoke();
+
+        getMapView().removeMouseMoveListener(this);
+        getMapView().removeDrawEndShapeListener(this);
+    }
+
+    @Override
     public void mouseClicked(LatLong latLong) {
         super.mouseClicked(latLong);
 
-        System.out.println(confirmDistance());
+        log.info("Дистанция: " + confirmDistance() + " метров");
     }
 
     /**
@@ -40,5 +60,15 @@ public class RulerDrawAdapter extends PolylineDrawAdapter{
 
         this.confirmedDistance = distance;
         return confirmedDistance;
+    }
+
+    @Override
+    public void mouseMoved(LatLong latLong) {
+       // log.info(latLong);
+    }
+
+    @Override
+    public void drawEnd(String shape) {
+        log.info("Фигура нарисована: " + shape);
     }
 }

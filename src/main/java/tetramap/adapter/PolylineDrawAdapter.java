@@ -1,5 +1,6 @@
 package tetramap.adapter;
 
+import lombok.Getter;
 import tetramap.entity.types.LatLong;
 import tetramap.event.MapClickEventListener;
 import tetramap.gui.MapView;
@@ -7,6 +8,7 @@ import tetramap.gui.MapView;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class PolylineDrawAdapter implements Invokable, MapClickEventListener {
 
     private final MapView mapView;
@@ -20,10 +22,7 @@ public class PolylineDrawAdapter implements Invokable, MapClickEventListener {
     @Override
     public void onInvoke() {
         // Включаем режим polygon Draw Mode
-        mapView.execScript(mapView.getMap().getId() + ".pm.enableDraw('Line', {\n" +
-                "  snappable: true,\n" +
-                "  snapDistance: 20,\n" +
-                "});");
+        mapView.execScript(mapView.getMap().getId() + ".pm.enableDraw('Line', { snappable: false, tooltips: false });");
 
         mapView.addMouseClickListener(this);
     }
@@ -39,9 +38,5 @@ public class PolylineDrawAdapter implements Invokable, MapClickEventListener {
     @Override
     public void mouseClicked(LatLong latLong) {
         listLatLong.add(latLong);
-    }
-
-    public List<LatLong> getListLatLong() {
-        return listLatLong;
     }
 }
