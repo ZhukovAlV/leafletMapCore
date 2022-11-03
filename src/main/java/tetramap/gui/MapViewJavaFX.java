@@ -16,12 +16,10 @@ import tetramap.entity.control.ZoomControl;
 import tetramap.entity.types.LatLong;
 import tetramap.event.*;
 import tetramap.layer.Layer;
-import tetramap.layer.LayerGeoman;
 import tetramap.layer.groups.LayerGroup;
 import tetramap.leaflet.LeafletMap;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -40,25 +38,18 @@ public class MapViewJavaFX extends StackPane implements MapView {
     // Все слои на карте
     private final LayerGroup layerGroup;
 
-    // Все фигуры на карте
-    private final List<LayerGeoman> layersGeoman;
-
     // Менеджер на нажатие мыши
     private final MapClickEventManager mapClickEventManager;
     // Менеджер на перемещение мыши
     private final MapMoveEventManager mapMoveEventManager;
-    // Менеджер на окончание рисования фигуры
-    private final DrawShapeEndEventManager drawShapeEndEventManager;
 
     public MapViewJavaFX() {
         getChildren().add(WEB_VIEW);
 
         mapClickEventManager = new MapClickEventManager();
         mapMoveEventManager = new MapMoveEventManager();
-        drawShapeEndEventManager = new DrawShapeEndEventManager();
 
         layerGroup = new LayerGroup();
-        layersGeoman = new ArrayList<>();
     }
 
     @Override
@@ -117,7 +108,6 @@ public class MapViewJavaFX extends StackPane implements MapView {
         // Добавляем слушателей в mapView
         addMouseMoveEvent();
         addMouseClickEvent();
-        addDrawEndStateEvent();
 
         // Слушатель на загруженные тайлы
         addTilesLoadEvent();
@@ -154,16 +144,6 @@ public class MapViewJavaFX extends StackPane implements MapView {
     @Override
     public void removeMouseClickListener(MapClickEventListener mapClickEventListener) {
         mapClickEventManager.removeListener(mapClickEventListener);
-    }
-
-    @Override
-    public void addDrawEndShapeListener(DrawShapeEndEventListener drawShapeEndEventListener) {
-        drawShapeEndEventManager.addListener(drawShapeEndEventListener);
-    }
-
-    @Override
-    public void removeDrawEndShapeListener(DrawShapeEndEventListener drawShapeEndEventListener) {
-        drawShapeEndEventManager.removeListener(drawShapeEndEventListener);
     }
 
     @Override
@@ -216,24 +196,6 @@ public class MapViewJavaFX extends StackPane implements MapView {
         log.info("mapClick: " + lat + " " + lng);
         LatLong latlng = new LatLong(lat, lng);
         mapClickEventManager.mapClickEvent(latlng);
-    }
-
-    /**
-     * Добавление события окончания рисования фигуры
-     */
-    public void addDrawEndStateEvent() {
-        Object document = execScript("document");
-        if (document == null) {
-            throw new NullPointerException("null cannot be cast to non-null type netscape.javascript.JSObject");
-        } else {
-            JSObject win = (JSObject)document;
-            win.setMember("java", this);
-            execScript(getMap().getId() + ".on('pm:drawend', (e) => { document.java.drawEnd(e.shape); });");
-        }
-    }
-
-    public void drawEnd(String shape) {
-        drawShapeEndEventManager.drawEnd(shape);
     }
 
     /**
@@ -308,11 +270,6 @@ public class MapViewJavaFX extends StackPane implements MapView {
     @Override
     public LayerGroup getLayerGroup() {
         return layerGroup;
-    }
-
-    @Override
-    public List<LayerGeoman> getLayersGeoman() {
-        return layersGeoman;
     }
 
     @Override

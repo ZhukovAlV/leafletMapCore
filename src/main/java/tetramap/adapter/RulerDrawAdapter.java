@@ -3,7 +3,7 @@ package tetramap.adapter;
 import lombok.extern.log4j.Log4j2;
 import tetramap.entity.marker.Marker;
 import tetramap.entity.types.LatLong;
-import tetramap.event.DrawShapeEndEventListener;
+import tetramap.entity.vectors.structure.LatLongArray;
 import tetramap.event.MapMoveEventListener;
 import tetramap.gui.MapView;
 import tetramap.util.LatLongUtils;
@@ -18,7 +18,9 @@ import java.util.List;
  * с указанием общей длины линии (в метрах). Также
  */
 @Log4j2
-public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEventListener, DrawShapeEndEventListener {
+public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEventListener {
+
+    private final String START_DISTANCE = "Начало дистанции";
 
     // Подтвержденная дистанция - метры (не учитывается последняя точка, которая движется за курсором в режиме редактирования)
     private int confirmedDistance;
@@ -35,7 +37,6 @@ public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEven
         super.onInvoke();
 
         getMapView().addMouseMoveListener(this);
-        getMapView().addDrawEndShapeListener(this);
     }
 
     @Override
@@ -43,31 +44,37 @@ public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEven
         super.onRevoke();
 
         getMapView().removeMouseMoveListener(this);
-        getMapView().removeDrawEndShapeListener(this);
     }
 
     @Override
     public void mouseClicked(LatLong latLong) {
         super.mouseClicked(latLong);
 
+        // Добавляем новую координату и обновляем polyline
+        ((LatLongArray)getPolyline().getLatLongs()).add(latLong);
+        getPolyline().updateTo();
+
+        // Расчитываем расстояние
         String distanceString = "Расстояние: " + confirmDistance() + " метров";
         log.info(distanceString);
 
         // Выставляем значение расстояния
         if (marker != null) {
             marker.setLatLong(latLong);
-            marker.setText(distanceString);
             marker.updateTo();
+
+            marker.bindTooltip(distanceString);
         } else {
-            marker = new Marker(latLong, true, distanceString, "");
-            marker.addTo(getMapView());
-          //  getMapView().getLayersGeoman().add(marker);
+            marker = new Marker(latLong);
+            getMapView().getLayerGroup().addLayer(marker);
+
+            marker.bindTooltip(START_DISTANCE);
         }
     }
 
     @Override
     public void mouseMoved(LatLong latLong) {
-        List<LatLong> latLongs = new ArrayList<>(getListLatLong());
+        List<LatLong> latLongs = new ArrayList<>((LatLongArray)getPolyline().getLatLongs());
         latLongs.add(latLong);
 
         double distance = countingDistance(latLongs);
@@ -76,8 +83,9 @@ public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEven
         // Выставляем значение расстояния
         if (marker != null) {
             marker.setLatLong(latLong);
-            marker.setText(distanceString);
             marker.updateTo();
+
+            marker.bindTooltip(distanceString);
         }
     }
 
@@ -87,7 +95,7 @@ public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEven
      * @return общая длина в метрах
      */
     private int confirmDistance() {
-        double distance = countingDistance(getListLatLong());
+        double distance = countingDistance((LatLongArray)getPolyline().getLatLongs());
         confirmedDistance = (int)distance;
 
         return confirmedDistance;
@@ -100,12 +108,5 @@ public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEven
         }
 
         return distance;
-    }
-
-    @Override
-    public void drawEnd(String shape) {
-        log.info("Фигура нарисована: " + shape);
-
-        onRevoke();
     }
 }

@@ -1,15 +1,11 @@
 package tetramap.gui;
 
 import tetramap.config.MapConfig;
-import tetramap.event.DrawShapeEndEventListener;
 import tetramap.event.MapClickEventListener;
 import tetramap.event.MapMoveEventListener;
 import tetramap.layer.Layer;
-import tetramap.layer.LayerGeoman;
 import tetramap.layer.groups.LayerGroup;
 import tetramap.leaflet.LeafletMap;
-
-import java.util.List;
 
 /**
  * View для карты
@@ -59,16 +55,6 @@ public interface MapView {
      * Удаление слушателя на перемещение мыши
      */
     void removeMouseMoveListener(MapMoveEventListener mapMoveEventListener);
-
-    /**
-     * Добавление слушателя на окончание рисования фигуры
-     */
-    void addDrawEndShapeListener(DrawShapeEndEventListener drawShapeEndEventListener);
-
-    /**
-     * Удаление слушателя на окончание рисования фигуры
-     */
-    void removeDrawEndShapeListener(DrawShapeEndEventListener drawShapeEndEventListener);
 
     /**
      * Получение карты
@@ -132,10 +118,4 @@ public interface MapView {
      * @return LayerGroup слоев на карте
      */
     LayerGroup getLayerGroup();
-
-    /**
-     * Получения всех фигур на карте
-     * @return список фигур на карте
-     */
-    List<LayerGeoman> getLayersGeoman();
 }

@@ -3,6 +3,7 @@ package tetramap.entity.marker;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.extern.log4j.Log4j2;
 import tetramap.entity.types.Icon;
 import tetramap.entity.types.LatLong;
 import tetramap.layer.Layer;
@@ -13,6 +14,7 @@ import java.io.Serial;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
+@Log4j2
 public class Marker extends Layer {
 
     @Serial
@@ -34,51 +36,36 @@ public class Marker extends Layer {
     private String title  = "";
 
     /**
-     * Координаты маркера
-     */
-    private boolean textMarker;
-
-    /**
-     * Текст маркера
-     */
-    private String text  = "";
-
-    /**
      * Конструктор текстового маркера
      *
      * @param latLong координата
-     * @param textMarker true, если текстовый маркер
-     * @param text текст для текстового маркера
      * @param title заголовок для текстового маркера
      */
-    public Marker(LatLong latLong, boolean textMarker, String text, String title) {
+    public Marker(LatLong latLong, String title) {
         this.latLong = latLong;
-        this.textMarker = textMarker;
-        this.text = text;
         this.title = title;
     }
 
-    public Marker(LatLong latLong, Icon icon, String title) {
+    public Marker(LatLong latLong) {
         this.latLong = latLong;
-        this.icon = icon;
-        this.title = title;
-    }
-
-    public Marker(LatLong latLong, Icon icon) {
-        this.latLong = latLong;
-        this.icon = icon;
     }
 
     @Override
     public String toString() {
-        String iconUrl = "";
+        // Прозрачный фон если иконка не выставлена
+        String iconUrl = "opacity: 0, ";
         if (icon != null) iconUrl = "icon: " +  icon.getId() + ", ";
 
         return String.join("",latLong.toString(),
-                ", {", iconUrl,
-                        "textMarker: ", textMarker + ", ",
-                        "text: '", text, "', ",
-                        "title: '", title, "'}");
+                ", {", iconUrl, "title: '", title, "'}");
+    }
+
+    /**
+     * Текст для маркера
+     */
+    public void bindTooltip(String text){
+        log.info("Добавляется Popup к layer: {}", this.getId());
+        getMapView().execScript(this.getId() + ".bindTooltip('" + text + "', {permanent: true, className: 'my-label', offset: [0, 0] });");
     }
 
     @Override
