@@ -22,19 +22,19 @@ public class Polygon extends Polyline {
     
     private final MultiLatLongArray latLongs;
 
-    public Polygon(LatLong... LatLongs) {
-        this(Arrays.asList(LatLongs));
-    }
-
     public Polygon(List<LatLong> exteriorLatLongs) {
+        super();
         latLongs = new MultiLatLongArray();
         latLongs.add(new LatLongArray(exteriorLatLongs));
     }
 
     public Polygon(List<LatLong> exteriorLatLongs, MultiLatLongArray interiorRings) {
-        latLongs = new MultiLatLongArray();
-        latLongs.add(new LatLongArray(exteriorLatLongs));
+        this(exteriorLatLongs);
         latLongs.addAll(interiorRings);
+    }
+
+    public Polygon(LatLong... LatLongs) {
+        this(Arrays.asList(LatLongs));
     }
 
     @Override

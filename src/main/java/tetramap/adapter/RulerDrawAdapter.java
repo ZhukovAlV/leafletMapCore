@@ -3,6 +3,7 @@ package tetramap.adapter;
 import lombok.extern.log4j.Log4j2;
 import tetramap.entity.marker.Marker;
 import tetramap.entity.types.LatLong;
+import tetramap.entity.vectors.Polyline;
 import tetramap.entity.vectors.structure.LatLongArray;
 import tetramap.event.MapMoveEventListener;
 import tetramap.gui.MapView;
@@ -27,6 +28,9 @@ public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEven
 
     // Маркер для отображения дистанции
     private Marker marker;
+
+    // Прерывистая линия для рисования дистанции
+    Polyline brokenLine;
 
     public RulerDrawAdapter(MapView mapView) {
         super(mapView);
@@ -82,6 +86,19 @@ public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEven
 
         // Выставляем значение расстояния
         if (marker != null) {
+
+            if (brokenLine == null) {
+                brokenLine = new Polyline(latLongs.get(latLongs.size() - 1), latLong);
+                getMapView().getLayerGroup().addLayer(brokenLine);
+            } else {
+                brokenLine.remove();
+
+                LatLong[] arrLatLong = new LatLong[]{latLongs.get(latLongs.size() - 1), latLong};
+                brokenLine.setLatLongs(new LatLongArray(arrLatLong));
+
+                brokenLine.updateTo();
+            }
+
             marker.setLatLong(latLong);
             marker.updateTo();
 

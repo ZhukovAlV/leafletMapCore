@@ -20,7 +20,7 @@ public class Polyline extends Path {
     
     private double smoothFactor = 1.0;
     private boolean noClip;
-    private final LatLongArray latLongs;
+    private LatLongArray latLongs;
 
     public Polyline(LatLong... latLongs) {
         this(new LatLongArray(latLongs));
@@ -31,6 +31,7 @@ public class Polyline extends Path {
     }
 
     public Polyline(LatLongArray latLongs) {
+        super();
         this.latLongs = latLongs;
     }
 
