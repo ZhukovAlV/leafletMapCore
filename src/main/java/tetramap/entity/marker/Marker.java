@@ -83,6 +83,6 @@ public class Marker extends Layer {
 
     @Override
     public String getTypeInstantiatesMap() {
-        return TypeInstantiatesMap.marker.toString();
+        return TypeInstantiatesMap.MARKER.getName();
     }
 }

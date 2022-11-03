@@ -1,23 +1,35 @@
 package tetramap.type;
 
 public enum TypeInstantiatesMap {
-    map, // Карта
-    marker, // Маркер
-    icon, // Иконка (для маркера)
-    tileLayer, // Тайловый слой
-    layers, // Тайловые слои
-    baseMaps, // Набор карт
-    attributionControl, // Отвечает за префикс (название слоя карты)
-    control, // Control
-    scale, // Масштаб
-    zoom, // Зумм
-    polyline, // Линия
-    polygon, //Полигон
-    circleMarker, // Простая версия круга
-    circle, // Круг расширенный (наследуется от circleMarker)
-    rectangle, // Квадрат
-    layerGroup, // Слой группировки других слоев
-    markerClusterGroup, // Кластер для маркеров
-    divOverlay, // DivOverlay
-    popup // Popup (всплывающее окошко)
+    MAP("map"), // Карта
+    MARKER("marker"), // Маркер
+    ICON("icon"), // Иконка (для маркера)
+    TILE_LAYER("tileLayer"), // Тайловый слой
+    LAYERS("layers"), // Тайловые слои
+    BASE_MAPS("baseMaps"), // Набор карт
+    ATTRIBUTION_CONTROL("attributionControl"), // Отвечает за префикс (название слоя карты)
+    CONTROL("control"), // Control
+    SCALE("scale"), // Масштаб
+    ZOOM("zoom"), // Зумм
+    POLYLINE("polyline"), // Линия
+    POLYGON("polygon"), //Полигон
+    CIRCLE_MARKER("circleMarker"), // Простая версия круга
+    CIRCLE("circle"), // Круг расширенный (наследуется от circleMarker)
+    RECTANGLE("rectangle"), // Квадрат
+    LAYER_GROUP("layerGroup"), // Слой группировки других слоев
+    FEATURE_GROUP("featureGroup"), // Унаследованный от layerGroup слой группировки других слоев c доп. методами
+    MARKER_CLUSTER_GROUP("markerClusterGroup"), // Кластер для маркеров
+    DIV_OVERLAY("divOverlay"), // DivOverlay
+    POPUP("popup"), // Popup (всплывающее окошко)
+    LINE_PM("Line"); // leaflet.PM.line из библиотеки leaflet-geoman
+
+    private final String name;
+
+    TypeInstantiatesMap(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

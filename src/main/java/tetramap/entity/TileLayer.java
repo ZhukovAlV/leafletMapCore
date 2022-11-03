@@ -37,6 +37,6 @@ public class TileLayer extends LeafletObject {
 
     @Override
     public String getTypeInstantiatesMap() {
-        return TypeInstantiatesMap.tileLayer.toString();
+        return TypeInstantiatesMap.TILE_LAYER.getName();
     }
 }

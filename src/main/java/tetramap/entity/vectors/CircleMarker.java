@@ -37,6 +37,6 @@ public class CircleMarker extends Path {
 
     @Override
     public String getTypeInstantiatesMap() {
-        return TypeInstantiatesMap.circleMarker.toString();
+        return TypeInstantiatesMap.CIRCLE_MARKER.getName();
     }
 }

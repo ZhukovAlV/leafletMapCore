@@ -36,6 +36,6 @@ public class LayersControl extends LeafletControl {
 
     @Override
     public String getTypeInstantiatesMap() {
-        return TypeInstantiatesMap.layers.toString();
+        return TypeInstantiatesMap.LAYERS.getName();
     }
 }

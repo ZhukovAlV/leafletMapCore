@@ -20,6 +20,6 @@ public class Circle extends CircleMarker {
 
     @Override
     public String getTypeInstantiatesMap() {
-        return TypeInstantiatesMap.circle.toString();
+        return TypeInstantiatesMap.CIRCLE.getName();
     }
 }

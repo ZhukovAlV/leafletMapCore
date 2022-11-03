@@ -2,6 +2,7 @@ package tetramap.adapter;
 
 import lombok.Getter;
 import tetramap.entity.types.LatLong;
+import tetramap.entity.vectors.pm.LineGeoman;
 import tetramap.event.MapClickEventListener;
 import tetramap.gui.MapView;
 
@@ -21,12 +22,12 @@ public class PolylineDrawAdapter implements Invokable, MapClickEventListener {
 
     @Override
     public void onInvoke() {
-        // Включаем режим polygon Draw Mode
-        mapView.execScript(mapView.getMap().getId() + ".pm.enableDraw('Line', {\n" +
-                "  snappable: true,\n" +
-                "  snapDistance: 20,\n" +
-                "  tooltips: false,\n" +
-                "});");
+        // Включаем режим Line Draw Mode
+        LineGeoman lineGeoman = new LineGeoman();
+        lineGeoman.addTo(mapView);
+
+        // Добавляем данный layer в массив
+        getMapView().getLayersGeoman().add(lineGeoman);
 
         mapView.addMouseClickListener(this);
     }

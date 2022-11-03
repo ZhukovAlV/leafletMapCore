@@ -63,6 +63,6 @@ public class Polyline extends Path {
 
     @Override
     public String getTypeInstantiatesMap() {
-        return TypeInstantiatesMap.polyline.toString();
+        return TypeInstantiatesMap.POLYLINE.getName();
     }
 }

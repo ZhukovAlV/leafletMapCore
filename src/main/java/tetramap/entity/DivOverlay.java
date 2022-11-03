@@ -38,6 +38,6 @@ public class DivOverlay extends LeafletObject {
 
     @Override
     public String getTypeInstantiatesMap() {
-        return TypeInstantiatesMap.divOverlay.toString();
+        return TypeInstantiatesMap.DIV_OVERLAY.getName();
     }
 }

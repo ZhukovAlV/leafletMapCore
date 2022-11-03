@@ -2,7 +2,6 @@ package tetramap.entity.control;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.extern.log4j.Log4j2;
 import tetramap.leaflet.LeafletControl;
 import tetramap.type.TypeInstantiatesMap;
 
@@ -25,6 +24,6 @@ public class ZoomControl extends LeafletControl {
 
     @Override
     public String getTypeInstantiatesMap() {
-        return TypeInstantiatesMap.zoom.toString();
+        return TypeInstantiatesMap.ZOOM.getName();
     }
 }

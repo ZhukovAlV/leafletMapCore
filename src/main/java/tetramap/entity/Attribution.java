@@ -40,7 +40,7 @@ public class Attribution extends LeafletObject {
 
     @Override
     public String getTypeInstantiatesMap() {
-        return TypeInstantiatesMap.attributionControl.toString();
+        return TypeInstantiatesMap.ATTRIBUTION_CONTROL.getName();
     }
 }
 

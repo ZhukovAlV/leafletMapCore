@@ -17,6 +17,6 @@ public class Rectangle extends Polygon {
 
     @Override
     public String getTypeInstantiatesMap() {
-        return TypeInstantiatesMap.rectangle.toString();
+        return TypeInstantiatesMap.RECTANGLE.getName();
     }
 }

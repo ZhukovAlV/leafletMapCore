@@ -49,6 +49,6 @@ public class Polygon extends Polyline {
 
     @Override
     public String getTypeInstantiatesMap() {
-        return TypeInstantiatesMap.polygon.toString();
+        return TypeInstantiatesMap.POLYGON.getName();
     }
 }

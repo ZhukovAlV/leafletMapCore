@@ -130,6 +130,6 @@ public class LayerGroup extends Layer implements LayerGroupFunctions {
 
     @Override
     public String getTypeInstantiatesMap() {
-        return TypeInstantiatesMap.layerGroup.toString();
+        return TypeInstantiatesMap.LAYER_GROUP.getName();
     }
 }

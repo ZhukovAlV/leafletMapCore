@@ -31,8 +31,8 @@ public abstract class Layer extends LeafletObject {
     /**
      * Обновление слоя на карте
      */
-    public void updateTo(MapView mapView) {
-        super.updateTo(mapView);
+    public void updateTo() {
+        super.updateTo();
         getMapView().updateLayer(this);
     }
 

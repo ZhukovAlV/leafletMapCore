@@ -49,6 +49,6 @@ public class Icon extends LeafletObject implements BasicType {
 
     @Override
     public String getTypeInstantiatesMap() {
-        return TypeInstantiatesMap.icon.toString();
+        return TypeInstantiatesMap.ICON.getName();
     }
 }

@@ -2,7 +2,6 @@ package tetramap.entity.control;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.extern.log4j.Log4j2;
 import tetramap.leaflet.LeafletControl;
 import tetramap.type.TypeInstantiatesMap;
 
@@ -27,6 +26,6 @@ public class ScaleControl extends LeafletControl {
 
     @Override
     public String getTypeInstantiatesMap() {
-        return TypeInstantiatesMap.scale.toString();
+        return TypeInstantiatesMap.SCALE.getName();
     }
 }

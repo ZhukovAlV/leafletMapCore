@@ -16,10 +16,12 @@ import tetramap.entity.control.ZoomControl;
 import tetramap.entity.types.LatLong;
 import tetramap.event.*;
 import tetramap.layer.Layer;
+import tetramap.layer.LayerGeoman;
 import tetramap.layer.groups.LayerGroup;
 import tetramap.leaflet.LeafletMap;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -38,6 +40,9 @@ public class MapViewJavaFX extends StackPane implements MapView {
     // Все слои на карте
     private final LayerGroup layerGroup;
 
+    // Все фигуры на карте
+    private final List<LayerGeoman> layersGeoman;
+
     // Менеджер на нажатие мыши
     private final MapClickEventManager mapClickEventManager;
     // Менеджер на перемещение мыши
@@ -53,6 +58,7 @@ public class MapViewJavaFX extends StackPane implements MapView {
         drawShapeEndEventManager = new DrawShapeEndEventManager();
 
         layerGroup = new LayerGroup();
+        layersGeoman = new ArrayList<>();
     }
 
     @Override
@@ -302,6 +308,11 @@ public class MapViewJavaFX extends StackPane implements MapView {
     @Override
     public LayerGroup getLayerGroup() {
         return layerGroup;
+    }
+
+    @Override
+    public List<LayerGeoman> getLayersGeoman() {
+        return layersGeoman;
     }
 
     @Override

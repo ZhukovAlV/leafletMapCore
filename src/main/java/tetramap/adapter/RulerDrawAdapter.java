@@ -57,10 +57,11 @@ public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEven
         if (marker != null) {
             marker.setLatLong(latLong);
             marker.setText(distanceString);
-            marker.updateTo(getMapView());
+            marker.updateTo();
         } else {
             marker = new Marker(latLong, true, distanceString, "");
             marker.addTo(getMapView());
+          //  getMapView().getLayersGeoman().add(marker);
         }
     }
 
@@ -76,7 +77,7 @@ public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEven
         if (marker != null) {
             marker.setLatLong(latLong);
             marker.setText(distanceString);
-            marker.updateTo(getMapView());
+            marker.updateTo();
         }
     }
 

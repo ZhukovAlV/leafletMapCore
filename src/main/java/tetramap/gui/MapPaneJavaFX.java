@@ -10,18 +10,14 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import lombok.extern.log4j.Log4j2;
 import tetramap.adapter.PolygonDrawAdapter;
-import tetramap.adapter.PolylineDrawAdapter;
 import tetramap.adapter.RulerDrawAdapter;
-import tetramap.entity.marker.Marker;
-import tetramap.entity.popup.Popup;
-import tetramap.entity.types.Icon;
 import tetramap.entity.types.LatLong;
 import tetramap.entity.vectors.Circle;
-import tetramap.entity.vectors.Polygon;
 import tetramap.entity.vectors.Polyline;
 import tetramap.entity.vectors.Rectangle;
 import tetramap.entity.vectors.structure.LatLongArray;
 import tetramap.event.impl.LabelLatLong;
+import tetramap.layer.LayerGeoman;
 import tetramap.route.RouteManager;
 
 import java.io.File;
@@ -300,9 +296,16 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
             // отменяет выбор маркеров по области
            // mapPane.getMapView().getAdapterManager().clearAdapters(mapPane.getCircleDrawAdapter());
 
-            mapView.getLayerGroup().clearLayers();
+            // mapView.getLayerGroup().clearLayers();
 
-            mapView.execScript(mapView.getMap().getId() + ".pm.Draw.getActiveShape();");
+            // Очищаем все фигуры
+            //mapView.getLayersGeoman().forEach(LayerGeoman::remove);
+
+/*           mapView.execScript(mapView.getMap().getId() + ".pm.getGeomanDrawLayers(false)" +
+                   ".forEach(function(entry) {" +
+                    "entry.remove();" +
+                   "});"
+           );*/
         });
 
         // Загружаем карты для graphhopper

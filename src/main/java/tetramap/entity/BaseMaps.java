@@ -33,7 +33,7 @@ public class BaseMaps extends LeafletObject {
 
     @Override
     public String getTypeInstantiatesMap() {
-        return TypeInstantiatesMap.baseMaps.toString();
+        return TypeInstantiatesMap.BASE_MAPS.getName();
     }
 
     @Override

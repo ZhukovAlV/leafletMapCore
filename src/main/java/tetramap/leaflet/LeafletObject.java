@@ -37,8 +37,7 @@ public abstract class LeafletObject implements BasicType {
     }
 
     @Override
-    public void updateTo(MapView mapView) {
-        this.mapView = mapView;
+    public void updateTo() {
 
         log.info("Удаление с карты слоя layer: {}", this.getId());
         mapView.execScript(this.getId() + ".remove();");

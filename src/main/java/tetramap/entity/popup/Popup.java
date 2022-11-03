@@ -54,6 +54,6 @@ public class Popup extends DivOverlay {
 
     @Override
     public String getTypeInstantiatesMap() {
-        return TypeInstantiatesMap.popup.toString();
+        return TypeInstantiatesMap.POPUP.getName();
     }
 }

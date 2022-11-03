@@ -43,7 +43,7 @@ public class LeafletMap extends LeafletObject {
 
     @Override
     public String getTypeInstantiatesMap() {
-        return TypeInstantiatesMap.map.toString();
+        return TypeInstantiatesMap.MAP.getName();
     }
 
     public void addTo(MapView mapView) {
