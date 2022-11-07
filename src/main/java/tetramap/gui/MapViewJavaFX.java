@@ -38,15 +38,21 @@ public class MapViewJavaFX extends StackPane implements MapView {
     // Все слои на карте
     private final LayerGroup layerGroup;
 
-    // Менеджер на нажатие мыши
-    private final MapClickEventManager mapClickEventManager;
+    // Менеджер на нажатие левой кнопки мыши
+    private final MapLeftClickEventManager mapLeftClickEventManager;
+
+    // Менеджер на нажатие правой кнопки мыши
+    private final MapRightClickEventManager mapRightClickEventManager;
+
     // Менеджер на перемещение мыши
     private final MapMoveEventManager mapMoveEventManager;
 
     public MapViewJavaFX() {
         getChildren().add(WEB_VIEW);
 
-        mapClickEventManager = new MapClickEventManager();
+        // Создаем объекты слушателей
+        mapLeftClickEventManager = new MapLeftClickEventManager();
+        mapRightClickEventManager = new MapRightClickEventManager();
         mapMoveEventManager = new MapMoveEventManager();
 
         layerGroup = new LayerGroup();
@@ -107,7 +113,8 @@ public class MapViewJavaFX extends StackPane implements MapView {
 
         // Добавляем слушателей в mapView
         addMouseMoveEvent();
-        addMouseClickEvent();
+        addLeftMouseClickEvent();
+        addRightMouseClickEvent();
 
         // Слушатель на загруженные тайлы
         addTilesLoadEvent();
@@ -137,13 +144,23 @@ public class MapViewJavaFX extends StackPane implements MapView {
     }
 
     @Override
-    public void addMouseClickListener(MapClickEventListener mapClickEventListener) {
-        mapClickEventManager.addListener(mapClickEventListener);
+    public void addLeftMouseClickListener(MapLeftClickEventListener mapLeftClickEventListener) {
+        mapLeftClickEventManager.addListener(mapLeftClickEventListener);
     }
 
     @Override
-    public void removeMouseClickListener(MapClickEventListener mapClickEventListener) {
-        mapClickEventManager.removeListener(mapClickEventListener);
+    public void removeLeftMouseClickListener(MapLeftClickEventListener mapLeftClickEventListener) {
+        mapLeftClickEventManager.removeListener(mapLeftClickEventListener);
+    }
+
+    @Override
+    public void addRightMouseClickListener(MapRightClickEventListener mapRightClickEventListener) {
+        mapRightClickEventManager.addListener(mapRightClickEventListener);
+    }
+
+    @Override
+    public void removeRightMouseClickListener(MapRightClickEventListener mapRightClickEventListener) {
+        mapRightClickEventManager.removeListener(mapRightClickEventListener);
     }
 
     @Override
@@ -176,26 +193,48 @@ public class MapViewJavaFX extends StackPane implements MapView {
     }
 
     /**
-     * Реализация события вызова метода mapClick() при нажатии мыши
+     * Реализация события вызова метода mapLeftClick() при нажатии мыши
      */
-    public void addMouseClickEvent() {
+    public void addLeftMouseClickEvent() {
         Object document = execScript("document");
         if (document == null) {
             throw new NullPointerException("null cannot be cast to non-null type netscape.javascript.JSObject");
         } else {
             JSObject win = (JSObject)document;
             win.setMember("java", this);
-            execScript(getMap().getId() + ".on('click', function(e){ document.java.mapClick(e.latlng.lat, e.latlng.lng);});");
+            execScript(getMap().getId() + ".on('click', function(e){ document.java.mapLeftClick(e.latlng.lat, e.latlng.lng);});");
         }
     }
 
     /**
-     * Вызов метода mapClickEvent у каждого слушателя для определенного LatLong
+     * Вызов метода mapLeftClickEvent у каждого слушателя для определенного LatLong
      */
-    public void mapClick(double lat, double lng) {
+    public void mapLeftClick(double lat, double lng) {
         log.info("mapClick: " + lat + " " + lng);
-        LatLong latlng = new LatLong(lat, lng);
-        mapClickEventManager.mapClickEvent(latlng);
+        LatLong latLong = new LatLong(lat, lng);
+        mapLeftClickEventManager.mapLeftClickEvent(latLong);
+    }
+
+    /**
+     * Реализация события вызова метода mapRightClick() при нажатии мыши
+     */
+    public void addRightMouseClickEvent() {
+        Object document = execScript("document");
+        if (document == null) {
+            throw new NullPointerException("null cannot be cast to non-null type netscape.javascript.JSObject");
+        } else {
+            JSObject win = (JSObject)document;
+            win.setMember("java", this);
+            execScript(getMap().getId() + ".on('contextmenu', function(e){ document.java.mapRightClick();});");
+        }
+    }
+
+    /**
+     * Вызов метода нажатия правой кнопки мыши у каждого слушателя
+     */
+    public void mapRightClick() {
+        log.info("Нажата правая кнопка мыши");
+        mapRightClickEventManager.mapRightClickEvent();
     }
 
     /**

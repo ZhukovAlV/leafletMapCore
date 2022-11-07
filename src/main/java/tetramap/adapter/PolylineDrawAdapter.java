@@ -4,11 +4,11 @@ import lombok.Getter;
 import tetramap.entity.types.LatLong;
 import tetramap.entity.vectors.Polyline;
 import tetramap.entity.vectors.structure.LatLongArray;
-import tetramap.event.MapClickEventListener;
+import tetramap.event.MapLeftClickEventListener;
 import tetramap.gui.MapView;
 
 @Getter
-public class PolylineDrawAdapter implements Invokable, MapClickEventListener {
+public class PolylineDrawAdapter implements Invokable, MapLeftClickEventListener {
 
     private final MapView mapView;
 
@@ -24,16 +24,16 @@ public class PolylineDrawAdapter implements Invokable, MapClickEventListener {
         // Добавляем объект на карту
         getMapView().getLayerGroup().addLayer(polyline);
 
-        mapView.addMouseClickListener(this);
+        mapView.addLeftMouseClickListener(this);
     }
 
     @Override
     public void onRevoke() {
-        mapView.removeMouseClickListener(this);
+        mapView.removeLeftMouseClickListener(this);
     }
 
     @Override
-    public void mouseClicked(LatLong latLong) {
+    public void leftMouseClicked(LatLong latLong) {
         ((LatLongArray)polyline.getLatLongs()).add(latLong);
     }
 }

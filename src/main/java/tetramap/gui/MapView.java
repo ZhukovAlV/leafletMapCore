@@ -1,8 +1,9 @@
 package tetramap.gui;
 
 import tetramap.config.MapConfig;
-import tetramap.event.MapClickEventListener;
+import tetramap.event.MapLeftClickEventListener;
 import tetramap.event.MapMoveEventListener;
+import tetramap.event.MapRightClickEventListener;
 import tetramap.layer.Layer;
 import tetramap.layer.groups.LayerGroup;
 import tetramap.leaflet.LeafletMap;
@@ -37,14 +38,24 @@ public interface MapView {
     Object execScript(String script);
 
     /**
-     * Добавление слушателя на нажатие мыши
+     * Добавление слушателя на нажатие левой кнопки мыши
      */
-    void addMouseClickListener(MapClickEventListener mapClickEventListener);
+    void addLeftMouseClickListener(MapLeftClickEventListener mapLeftClickEventListener);
 
     /**
-     * Удаление слушателя на нажатие мыши
+     * Удаление слушателя на нажатие левой кнопки мыши
      */
-    void removeMouseClickListener(MapClickEventListener mapClickEventListener);
+    void removeLeftMouseClickListener(MapLeftClickEventListener mapLeftClickEventListener);
+
+    /**
+     * Добавление слушателя на нажатие правой кнопки мыши
+     */
+    void addRightMouseClickListener(MapRightClickEventListener mapRightClickEventListener);
+
+    /**
+     * Удаление слушателя на нажатие левой правой мыши
+     */
+    void removeRightMouseClickListener(MapRightClickEventListener mapRightClickEventListener);
 
     /**
      * Добавление слушателя на перемещение мыши

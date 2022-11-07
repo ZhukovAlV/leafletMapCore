@@ -6,6 +6,7 @@ import tetramap.entity.types.LatLong;
 import tetramap.entity.vectors.Polyline;
 import tetramap.entity.vectors.structure.LatLongArray;
 import tetramap.event.MapMoveEventListener;
+import tetramap.event.MapRightClickEventListener;
 import tetramap.gui.MapView;
 import tetramap.util.LatLongUtils;
 
@@ -19,7 +20,7 @@ import java.util.List;
  * с указанием общей длины линии (в метрах). Также
  */
 @Log4j2
-public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEventListener {
+public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEventListener, MapRightClickEventListener {
 
     private final String START_DISTANCE = "Начало дистанции";
 
@@ -34,6 +35,10 @@ public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEven
 
     public RulerDrawAdapter(MapView mapView) {
         super(mapView);
+
+        // Задаем цвет линии красный
+        getPolyline().getPathOptions().setColor("red");
+        getPolyline().getPathOptions().setFillColor("red");
     }
 
     @Override
@@ -41,6 +46,7 @@ public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEven
         super.onInvoke();
 
         getMapView().addMouseMoveListener(this);
+        getMapView().addRightMouseClickListener(this);
     }
 
     @Override
@@ -48,11 +54,12 @@ public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEven
         super.onRevoke();
 
         getMapView().removeMouseMoveListener(this);
+        getMapView().removeRightMouseClickListener(this);
     }
 
     @Override
-    public void mouseClicked(LatLong latLong) {
-        super.mouseClicked(latLong);
+    public void leftMouseClicked(LatLong latLong) {
+        super.leftMouseClicked(latLong);
 
         // Добавляем новую координату и обновляем polyline
         ((LatLongArray)getPolyline().getLatLongs()).add(latLong);
@@ -77,6 +84,25 @@ public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEven
     }
 
     @Override
+    public void rightMouseClicked() {
+        if (marker != null && brokenLine != null) {
+            brokenLine.remove();
+
+            LatLongArray latLongArray = (LatLongArray)getPolyline().getLatLongs();
+            List<LatLong> latLongs = new ArrayList<>(latLongArray);
+
+            String distanceString = "Расстояние: " + confirmDistance() + " метров";
+            log.info(distanceString);
+
+            marker.setLatLong(latLongs.get(latLongs.size() - 1));
+            marker.updateTo();
+            marker.bindTooltip(distanceString);
+        }
+
+        onRevoke();
+    }
+
+    @Override
     public void mouseMoved(LatLong latLong) {
         LatLongArray latLongArray = (LatLongArray)getPolyline().getLatLongs();
         List<LatLong> latLongs = new ArrayList<>(latLongArray);
@@ -90,8 +116,13 @@ public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEven
 
             if (brokenLine == null) {
                 brokenLine = new Polyline(latLongArray.get(latLongArray.size() - 1), latLong);
+
                 // Делаем прерывистую линию
                 brokenLine.getPathOptions().setDashArray("5, 7");
+
+                // Задаем цвет линии прерывистой
+                brokenLine.getPathOptions().setColor("red");
+                brokenLine.getPathOptions().setFillColor("red");
 
                 getMapView().getLayerGroup().addLayer(brokenLine);
             } else {
