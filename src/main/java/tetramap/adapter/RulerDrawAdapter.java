@@ -78,7 +78,8 @@ public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEven
 
     @Override
     public void mouseMoved(LatLong latLong) {
-        List<LatLong> latLongs = new ArrayList<>((LatLongArray)getPolyline().getLatLongs());
+        LatLongArray latLongArray = (LatLongArray)getPolyline().getLatLongs();
+        List<LatLong> latLongs = new ArrayList<>(latLongArray);
         latLongs.add(latLong);
 
         double distance = countingDistance(latLongs);
@@ -88,12 +89,15 @@ public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEven
         if (marker != null) {
 
             if (brokenLine == null) {
-                brokenLine = new Polyline(latLongs.get(latLongs.size() - 1), latLong);
+                brokenLine = new Polyline(latLongArray.get(latLongArray.size() - 1), latLong);
+                // Делаем прерывистую линию
+                brokenLine.getPathOptions().setDashArray("5, 7");
+
                 getMapView().getLayerGroup().addLayer(brokenLine);
             } else {
                 brokenLine.remove();
 
-                LatLong[] arrLatLong = new LatLong[]{latLongs.get(latLongs.size() - 1), latLong};
+                LatLong[] arrLatLong = new LatLong[]{latLongArray.get(latLongArray.size() - 1), latLong};
                 brokenLine.setLatLongs(new LatLongArray(arrLatLong));
 
                 brokenLine.updateTo();

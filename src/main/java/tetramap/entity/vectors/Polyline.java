@@ -37,7 +37,7 @@ public class Polyline extends Path {
 
     @Override
     public String toString() {
-        return latLongs + ", {color: '" + getColor() + "'}";
+        return latLongs + ", " + getPathOptions().toString();
     }
 
     /**

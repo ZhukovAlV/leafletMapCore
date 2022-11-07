@@ -3,7 +3,6 @@ package tetramap.entity.vectors;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import tetramap.layer.InteractiveLayer;
 
 import java.io.Serial;
@@ -30,10 +29,9 @@ public abstract class Path extends InteractiveLayer implements HasStyle {
     }
 
     /**
-     * Whether to draw stroke along the path. Set it to false to disable borders on
-     * polygons or circles.
+     * Следует ли рисовать обводку вдоль контура. Установите для него значение false, чтобы отключить границы для
      *
-     * @param stroke Set it to false to disable borders on polygons or circles.
+     * @param stroke установите для него значение false, чтобы отключить границы для полигонов или кругов
      */
     public void setStroke(boolean stroke) {
         this.pathOptions.setStroke(stroke);
@@ -44,9 +42,9 @@ public abstract class Path extends InteractiveLayer implements HasStyle {
     }
 
     /**
-     * Stroke color
+     * Цвет штриха
      *
-     * @param color the color of the stroke
+     * @param color цвет штриха
      */
     public void setColor(String color) {
         this.pathOptions.setColor(color);
@@ -57,9 +55,9 @@ public abstract class Path extends InteractiveLayer implements HasStyle {
     }
 
     /**
-     * Stroke width in pixels
+     * Ширина штриха в пикселях
      *
-     * @param weight the weight of the path
+     * @param weight ширина в пикселях
      */
     public void setWeight(double weight) {
         this.pathOptions.setWeight(weight);
@@ -70,9 +68,9 @@ public abstract class Path extends InteractiveLayer implements HasStyle {
     }
 
     /**
-     * Stroke opacity
+     * Непрозрачность штриха
      *
-     * @param opacity the opacity of the path
+     * @param opacity непрозрачность штриха
      */
     public void setOpacity(double opacity) {
         this.pathOptions.setOpacity(opacity);
@@ -83,9 +81,9 @@ public abstract class Path extends InteractiveLayer implements HasStyle {
     }
 
     /**
-     * A string that defines shape to be used at the end of the stroke.
+     * Строка, определяющая форму, которая будет использоваться в конце штриха
      *
-     * @param lineCap shape to be used at the end of the stroke
+     * @param lineCap форма, которая будет использоваться в конце штриха
      */
     public void setLineCap(String lineCap) {
         this.pathOptions.setLineCap(lineCap);
@@ -96,9 +94,9 @@ public abstract class Path extends InteractiveLayer implements HasStyle {
     }
 
     /**
-     * A string that defines shape to be used at the corners of the stroke.
+     * Строка, определяющая форму, которая будет использоваться в углах штриха
      *
-     * @param lineJoin shape to be used at the corners of the stroke
+     * @param lineJoin форма, которая будет использоваться в углах штриха
      */
     public void setLineJoin(String lineJoin) {
         this.pathOptions.setLineJoin(lineJoin);
@@ -109,10 +107,9 @@ public abstract class Path extends InteractiveLayer implements HasStyle {
     }
 
     /**
-     * A string that defines the stroke dash pattern. Doesn't work on Canvas-powered
-     * layers in some old browsers.
+     * Строка, определяющая шаблон штриховой черточки
      *
-     * @param dashArray efines the stroke dash pattern
+     * @param dashArray определяет шаблон штриховой черточки
      */
     public void setDashArray(String dashArray) {
         this.pathOptions.setDashArray(dashArray);
@@ -123,11 +120,9 @@ public abstract class Path extends InteractiveLayer implements HasStyle {
     }
 
     /**
-     * A string that defines the distance into the dash pattern to start the dash.
-     * Doesn't work on Canvas-powered layers in some old browsers.
+     * Строка, определяющая расстояние в шаблоне штриховки для начала штриховки
      *
-     * @param dashOffset defines the distance into the dash pattern to start the
-     *                   dash
+     * @param dashOffset определяет расстояние в шаблоне штриховки для начала
      */
     public void setDashOffset(String dashOffset) {
         this.pathOptions.setDashOffset(dashOffset);
@@ -138,10 +133,9 @@ public abstract class Path extends InteractiveLayer implements HasStyle {
     }
 
     /**
-     * Whether to fill the path with color. Set it to false to disable filling on
-     * polygons or circles.
+     * Следует ли заливать контур цветом. Установите для него значение false, чтобы отключить заполнение
      *
-     * @param fill Set it to false to disable filling on polygons or circles
+     * @param fill установите для него значение false, чтобы отключить заполнение полигонов или кругов
      */
     public void setFill(boolean fill) {
         this.pathOptions.setFill(fill);
@@ -152,9 +146,9 @@ public abstract class Path extends InteractiveLayer implements HasStyle {
     }
 
     /**
-     * Fill color. Defaults to the value of the color option
+     * Цвет заливки. По умолчанию используется значение параметра цвет
      *
-     * @param fillColor the fill color of the path
+     * @param fillColor цвет заливки контура
      */
     public void setFillColor(String fillColor) {
         this.pathOptions.setFillColor(fillColor);
@@ -165,9 +159,9 @@ public abstract class Path extends InteractiveLayer implements HasStyle {
     }
 
     /**
-     * Fill opacity.
+     * Непрозрачность
      *
-     * @param fillOpacity the fill opacity (0 between 1)
+     * @param fillOpacity непрозрачность заливки (от 0 до 1)
      */
     public void setFillOpacity(double fillOpacity) {
         this.pathOptions.setFillOpacity(fillOpacity);
@@ -178,28 +172,13 @@ public abstract class Path extends InteractiveLayer implements HasStyle {
     }
 
     /**
-     * A string that defines how the inside of a shape is determined.
+     * Строка, которая определяет, как определяется внутренняя часть фигуры
      *
-     * @param fillRule the string that defines how the inside of a shape is
-     *                 determined
+     * @param fillRule строка, которая определяет, как выглядит внутренняя часть фигуры
      */
     public void setFillRule(String fillRule) {
         this.pathOptions.setFillRule(fillRule);
     }
-
-    public String getClassName() {
-        return pathOptions.getClassName();
-    }
-
-    /**
-     * Custom class name set on an element. Only for SVG renderer.
-     *
-     * @param className the class name set on an element
-     */
-    public void setClassName(String className) {
-        this.pathOptions.setClassName(className);
-    }
-
 
     @Override
     public PathOptions getStyle() {
