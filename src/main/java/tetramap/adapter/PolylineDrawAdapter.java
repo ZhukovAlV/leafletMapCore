@@ -34,6 +34,9 @@ public class PolylineDrawAdapter implements Invokable, MapLeftClickEventListener
 
     @Override
     public void leftMouseClicked(LatLong latLong) {
+
+        // Добавляем новую координату и обновляем polyline
         ((LatLongArray)polyline.getLatLongs()).add(latLong);
+        polyline.updateTo();
     }
 }

@@ -61,12 +61,8 @@ public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEven
     public void leftMouseClicked(LatLong latLong) {
         super.leftMouseClicked(latLong);
 
-        // Добавляем новую координату и обновляем polyline
-        ((LatLongArray)getPolyline().getLatLongs()).add(latLong);
-        getPolyline().updateTo();
-
         // Расчитываем расстояние
-        String distanceString = "Расстояние: " + confirmDistance() + " метров";
+        String distanceString = confirmDistance() + " м";
         log.info(distanceString);
 
         // Выставляем значение расстояния
@@ -91,7 +87,7 @@ public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEven
             LatLongArray latLongArray = (LatLongArray)getPolyline().getLatLongs();
             List<LatLong> latLongs = new ArrayList<>(latLongArray);
 
-            String distanceString = "Расстояние: " + confirmDistance() + " метров";
+            String distanceString = "Расстояние: " + confirmDistance() + " м";
             log.info(distanceString);
 
             marker.setLatLong(latLongs.get(latLongs.size() - 1));
@@ -105,17 +101,16 @@ public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEven
     @Override
     public void mouseMoved(LatLong latLong) {
         LatLongArray latLongArray = (LatLongArray)getPolyline().getLatLongs();
-        List<LatLong> latLongs = new ArrayList<>(latLongArray);
-        latLongs.add(latLong);
+        latLongArray.add(latLong);
 
-        double distance = countingDistance(latLongs);
-        String distanceString = "Расстояние: " + (int)distance + " метров";
+        double distance = countingDistance(latLongArray);
+        String distanceString = (int)distance + " м";
 
         // Выставляем значение расстояния
         if (marker != null) {
 
             if (brokenLine == null) {
-                brokenLine = new Polyline(latLongArray.get(latLongArray.size() - 1), latLong);
+                brokenLine = new Polyline(latLongArray.get(latLongArray.size() - 2), latLong);
 
                 // Делаем прерывистую линию
                 brokenLine.getPathOptions().setDashArray("5, 7");
@@ -128,7 +123,7 @@ public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEven
             } else {
                 brokenLine.remove();
 
-                LatLong[] arrLatLong = new LatLong[]{latLongArray.get(latLongArray.size() - 1), latLong};
+                LatLong[] arrLatLong = new LatLong[]{latLongArray.get(latLongArray.size() - 2), latLong};
                 brokenLine.setLatLongs(new LatLongArray(arrLatLong));
 
                 brokenLine.updateTo();
@@ -139,6 +134,8 @@ public class RulerDrawAdapter extends PolylineDrawAdapter implements MapMoveEven
 
             marker.bindTooltip(distanceString);
         }
+
+        latLongArray.remove(latLong);
     }
 
     /**
