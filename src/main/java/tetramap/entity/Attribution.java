@@ -35,7 +35,7 @@ public class Attribution extends LeafletObject {
         setMapView(mapView);
 
         log.info("Создание Attribution (название слоя карты в углу карты), id: {}", getId());
-        mapView.execScript(String.join("","var ", this.getId(), " = ", mapView.getMap().getId(), ".", this.getTypeInstantiatesMap(), ";"));
+        mapView.execScript(String.join("",this.getId(), " = ", mapView.getMap().getId(), ".", this.getTypeInstantiatesMap(), ";"));
     }
 
     @Override

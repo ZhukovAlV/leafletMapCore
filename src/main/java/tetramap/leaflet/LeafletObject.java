@@ -33,7 +33,7 @@ public abstract class LeafletObject implements BasicType {
     public void addTo(MapView mapView) {
         this.mapView = mapView;
 
-        mapView.execScript(String.join("","var ", this.getId(), " = L.", this.getTypeInstantiatesMap(), "(", this.toString(), ");"));
+        mapView.execScript(String.join("",this.getId(), " = L.", this.getTypeInstantiatesMap(), "(", this.toString(), ");"));
     }
 
     @Override

@@ -50,7 +50,7 @@ public class LeafletMap extends LeafletObject {
         setMapView(mapView);
 
         log.info("Создание карты LeafletMap, id: {}", this.getId());
-        mapView.execScript(String.join("","var ", this.getId(), " = L.", this.getTypeInstantiatesMap(),"(", this.toString(), ");"));
+        mapView.execScript(String.join("",this.getId(), " = L.", this.getTypeInstantiatesMap(),"(", this.toString(), ");"));
 
         // Скрипт, чтобы яндекс карты работали
         mapView.execScript(this.getId() + ".on('baselayerchange', function (e) {var center = " + this.getId() +

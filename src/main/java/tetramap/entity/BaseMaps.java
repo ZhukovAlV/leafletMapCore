@@ -40,6 +40,6 @@ public class BaseMaps extends LeafletObject {
     public void addTo(MapView mapView) {
         setMapView(mapView);
 
-        mapView.execScript(String.join("", "var ", this.getId(), " = ", this.toString(), ";"));
+        mapView.execScript(String.join("", this.getId(), " = ", this.toString(), ";"));
     }
 }
