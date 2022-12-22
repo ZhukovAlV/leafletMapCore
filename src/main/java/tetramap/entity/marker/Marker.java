@@ -9,15 +9,12 @@ import tetramap.entity.types.LatLong;
 import tetramap.layer.Layer;
 import tetramap.type.TypeInstantiatesMap;
 
-import java.io.Serial;
-
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @Log4j2
 public class Marker extends Layer {
 
-    @Serial
     private static final long serialVersionUID = 5997712572773708479L;
 
     /**

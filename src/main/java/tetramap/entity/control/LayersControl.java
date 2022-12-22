@@ -9,15 +9,12 @@ import tetramap.gui.MapView;
 import tetramap.leaflet.LeafletControl;
 import tetramap.type.TypeInstantiatesMap;
 
-import java.io.Serial;
-
 @EqualsAndHashCode(callSuper = true)
 @Log4j2
 @Data
 @AllArgsConstructor
 public class LayersControl extends LeafletControl {
 
-    @Serial
     private static final long serialVersionUID = -7779809624116362068L;
 
     private final BaseMaps tileLayerList;

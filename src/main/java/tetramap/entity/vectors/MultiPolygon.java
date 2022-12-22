@@ -7,7 +7,6 @@ import tetramap.entity.types.LatLongBounds;
 import tetramap.entity.vectors.structure.GeometryStructure;
 import tetramap.entity.vectors.structure.MultiLatLongArray;
 
-import java.io.Serial;
 import java.util.ArrayList;
 
 /**
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 @AllArgsConstructor
 public class MultiPolygon extends Polygon {
 
-    @Serial
     private static final long serialVersionUID = 2133788010825025903L;
 
     private MultiPolygonStructure latlongs;
@@ -31,7 +29,6 @@ public class MultiPolygon extends Polygon {
 
     public static class MultiPolygonStructure extends ArrayList<MultiLatLongArray> implements GeometryStructure {
 
-        @Serial
         private static final long serialVersionUID = -8597806785233271725L;
 
         @Override

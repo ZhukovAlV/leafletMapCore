@@ -8,14 +8,12 @@ import tetramap.entity.vectors.structure.GeometryStructure;
 import tetramap.entity.vectors.structure.LatLongArray;
 import tetramap.type.TypeInstantiatesMap;
 
-import java.io.Serial;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class Polyline extends Path {
 
-    @Serial
     private static final long serialVersionUID = -2430760430165501877L;
     
     private double smoothFactor = 1.0;

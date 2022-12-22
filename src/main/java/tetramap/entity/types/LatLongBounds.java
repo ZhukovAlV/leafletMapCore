@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +16,6 @@ import java.util.List;
 @NoArgsConstructor
 public class LatLongBounds implements Serializable {
 
-    @Serial
     private static final long serialVersionUID = -7421430446913242834L;
 
     private LatLong southWest;

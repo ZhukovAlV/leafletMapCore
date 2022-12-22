@@ -2,7 +2,6 @@ package tetramap.entity.types;
 
 import lombok.Data;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 import static java.lang.Math.max;
@@ -14,7 +13,6 @@ import static java.lang.Math.min;
 @Data
 public class Bounds implements Serializable {
 
-    @Serial
     private static final long serialVersionUID = 181166727523469617L;
 
     private Point max = new Point();

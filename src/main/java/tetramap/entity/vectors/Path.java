@@ -5,14 +5,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import tetramap.layer.InteractiveLayer;
 
-import java.io.Serial;
-
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 public abstract class Path extends InteractiveLayer implements HasStyle {
 
-    @Serial
     private static final long serialVersionUID = 8625609400908426994L;
 
     /**

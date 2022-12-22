@@ -6,7 +6,6 @@ import lombok.extern.log4j.Log4j2;
 import tetramap.layer.Layer;
 import tetramap.type.TypeInstantiatesMap;
 
-import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +19,6 @@ import java.util.Optional;
 @Log4j2
 public class LayerGroup extends Layer implements LayerGroupFunctions {
 
-    @Serial
     private static final long serialVersionUID = 439247482151898231L;
 
     private List<Layer> layers;

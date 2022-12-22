@@ -3,7 +3,6 @@ package tetramap.entity.vectors.structure;
 import lombok.NoArgsConstructor;
 import tetramap.entity.types.LatLongBounds;
 
-import java.io.Serial;
 import java.util.ArrayList;
 
 /**
@@ -12,7 +11,6 @@ import java.util.ArrayList;
 @NoArgsConstructor
 public class MultiLatLongArray extends ArrayList<LatLongArray> implements GeometryStructure {
 
-    @Serial
     private static final long serialVersionUID = 7453345091992067182L;
 
     @Override

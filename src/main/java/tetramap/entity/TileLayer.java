@@ -6,14 +6,11 @@ import lombok.EqualsAndHashCode;
 import tetramap.leaflet.LeafletObject;
 import tetramap.type.TypeInstantiatesMap;
 
-import java.io.Serial;
-
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 public class TileLayer extends LeafletObject {
 
-    @Serial
     private static final long serialVersionUID = 2989693312308589756L;
 
     private String displayName;

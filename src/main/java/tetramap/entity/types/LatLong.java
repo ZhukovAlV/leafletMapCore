@@ -3,7 +3,6 @@ package tetramap.entity.types;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -13,7 +12,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class LatLong implements Serializable {
 
-    @Serial
     private static final long serialVersionUID = 8519525431224154852L;
 
     /**

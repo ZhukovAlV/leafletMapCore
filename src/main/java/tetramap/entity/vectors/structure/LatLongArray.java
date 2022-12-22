@@ -3,7 +3,6 @@ package tetramap.entity.vectors.structure;
 import tetramap.entity.types.LatLong;
 import tetramap.entity.types.LatLongBounds;
 
-import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,7 +12,6 @@ import java.util.List;
  */
 public class LatLongArray extends ArrayList<LatLong> implements GeometryStructure {
 
-    @Serial
     private static final long serialVersionUID = -909287963967251959L;
 
     public LatLongArray(LatLong[] LatLongs) {

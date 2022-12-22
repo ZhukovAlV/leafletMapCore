@@ -7,14 +7,11 @@ import tetramap.entity.DivOverlay;
 import tetramap.entity.types.Point;
 import tetramap.type.TypeInstantiatesMap;
 
-import java.io.Serial;
-
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 public class Popup extends DivOverlay {
 
-    @Serial
     private static final long serialVersionUID = 4544720725678791374L;
 
     private Integer maxWidth = 300;
