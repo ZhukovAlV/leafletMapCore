@@ -15,6 +15,7 @@ import tetramap.entity.types.LatLong;
 import tetramap.entity.vectors.Circle;
 import tetramap.entity.vectors.Polyline;
 import tetramap.entity.vectors.Rectangle;
+import tetramap.entity.vectors.decorator.PolylineDecorator;
 import tetramap.entity.vectors.structure.LatLongArray;
 import tetramap.event.LabelLatLong;
 import tetramap.route.RouteManager;
@@ -233,22 +234,8 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
             Polyline polyline = new Polyline(routeManager.getRouteFor(latLongArray));
             mapView.getLayerGroup().addLayer(polyline);
 
-            String script =  String.join("", "var decorator = L.polylineDecorator(",
-                    polyline.getId(), ", {patterns: [ {offset: 0, repeat: 100, symbol: L.Symbol.arrowHead({pixelSize: 15, pathOptions: {fillOpacity: 1, weight: 0}})} ]}).addTo("
-                            + mapView.getMap().getId() + ");" );
-            mapView.execScript(script);
-
-
-/*            List<String> destination = new ArrayList<>();
-            destination.add("[" + 55.030 + ", " + 73.2695 + "]");
-            destination.add("[" + 55.130 + ", " + 73.3695 + "]");
-
-            StringBuffer jsPositions = new StringBuffer();
-            destination.forEach(elem -> jsPositions.append(elem).append(", \n"));
-
-            String script = "var latLngs = [" + jsPositions + "]; var polyline = L.polyline(latLngs, {color: 'red', weight: 2}).addTo(" + mapView.getMap().getId() + "); "
-                    + mapView.getMap().getId() + ".fitBounds(polyline.getBounds());";
-            mapView.execScript(script);*/
+            PolylineDecorator polylineDecorator = new PolylineDecorator(polyline);
+            mapView.getLayerGroup().addLayer(polylineDecorator);
         });
 
         circleSelectionButton.setOnAction(event -> {

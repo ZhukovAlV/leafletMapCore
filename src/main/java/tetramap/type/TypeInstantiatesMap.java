@@ -21,7 +21,7 @@ public enum TypeInstantiatesMap {
     MARKER_CLUSTER_GROUP("markerClusterGroup"), // Кластер для маркеров
     DIV_OVERLAY("divOverlay"), // DivOverlay
     POPUP("popup"), // Popup (всплывающее окошко)
-    LINE_PM("Line"); // leaflet.PM.line из библиотеки leaflet-geoman
+    POLYLINE_DECORATOR("polylineDecorator"); // L.polylineDecorator - декоратор для оформления маршрута
 
     private final String name;
 
