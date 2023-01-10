@@ -1,6 +1,6 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('leaflet')) :
-	typeof define === 'function' && define.amd ? define(['leaflet'], factory) :
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('leaflet/leaflet')) :
+	typeof define === 'function' && define.amd ? define(['leaflet/leaflet'], factory) :
 	(factory(global.L));
 }(this, (function (L$1) { 'use strict';
 
