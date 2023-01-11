@@ -21,7 +21,8 @@ public enum TypeInstantiatesMap {
     MARKER_CLUSTER_GROUP("markerClusterGroup"), // Кластер для маркеров
     DIV_OVERLAY("divOverlay"), // DivOverlay
     POPUP("popup"), // Popup (всплывающее окошко)
-    POLYLINE_DECORATOR("polylineDecorator"); // L.polylineDecorator - декоратор для оформления маршрута
+    POLYLINE_DECORATOR("polylineDecorator"), // L.polylineDecorator - декоратор для оформления маршрута
+    SYMBOL_DECORATOR("Symbol"); // Вариант оформления polylineDecorator
 
     private final String name;
 

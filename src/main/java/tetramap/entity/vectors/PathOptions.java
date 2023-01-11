@@ -1,8 +1,7 @@
 package tetramap.entity.vectors;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -10,8 +9,7 @@ import java.io.Serializable;
  * Содержит параметры, общие для фигур (Polygon, Polyline, Circle).
  */
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 public class PathOptions implements Serializable {
 
 	private static final long serialVersionUID = -7714457256248051646L;

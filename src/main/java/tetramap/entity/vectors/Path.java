@@ -5,8 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import tetramap.layer.InteractiveLayer;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 public abstract class Path extends InteractiveLayer implements HasStyle {
 

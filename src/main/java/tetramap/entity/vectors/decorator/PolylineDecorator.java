@@ -1,15 +1,17 @@
 package tetramap.entity.vectors.decorator;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
 import tetramap.entity.vectors.Path;
 import tetramap.gui.MapView;
 import tetramap.layer.Layer;
 import tetramap.type.TypeInstantiatesMap;
 
+@Data
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
-@Getter
 @Log4j2
 public class PolylineDecorator extends Layer {
 
@@ -54,8 +56,8 @@ public class PolylineDecorator extends Layer {
                 "offset: " + offset +
                 ", endOffset: " + endOffset +
                 ", repeat: " + repeat +
-                ", symbol: L.Symbol." + symbol.getTypeSymbol() + "(" + symbol.toString() +
-                ")}]}";
+                ", symbol: " + symbol.getId() +
+                "}]}";
     }
 
     @Override
@@ -66,6 +68,8 @@ public class PolylineDecorator extends Layer {
     @Override
     public void addTo(MapView mapView) {
         setMapView(mapView);
+
+        symbol.addTo(mapView);
 
         mapView.execScript(String.join("",this.getId(), " = L.", this.getTypeInstantiatesMap(),
                 "(", this.toString(), ").addTo(", mapView.getMap().getId() + ");"));

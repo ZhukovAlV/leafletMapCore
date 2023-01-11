@@ -13,8 +13,8 @@ import java.util.ArrayList;
  * * A class for drawing multi polygon overlays on a map.
  *
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 public class MultiPolygon extends Polygon {
 

@@ -10,8 +10,8 @@ import tetramap.type.TypeInstantiatesMap;
 
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class Polyline extends Path {
 
     private static final long serialVersionUID = -2430760430165501877L;

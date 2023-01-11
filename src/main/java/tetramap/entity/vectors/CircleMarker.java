@@ -5,8 +5,8 @@ import lombok.EqualsAndHashCode;
 import tetramap.entity.types.LatLong;
 import tetramap.type.TypeInstantiatesMap;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class CircleMarker extends Path {
 
     private static final long serialVersionUID = 8294051897899342825L;

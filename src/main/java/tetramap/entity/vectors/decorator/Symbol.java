@@ -1,12 +1,20 @@
 package tetramap.entity.vectors.decorator;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.extern.log4j.Log4j2;
 import tetramap.entity.vectors.PathOptions;
+import tetramap.gui.MapView;
+import tetramap.leaflet.LeafletObject;
 
+import static tetramap.type.TypeInstantiatesMap.SYMBOL_DECORATOR;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
-@Getter
-public class Symbol {
+@Log4j2
+public class Symbol extends LeafletObject {
 
     /**
      * Размер символа. По умолчанию
@@ -39,6 +47,29 @@ public class Symbol {
                 "pixelSize: " + pixelSize +
                 ", pathOptions: " + pathOptions +
                 '}';
+    }
+
+    @Override
+    public String getTypeInstantiatesMap() {
+        return SYMBOL_DECORATOR.getName();
+    }
+
+    @Override
+    public void addTo(MapView mapView) {
+        setMapView(mapView);
+
+        mapView.execScript(String.join("",this.getId(), " = L.", this.getTypeInstantiatesMap(), ".",
+                typeSymbol.name(), "(", this.toString(), ");"));
+    }
+
+    @Override
+    public void updateTo() {
+        log.info("Удаление символа декоратора: {}", this.getId());
+        getMapView().execScript(this.getId() + ".remove();");
+
+        log.info("Обновление символа декоратора: {}", this.getId());
+        getMapView().execScript(String.join("",this.getId(), " = L.", this.getTypeInstantiatesMap(), ".",
+                typeSymbol.name(), "(", this.toString(), ");"));
     }
 
     /**
