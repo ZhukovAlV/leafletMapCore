@@ -1,15 +1,17 @@
 package tetramap.entity.vectors.decorator;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
 import tetramap.entity.vectors.Path;
 import tetramap.gui.MapView;
 import tetramap.layer.Layer;
 import tetramap.type.TypeInstantiatesMap;
 
+@Data
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
-@Getter
 @Log4j2
 public class PolylineDecorator extends Layer {
 

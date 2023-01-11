@@ -9,8 +9,8 @@ import tetramap.entity.vectors.structure.MultiLatLongArray;
 /**
  * A class for drawing multi polyline overlays on a map.
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 public class MultiPolyline extends Polyline {
 

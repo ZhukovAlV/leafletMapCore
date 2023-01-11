@@ -1,5 +1,7 @@
 package tetramap.entity.vectors;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import tetramap.entity.types.LatLong;
 import tetramap.entity.vectors.structure.GeometryStructure;
 import tetramap.entity.vectors.structure.LatLongArray;
@@ -14,6 +16,8 @@ import java.util.List;
  * points you pass when creating a polygon shouldn't have an additional last
  * point equal to the first one — it's better to filter out such points.
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class Polygon extends Polyline {
 
     private static final long serialVersionUID = -128072866378031092L;
