@@ -56,8 +56,8 @@ public class PolylineDecorator extends Layer {
                 "offset: " + offset +
                 ", endOffset: " + endOffset +
                 ", repeat: " + repeat +
-                ", symbol: L.Symbol." + symbol.getTypeSymbol() + "(" + symbol.toString() +
-                ")}]}";
+                ", symbol: " + symbol.getId() +
+                "}]}";
     }
 
     @Override
@@ -68,6 +68,8 @@ public class PolylineDecorator extends Layer {
     @Override
     public void addTo(MapView mapView) {
         setMapView(mapView);
+
+        symbol.addTo(mapView);
 
         mapView.execScript(String.join("",this.getId(), " = L.", this.getTypeInstantiatesMap(),
                 "(", this.toString(), ").addTo(", mapView.getMap().getId() + ");"));
