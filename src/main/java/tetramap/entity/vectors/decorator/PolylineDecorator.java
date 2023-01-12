@@ -109,11 +109,7 @@ public class PolylineDecorator extends Layer {
 
     @Override
     public void updateTo() {
-        log.info("Удаление с карты слоя layer: {}", this.getId());
-        getMapView().execScript(this.getId() + ".remove();");
-
-        startMarker.remove();
-        endMarker.remove();
+        remove();
 
         log.info("Обновляем значение layer: {}", this.getId());
         getMapView().execScript(String.join("",this.getId(), " = L.", this.getTypeInstantiatesMap(),
@@ -126,5 +122,14 @@ public class PolylineDecorator extends Layer {
         LatLong latLongEnd = ((LatLongArray)polyline.getLatLongs()).get(0);
         endMarker = new Marker(latLongEnd, icon, latLongEnd.toString());
         endMarker.addTo(getMapView());
+    }
+
+    @Override
+    public void remove() {
+        log.info("Удаление с карты слоя layer: {}", this.getId());
+        getMapView().execScript(this.getId() + ".remove();");
+
+        startMarker.remove();
+        endMarker.remove();
     }
 }
