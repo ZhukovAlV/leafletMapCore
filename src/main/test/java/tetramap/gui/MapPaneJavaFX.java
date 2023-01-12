@@ -95,6 +95,10 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
 
     private final LabelLatLong textLatLong = new LabelLatLong();
 
+    // Путь к картинке иконки для маркеров
+    private final String ICON_ROUTE_START_PATH = "src/main/resources/route/start_path.png";
+    private final String ICON_ROUTE_END_PATH = "src/main/resources/route/end_path.png";
+
     public MapPaneJavaFX(MapView mapView) {
         super();
         this.mapView = mapView;
@@ -234,7 +238,7 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
             Polyline polyline = new Polyline(routeManager.getRouteFor(latLongArray));
             mapView.getLayerGroup().addLayer(polyline);
 
-            PolylineDecorator polylineDecorator = new PolylineDecorator(polyline);
+            PolylineDecorator polylineDecorator = new PolylineDecorator(polyline, ICON_ROUTE_START_PATH, ICON_ROUTE_END_PATH);
             mapView.getLayerGroup().addLayer(polylineDecorator);
         });
 

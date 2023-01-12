@@ -13,6 +13,8 @@ import tetramap.gui.MapView;
 import tetramap.layer.Layer;
 import tetramap.type.TypeInstantiatesMap;
 
+import java.io.File;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
@@ -53,16 +55,26 @@ public class PolylineDecorator extends Layer {
     private Marker endMarker;
 
     /**
-     * Иконка для маркеров
+     * Иконки для маркеров
      */
-    private Icon icon;
+    private Icon iconStart;
+    private Icon iconEnd;
 
-    public PolylineDecorator(Polyline polyline) {
+    /**
+     * Путь к картинкам иконок для маркеров
+     */
+    private String iconStartPath;
+    private String iconEndPath;
+
+    public PolylineDecorator(Polyline polyline, String iconStartPath, String iconEndPath) {
         this.polyline = polyline;
-        offset = 50;
-        endOffset = 50;
-        repeat = 100;
-        symbol = new Symbol();
+        this.iconStartPath = iconStartPath;
+        this.iconEndPath = iconEndPath;
+
+        this.offset = 50;
+        this.endOffset = 50;
+        this.repeat = 100;
+        this.symbol = new Symbol();
     }
 
     @Override
@@ -90,8 +102,11 @@ public class PolylineDecorator extends Layer {
                 "(", this.toString(), ").addTo(", mapView.getMap().getId() + ");"));
 
         try {
-            icon = new Icon(getClass().getResource("/markerIcon/subscriber/marker_green.png").getPath());
-            icon.addTo(mapView);
+            iconStart = new Icon((new File(iconStartPath)).getAbsolutePath());
+            iconStart.addTo(mapView);
+
+            iconEnd = new Icon((new File(iconEndPath)).getAbsolutePath());
+            iconEnd.addTo(mapView);
         } catch (NullPointerException e){
             log.error("Иконка маркера маршрута не была загружена");
         }
@@ -99,11 +114,11 @@ public class PolylineDecorator extends Layer {
         LatLongArray latLongArray = (LatLongArray)polyline.getLatLongs();
         
         LatLong latLongStart = latLongArray.get(0);
-        startMarker = new Marker(latLongStart, icon, latLongStart.toString());
+        startMarker = new Marker(latLongStart, iconStart, latLongStart.toString());
         startMarker.addTo(mapView);
 
         LatLong latLongEnd = latLongArray.get(latLongArray.size() - 1);
-        endMarker = new Marker(latLongEnd, icon, latLongEnd.toString());
+        endMarker = new Marker(latLongEnd, iconEnd, latLongEnd.toString());
         endMarker.addTo(mapView);
     }
 
@@ -116,11 +131,11 @@ public class PolylineDecorator extends Layer {
                 "(", this.toString(), ").addTo(", getMapView().getMap().getId() + ");"));
 
         LatLong latLongStart = ((LatLongArray)polyline.getLatLongs()).get(0);
-        startMarker = new Marker(latLongStart, icon, latLongStart.toString());
+        startMarker = new Marker(latLongStart, iconStart, latLongStart.toString());
         startMarker.addTo(getMapView());
 
         LatLong latLongEnd = ((LatLongArray)polyline.getLatLongs()).get(0);
-        endMarker = new Marker(latLongEnd, icon, latLongEnd.toString());
+        endMarker = new Marker(latLongEnd, iconEnd, latLongEnd.toString());
         endMarker.addTo(getMapView());
     }
 
