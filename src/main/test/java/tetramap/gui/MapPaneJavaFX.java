@@ -10,17 +10,14 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import lombok.extern.log4j.Log4j2;
 import tetramap.adapter.PolygonDrawAdapter;
+import tetramap.adapter.RouteDrawAdapter;
 import tetramap.adapter.RulerDrawAdapter;
 import tetramap.entity.types.LatLong;
 import tetramap.entity.vectors.Circle;
-import tetramap.entity.vectors.Polyline;
 import tetramap.entity.vectors.Rectangle;
-import tetramap.entity.vectors.decorator.PolylineDecorator;
 import tetramap.entity.vectors.structure.LatLongArray;
 import tetramap.event.LabelLatLong;
-import tetramap.route.RouteManager;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
@@ -70,9 +67,6 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
     //private static final SelectionGeojsonParser selectionGeoJsonParser = new SelectionGeojsonParser();
     private static final String EXTENSION_FILE_GEO_JSON = ".geojson";
 
-    // RouteManager для построения маршрута
-    private final RouteManager routeManager = new RouteManager();
-
     // Кнопки управления масштабом
     private final VBox zoomBox = new VBox();
     private final Button centerButton = new Button();
@@ -95,13 +89,14 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
 
     private final LabelLatLong textLatLong = new LabelLatLong();
 
-    // Путь к картинке иконки для маркеров
-    private final String ICON_ROUTE_START_PATH = "src/main/resources/route/start_path.png";
-    private final String ICON_ROUTE_END_PATH = "src/main/resources/route/end_path.png";
+    // Адаптер для прорисовки маршрута
+    private final RouteDrawAdapter routeDrawAdapter;
 
     public MapPaneJavaFX(MapView mapView) {
         super();
         this.mapView = mapView;
+
+        routeDrawAdapter = new RouteDrawAdapter(mapView);
     }
 
     @Override
@@ -112,18 +107,18 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
 
         // Загрузка иконок для кнопок
         try {
-            centerButton.setGraphic(loadIcon("buttonIcon/center.png", ZOOM_ICON_SIZE));
-            zoomInButton.setGraphic(loadIcon("buttonIcon/zoom-in.png", ZOOM_ICON_SIZE));
-            zoomOutButton.setGraphic(loadIcon("buttonIcon/zoom-out.png", ZOOM_ICON_SIZE));
-            boxSelectionButton.setGraphic(loadIcon("buttonIcon/box-selection.png", ICON_SIZE));
-            circleSelectionButton.setGraphic(loadIcon("buttonIcon/round-selection.png", ICON_SIZE));
-            polygonSelectionButton.setGraphic(loadIcon("buttonIcon/polygon-selection.png", ICON_SIZE));
-            repeatSelectionButton.setGraphic(loadIcon("buttonIcon/reload-selection.png", ICON_SIZE));
-            cancelSelectionButton.setGraphic(loadIcon("buttonIcon/cancel-selection.png", ICON_SIZE));
-            loadSelectionButton.setGraphic(loadIcon("buttonIcon/load.png", ICON_SIZE));
-            saveSelectionButton.setGraphic(loadIcon("buttonIcon/save.png", ICON_SIZE));
-            rulerToggleButton.setGraphic(loadIcon("buttonIcon/ruler.png", ICON_SIZE));
-            routeToggleButton.setGraphic(loadIcon("buttonIcon/trace_path.png", ICON_SIZE));
+            centerButton.setGraphic(loadIcon("icon/button/center.png", ZOOM_ICON_SIZE));
+            zoomInButton.setGraphic(loadIcon("icon/button/zoom-in.png", ZOOM_ICON_SIZE));
+            zoomOutButton.setGraphic(loadIcon("icon/button/zoom-out.png", ZOOM_ICON_SIZE));
+            boxSelectionButton.setGraphic(loadIcon("icon/button/box-selection.png", ICON_SIZE));
+            circleSelectionButton.setGraphic(loadIcon("icon/button/round-selection.png", ICON_SIZE));
+            polygonSelectionButton.setGraphic(loadIcon("icon/button/polygon-selection.png", ICON_SIZE));
+            repeatSelectionButton.setGraphic(loadIcon("icon/button/reload-selection.png", ICON_SIZE));
+            cancelSelectionButton.setGraphic(loadIcon("icon/button/cancel-selection.png", ICON_SIZE));
+            loadSelectionButton.setGraphic(loadIcon("icon/button/load.png", ICON_SIZE));
+            saveSelectionButton.setGraphic(loadIcon("icon/button/save.png", ICON_SIZE));
+            rulerToggleButton.setGraphic(loadIcon("icon/button/ruler.png", ICON_SIZE));
+            routeToggleButton.setGraphic(loadIcon("icon/button/trace_path.png", ICON_SIZE));
         } catch (NullPointerException e) {
             log.warn("Ошибка при загрузке иконок для кнопок управления карты!");
         }
@@ -230,16 +225,10 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
 
         });
 
+        // Слушатель на построение маршрута по заданным точкам
         routeToggleButton.setOnAction(event -> {
-            LatLongArray latLongArray = new LatLongArray(
-                    List.of(new LatLong(55.030, 73.2695),
-                            new LatLong(55.000, 73.2495)));
-
-            Polyline polyline = new Polyline(routeManager.getRouteFor(latLongArray));
-            mapView.getLayerGroup().addLayer(polyline);
-
-            PolylineDecorator polylineDecorator = new PolylineDecorator(polyline, ICON_ROUTE_START_PATH, ICON_ROUTE_END_PATH);
-            mapView.getLayerGroup().addLayer(polylineDecorator);
+            if (((LatLongArray)routeDrawAdapter.getLatLongPolyline().getLatLongs()).isEmpty()) routeDrawAdapter.onInvoke();
+            else routeDrawAdapter.onRevoke();
         });
 
         circleSelectionButton.setOnAction(event -> {
@@ -292,6 +281,8 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
             // Очищаем все фигуры
             mapView.getLayerGroup().clearLayers();
 
+            if (!((LatLongArray)routeDrawAdapter.getLatLongPolyline().getLatLongs()).isEmpty()) routeDrawAdapter.onRevoke();
+
 /*           mapView.execScript(mapView.getMap().getId() + ".pm.getGeomanDrawLayers(false)" +
                    ".forEach(function(entry) {" +
                     "entry.remove();" +
@@ -299,13 +290,6 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
            );*/
         });
 
-        // Загружаем карты для graphhopper
-        if (getClass().getResource("/route/RU-OMS.pbf") != null) {
-            File mapForRoute = new File(getClass().getResource("/route/RU-OMS.pbf").getFile());
-            routeManager.initializeData(mapForRoute);
-        } else {
-            log.error("Файл с картой RU-OMS.pbf недоступен");
-        }
         //  mapView.getMarkerDrawAdapter().draw();
     }
 

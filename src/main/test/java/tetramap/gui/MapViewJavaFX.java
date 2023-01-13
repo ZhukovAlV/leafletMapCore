@@ -18,9 +18,13 @@ import tetramap.event.*;
 import tetramap.layer.Layer;
 import tetramap.layer.groups.LayerGroup;
 import tetramap.leaflet.LeafletMap;
+import tetramap.route.RouteManager;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -47,6 +51,9 @@ public class MapViewJavaFX extends StackPane implements MapView {
     // Менеджер на перемещение мыши
     private final MapMoveEventManager mapMoveEventManager;
 
+    // RouteManager для построения маршрута
+    private final RouteManager routeManager = new RouteManager();
+
     public MapViewJavaFX() {
         getChildren().add(WEB_VIEW);
 
@@ -56,6 +63,16 @@ public class MapViewJavaFX extends StackPane implements MapView {
         mapMoveEventManager = new MapMoveEventManager();
 
         layerGroup = new LayerGroup();
+
+        // Загружаем карты для graphhopper
+        try {
+            Properties props = new Properties();
+            props.load(this.getClass().getResourceAsStream("/project.properties"));
+            File mapForRoute = new File(props.get("route.map").toString());
+            routeManager.initializeData(mapForRoute);
+        } catch (IOException e) {
+            log.error("Файл с картой для построения маршрута недоступен");
+        }
     }
 
     @Override
@@ -166,6 +183,11 @@ public class MapViewJavaFX extends StackPane implements MapView {
     @Override
     public LeafletMap getMap() {
         return map;
+    }
+
+    @Override
+    public RouteManager getRouteManager() {
+        return routeManager;
     }
 
     /**

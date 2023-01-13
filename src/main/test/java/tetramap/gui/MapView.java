@@ -7,6 +7,7 @@ import tetramap.event.MapRightClickEventListener;
 import tetramap.layer.Layer;
 import tetramap.layer.groups.LayerGroup;
 import tetramap.leaflet.LeafletMap;
+import tetramap.route.RouteManager;
 
 /**
  * View для карты
@@ -73,6 +74,13 @@ public interface MapView {
      * @return LeafletMap карта Leaflet
      */
     LeafletMap getMap();
+
+    /**
+     * Получение RouteManager для построения маршрута
+     *
+     * @return RouteManager для построения маршрута
+     */
+    RouteManager getRouteManager();
 
     /**
      * Добавления слоя на карту
