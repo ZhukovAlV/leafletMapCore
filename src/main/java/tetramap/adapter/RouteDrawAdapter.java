@@ -15,8 +15,6 @@ import java.util.ArrayList;
 @Log4j2
 public class RouteDrawAdapter implements Invokable, MapLeftClickEventListener {
 
-    private final String ROUTE_PATH = "/icon/route/RU-OMS.pbf";
-
     /**
      * View карты, на которой рисуется маршрут
      */
@@ -32,10 +30,10 @@ public class RouteDrawAdapter implements Invokable, MapLeftClickEventListener {
      */
     private final PolylineDecorator polylineDecorator;
 
-    public RouteDrawAdapter(MapView mapView) {
+    public RouteDrawAdapter(MapView mapView, String iconStartPath, String iconEndPath) {
         this.mapView = mapView;
         latLongPolyline = new Polyline(new ArrayList<>());
-        polylineDecorator = new PolylineDecorator(latLongPolyline);
+        polylineDecorator = new PolylineDecorator(latLongPolyline, iconStartPath, iconEndPath);
     }
 
     @Override

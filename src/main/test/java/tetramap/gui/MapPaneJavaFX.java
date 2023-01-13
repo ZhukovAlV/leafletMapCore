@@ -18,9 +18,11 @@ import tetramap.entity.vectors.Rectangle;
 import tetramap.entity.vectors.structure.LatLongArray;
 import tetramap.event.LabelLatLong;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Реализованная панель для JavaFx
@@ -90,13 +92,20 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
     private final LabelLatLong textLatLong = new LabelLatLong();
 
     // Адаптер для прорисовки маршрута
-    private final RouteDrawAdapter routeDrawAdapter;
+    private RouteDrawAdapter routeDrawAdapter;
 
     public MapPaneJavaFX(MapView mapView) {
         super();
         this.mapView = mapView;
 
-        routeDrawAdapter = new RouteDrawAdapter(mapView);
+        try {
+            Properties props = new Properties();
+            props.load(this.getClass().getResourceAsStream("/project.properties"));
+            routeDrawAdapter = new RouteDrawAdapter(mapView, props.get("icon.start.route").toString(),
+                    props.get("icon.end.route").toString());
+        } catch (IOException e) {
+            log.error("Файлы с картинками иконок для использования RouteDrawAdapter не прогрузились. RouteDrawAdapter недоступен");
+        }
     }
 
     @Override

@@ -63,17 +63,13 @@ public class PolylineDecorator extends Layer {
     /**
      * Путь к картинкам иконок для маркеров
      */
-    public String iconStartPath = "src/main/resources/icon/route/start_path.png";
-    public String iconEndPath = "src/main/resources/icon/route/end_path.png";
+    private final String ICON_START_PATH;
+    private final String ICON_END_PATH;
 
     public PolylineDecorator(Polyline routePolyline, String iconStartPath, String iconEndPath) {
-        this(routePolyline);
+        this.ICON_START_PATH = iconStartPath;
+        this.ICON_END_PATH = iconEndPath;
 
-        this.iconStartPath = iconStartPath;
-        this.iconEndPath = iconEndPath;
-    }
-
-    public PolylineDecorator(Polyline routePolyline) {
         this.routePolyline = routePolyline;
 
         this.offset = 50;
@@ -108,10 +104,10 @@ public class PolylineDecorator extends Layer {
                 "(", this.toString(), ").addTo(", mapView.getMap().getId() + ");"));
 
         try {
-            iconStart = new Icon((new File(iconStartPath)).getAbsolutePath());
+            iconStart = new Icon((new File(ICON_START_PATH)).getAbsolutePath());
             iconStart.addTo(mapView);
 
-            iconEnd = new Icon((new File(iconEndPath)).getAbsolutePath());
+            iconEnd = new Icon((new File(ICON_END_PATH)).getAbsolutePath());
             iconEnd.addTo(mapView);
         } catch (NullPointerException e){
             log.error("Иконка маркера маршрута не была загружена");
