@@ -14,6 +14,7 @@ import tetramap.entity.control.LayersControl;
 import tetramap.entity.control.ScaleControl;
 import tetramap.entity.control.ZoomControl;
 import tetramap.entity.types.LatLong;
+import tetramap.entity.types.LatLongBounds;
 import tetramap.event.*;
 import tetramap.layer.Layer;
 import tetramap.layer.groups.LayerGroup;
@@ -127,6 +128,9 @@ public class MapViewJavaFX extends StackPane implements MapView {
         if (zoomControl.isShow()) {
             zoomControl.addTo(this);
         }
+
+        // Настройка зоны видимости
+        setMaxBounds(mapConfig.getLatLongBounds());
 
         // Добавляем слушателей в mapView
         addMouseMoveEvent();
@@ -331,6 +335,12 @@ public class MapViewJavaFX extends StackPane implements MapView {
     @Override
     public LayerGroup getLayerGroup() {
         return layerGroup;
+    }
+
+    @Override
+    public void setMaxBounds(LatLongBounds latLongBounds) {
+        log.info("Устанавливаются границы карты: {}", latLongBounds);
+        execScript(map.getId() + ".setMaxBounds(L.latLngBounds(" + latLongBounds.getSouthWest() + "," + latLongBounds.getNorthEast() +"));");
     }
 
     @Override

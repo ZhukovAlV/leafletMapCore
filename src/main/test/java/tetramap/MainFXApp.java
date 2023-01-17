@@ -9,6 +9,7 @@ import tetramap.entity.TileLayer;
 import tetramap.entity.control.ScaleControl;
 import tetramap.entity.control.ZoomControl;
 import tetramap.entity.types.LatLong;
+import tetramap.entity.types.LatLongBounds;
 import tetramap.leaflet.LeafletControl;
 import tetramap.leaflet.LeafletMap;
 
@@ -76,13 +77,18 @@ public class MainFXApp extends Application {
         LeafletMap map  = new LeafletMap("map", new LatLong(55.030, 73.2695),
                 14, 0, 18,false, layers.get(0), attribution);
 
+        // Координаты для задания зоны видимости карты
+        LatLong southWest = new LatLong(53.5925, 70.4223);
+        LatLong northEast = new LatLong(58.4477, 76.3769);
+        LatLongBounds latLongBounds = new LatLongBounds(southWest, northEast);
 
         // Добавляем это все в конфигурационный файл
         MapConfig mapConfig = new MapConfig(
                 layers,
                 new ZoomControl(false, LeafletControl.ControlPosition.bottomleft),
                 new ScaleControl(true, LeafletControl.ControlPosition.bottomleft,true),
-                map
+                map,
+                latLongBounds
         );
 
         MapViewJavaFX mapView = new MapViewJavaFX();

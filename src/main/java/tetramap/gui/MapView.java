@@ -1,6 +1,7 @@
 package tetramap.gui;
 
 import tetramap.config.MapConfig;
+import tetramap.entity.types.LatLongBounds;
 import tetramap.event.MapLeftClickEventListener;
 import tetramap.event.MapMoveEventListener;
 import tetramap.event.MapRightClickEventListener;
@@ -132,4 +133,10 @@ public interface MapView {
      * @return LayerGroup слоев на карте
      */
     LayerGroup getLayerGroup();
+
+    /**
+     * Задание зоны видимости
+     * @param latLongBounds LatLongBounds - 2 крайние точки (юго-западная и северо-восточная)
+     */
+    void setMaxBounds(LatLongBounds latLongBounds);
 }
