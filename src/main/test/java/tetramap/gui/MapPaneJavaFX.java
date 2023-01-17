@@ -12,6 +12,9 @@ import lombok.extern.log4j.Log4j2;
 import tetramap.adapter.PolygonDrawAdapter;
 import tetramap.adapter.RouteDrawAdapter;
 import tetramap.adapter.RulerDrawAdapter;
+import tetramap.draw.PolygonDrawAdapterImpl;
+import tetramap.draw.RouteDrawAdapterImpl;
+import tetramap.draw.RulerDrawAdapterImpl;
 import tetramap.entity.types.LatLong;
 import tetramap.entity.vectors.Circle;
 import tetramap.entity.vectors.Rectangle;
@@ -101,7 +104,7 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
         try {
             Properties props = new Properties();
             props.load(this.getClass().getResourceAsStream("/project.properties"));
-            routeDrawAdapter = new RouteDrawAdapter(mapView, props.get("icon.start.route").toString(),
+            routeDrawAdapter = new RouteDrawAdapterImpl(mapView, props.get("icon.start.route").toString(),
                     props.get("icon.end.route").toString());
         } catch (IOException e) {
             log.error("Файлы с картинками иконок для использования RouteDrawAdapter не прогрузились. RouteDrawAdapter недоступен");
@@ -229,7 +232,7 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
             }
             mapView.execScript(mapView.getMap().getId() + ".addLayer(markers);");
 */
-            RulerDrawAdapter rulerDrawAdapter = new RulerDrawAdapter(mapView);
+            RulerDrawAdapter rulerDrawAdapter = new RulerDrawAdapterImpl(mapView);
             rulerDrawAdapter.onInvoke();
 
         });
@@ -269,7 +272,7 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
             //polygon.addTo(mapView);
             mapView.getLayerGroup().addLayer(polygon);*/
 
-            PolygonDrawAdapter polygonDrawAdapter = new PolygonDrawAdapter(mapView);
+            PolygonDrawAdapter polygonDrawAdapter = new PolygonDrawAdapterImpl(mapView);
             polygonDrawAdapter.onInvoke();
         });
 
