@@ -89,7 +89,6 @@ public class MainFXApp extends Application {
         mapView.displayMap(mapConfig);
 
         MapPaneJavaFX mapPaneJavaFX = new MapPaneJavaFX(mapView);
-        mapPaneJavaFX.initialize();
 
         Scene scene = new Scene(mapPaneJavaFX, WIGHT, HIGHT);
         primaryStage.setScene(scene);

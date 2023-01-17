@@ -1,5 +1,6 @@
 package tetramap.draw;
 
+import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import tetramap.adapter.RulerDrawAdapter;
 import tetramap.entity.marker.Marker;
@@ -19,12 +20,13 @@ import java.util.List;
  * с указанием общей длины линии (в метрах). Также
  */
 @Log4j2
+@Getter
 public class RulerDrawAdapterImpl extends PolylineDrawAdapterImpl implements RulerDrawAdapter {
 
     private final String START_DISTANCE = "Начало дистанции";
 
     // Подтвержденная дистанция - метры (не учитывается последняя точка, которая движется за курсором в режиме редактирования)
-    private int confirmedDistance;
+    private int distance;
 
     // Маркер для отображения дистанции
     private Marker marker;
@@ -144,9 +146,9 @@ public class RulerDrawAdapterImpl extends PolylineDrawAdapterImpl implements Rul
      */
     private int confirmDistance() {
         double distance = countingDistance((LatLongArray)getPolyline().getLatLongs());
-        confirmedDistance = (int)distance;
+        this.distance = (int)distance;
 
-        return confirmedDistance;
+        return this.distance;
     }
 
     private double countingDistance(List<LatLong> latLongs) {

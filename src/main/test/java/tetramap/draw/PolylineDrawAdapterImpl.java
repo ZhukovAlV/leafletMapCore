@@ -1,12 +1,14 @@
 package tetramap.draw;
 
 import lombok.Getter;
+import lombok.extern.log4j.Log4j2;
 import tetramap.adapter.PolylineDrawAdapter;
 import tetramap.entity.types.LatLong;
 import tetramap.entity.vectors.Polyline;
 import tetramap.entity.vectors.structure.LatLongArray;
 import tetramap.gui.MapView;
 
+@Log4j2
 @Getter
 public class PolylineDrawAdapterImpl implements PolylineDrawAdapter {
 

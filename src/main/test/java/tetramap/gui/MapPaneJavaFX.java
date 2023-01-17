@@ -97,10 +97,20 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
     // Адаптер для прорисовки маршрута
     private RouteDrawAdapter routeDrawAdapter;
 
+    // Адаптер для измерения расстояния маршрута
+    private RulerDrawAdapter rulerDrawAdapter;
+
     public MapPaneJavaFX(MapView mapView) {
         super();
         this.mapView = mapView;
 
+        initialize();
+    }
+
+    @Override
+    public void initialize() {
+
+        // Инициализируем адаптеры
         try {
             Properties props = new Properties();
             props.load(this.getClass().getResourceAsStream("/project.properties"));
@@ -109,10 +119,8 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
         } catch (IOException e) {
             log.error("Файлы с картинками иконок для использования RouteDrawAdapter не прогрузились. RouteDrawAdapter недоступен");
         }
-    }
 
-    @Override
-    public void initialize() {
+        rulerDrawAdapter = new RulerDrawAdapterImpl(mapView);
 
         // Добавляем карту на отображение в панели
         getChildren().add((Node)mapView);
@@ -201,41 +209,7 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
         centerButton.setOnAction(event -> mapView.moveToCenter());
 
 
-        rulerToggleButton.setOnAction(event -> {
-
-/*
-            Icon icon = new Icon(getClass().getResource("../../markerIcon/subscriber/marker_green.png").getPath());
-            icon.addTo(mapView);
-
-            // Добавим маркер N раз
-            mapView.execScript("var markers = L.markerClusterGroup();");
-            LatLong latLong = new LatLong(55.040, 73.2695);
-            for (int i = 0; i < 10; i++) {
-                latLong = new LatLong(latLong.getLatitude() + 0.001, latLong.getLongitude() + 0.001);
-                // Marker marker = new Marker(latLong, icon, "Marker №" + i);
-                Marker marker = new Marker(latLong, icon, "Marker №" + i);
-
-                mapView.getLayerGroup().addLayer(marker);
-                // Если кластеры использовать
-                mapView.execScript("var " +  marker.getId() + " = L.marker(" + marker + ");");
-                mapView.execScript("markers.addLayer(" + marker.getId() + ");");
-                marker.setMapView(mapView);
-                marker.addTo(mapView);
-
-                marker.bindTooltip("Тестовый маркер №" + i);
-
-                Popup popup = new Popup("Тестовый маркер №" + i);
-                popup.addTo(mapView);
-
-                // Добавляем подпись маркеру
-                marker.bindPopup(popup);
-            }
-            mapView.execScript(mapView.getMap().getId() + ".addLayer(markers);");
-*/
-            RulerDrawAdapter rulerDrawAdapter = new RulerDrawAdapterImpl(mapView);
-            rulerDrawAdapter.onInvoke();
-
-        });
+        rulerToggleButton.setOnAction(event -> rulerDrawAdapter.onInvoke());
 
         // Слушатель на построение маршрута по заданным точкам
         routeToggleButton.setOnAction(event -> {
