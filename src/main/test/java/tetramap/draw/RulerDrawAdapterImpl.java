@@ -56,6 +56,10 @@ public class RulerDrawAdapterImpl extends PolylineDrawAdapterImpl implements Rul
 
         getMapView().removeMouseMoveListener(this);
         getMapView().removeRightMouseClickListener(this);
+
+        marker = null;
+
+        ((LatLongArray)getPolyline().getLatLongs()).clear();
     }
 
     @Override
