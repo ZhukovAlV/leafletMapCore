@@ -32,6 +32,7 @@ public class RouteDrawAdapterImpl implements RouteDrawAdapter {
 
     public RouteDrawAdapterImpl(MapView mapView, String iconStartPath, String iconEndPath) {
         this.mapView = mapView;
+
         latLongPolyline = new Polyline(new ArrayList<>());
         polylineDecorator = new PolylineDecorator(latLongPolyline, iconStartPath, iconEndPath);
     }

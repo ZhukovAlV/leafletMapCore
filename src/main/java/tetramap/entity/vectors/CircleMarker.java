@@ -20,7 +20,14 @@ public class CircleMarker extends Path {
      * @param center географическая координата LatLong
      */
     public CircleMarker(LatLong center) {
-        this(center, 10);
+        super();
+        this.center = center;
+        this.radius = 10;
+    }
+
+    public CircleMarker(LatLong center, PathOptions pathOptions) {
+        this(center);
+        setPathOptions(pathOptions);
     }
 
     public CircleMarker(LatLong center, double radius) {
@@ -31,8 +38,8 @@ public class CircleMarker extends Path {
 
     @Override
     public String toString() {
-        return "[" + center.getLatitude() + "," +
-                center.getLongitude() + "], {radius: " +
+        return "[" + center.getLatitude() + ", " +
+                center.getLongitude() + "], {"  + getPathOptions().toString() + ", radius: " +
                 radius + "}";
     }
 

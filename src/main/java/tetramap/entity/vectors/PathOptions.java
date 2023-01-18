@@ -81,9 +81,9 @@ public class PathOptions implements Serializable {
 		this.opacity = 1.0;
 		this.lineCap = "round";
 		this.lineJoin = "round";
-/*		this.dashArray = ;
-		this.dashOffset = ;
-		this.fill = ;*/
+		this.dashArray = "0, 0";
+		this.dashOffset = "0";
+		this.fill = false;
 		this.fillColor = "#3388ff";
 		this.fillOpacity = 0.2;
 	}
@@ -101,7 +101,7 @@ public class PathOptions implements Serializable {
 
 	@Override
 	public String toString() {
-		return String.join("","{",
+		return String.join("",
 				"stroke: " + stroke,
 				", color: '", color, "'",
 				", weight: " + weight,
@@ -113,7 +113,6 @@ public class PathOptions implements Serializable {
 				", fill: " + fill,
 				", fillColor: '", fillColor, "'",
 				", fillOpacity: " + fillOpacity,
-				", fillRule: '", fillRule, "'",
-				"}");
+				", fillRule: '", fillRule, "'");
 	}
 }

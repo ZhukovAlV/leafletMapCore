@@ -45,8 +45,8 @@ public class Symbol extends LeafletObject {
     public String toString() {
         return "{" +
                 "pixelSize: " + pixelSize +
-                ", pathOptions: " + pathOptions +
-                '}';
+                ", pathOptions: {" + pathOptions +
+                "}}";
     }
 
     @Override

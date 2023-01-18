@@ -21,9 +21,13 @@ import java.util.List;
  */
 @Log4j2
 @Getter
-public class RulerDrawAdapterImpl extends PolylineDrawAdapterImpl implements RulerDrawAdapter {
+public class RulerDrawAdapterImpl implements RulerDrawAdapter {
 
     private final String START_DISTANCE = "Начало дистанции";
+
+    private final MapView mapView;
+
+    private final Polyline polyline;
 
     // Подтвержденная дистанция - метры (не учитывается последняя точка, которая движется за курсором в режиме редактирования)
     private int distance;
@@ -35,7 +39,8 @@ public class RulerDrawAdapterImpl extends PolylineDrawAdapterImpl implements Rul
     private Polyline brokenLine;
 
     public RulerDrawAdapterImpl(MapView mapView) {
-        super(mapView);
+        this.mapView = mapView;
+        this.polyline = new Polyline();
 
         // Задаем цвет линии красный
         getPolyline().getPathOptions().setColor("red");
@@ -44,18 +49,19 @@ public class RulerDrawAdapterImpl extends PolylineDrawAdapterImpl implements Rul
 
     @Override
     public void onInvoke() {
-        super.onInvoke();
+        // Добавляем объект на карту
+        mapView.getLayerGroup().addLayer(polyline);
 
-        getMapView().addMouseMoveListener(this);
-        getMapView().addRightMouseClickListener(this);
+        mapView.addLeftMouseClickListener(this);
+        mapView.addMouseMoveListener(this);
+        mapView.addRightMouseClickListener(this);
     }
 
     @Override
     public void onRevoke() {
-        super.onRevoke();
-
-        getMapView().removeMouseMoveListener(this);
-        getMapView().removeRightMouseClickListener(this);
+        mapView.removeMouseMoveListener(this);
+        mapView.removeLeftMouseClickListener(this);
+        mapView.removeRightMouseClickListener(this);
 
         marker = null;
 
@@ -64,8 +70,10 @@ public class RulerDrawAdapterImpl extends PolylineDrawAdapterImpl implements Rul
 
     @Override
     public void leftMouseClicked(LatLong latLong) {
-        super.leftMouseClicked(latLong);
-
+        // Добавляем новую координату и обновляем polyline
+        ((LatLongArray)polyline.getLatLongs()).add(latLong);
+        polyline.updateTo();
+        
         // Расчитываем расстояние
         String distanceString = confirmDistance() + " м";
         log.info(distanceString);
@@ -78,7 +86,7 @@ public class RulerDrawAdapterImpl extends PolylineDrawAdapterImpl implements Rul
             marker.bindTooltip(distanceString);
         } else {
             marker = new Marker(latLong);
-            getMapView().getLayerGroup().addLayer(marker);
+            mapView.getLayerGroup().addLayer(marker);
 
             marker.bindTooltip(START_DISTANCE);
         }
@@ -124,7 +132,7 @@ public class RulerDrawAdapterImpl extends PolylineDrawAdapterImpl implements Rul
                 brokenLine.getPathOptions().setColor("red");
                 brokenLine.getPathOptions().setFillColor("red");
 
-                getMapView().getLayerGroup().addLayer(brokenLine);
+                mapView.getLayerGroup().addLayer(brokenLine);
             } else {
                 brokenLine.remove();
 
