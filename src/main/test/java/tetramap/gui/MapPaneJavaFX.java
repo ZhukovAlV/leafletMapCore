@@ -9,22 +9,16 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import lombok.extern.log4j.Log4j2;
-import tetramap.adapter.PolygonDrawAdapter;
+import tetramap.adapter.CircleDrawAdapter;
 import tetramap.adapter.RouteDrawAdapter;
 import tetramap.adapter.RulerDrawAdapter;
-import tetramap.draw.PolygonDrawAdapterImpl;
-import tetramap.draw.RouteDrawAdapterImpl;
-import tetramap.draw.RulerDrawAdapterImpl;
-import tetramap.entity.types.LatLong;
-import tetramap.entity.vectors.Circle;
-import tetramap.entity.vectors.Rectangle;
+import tetramap.draw.*;
 import tetramap.entity.vectors.structure.LatLongArray;
 import tetramap.event.LabelLatLong;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Properties;
 
 /**
@@ -94,11 +88,20 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
 
     private final LabelLatLong textLatLong = new LabelLatLong();
 
-    // Адаптер для прорисовки маршрута
+    // Адаптер для прорисовки маршрута Graphhopper
     private RouteDrawAdapter routeDrawAdapter;
 
     // Адаптер для измерения расстояния маршрута
     private RulerDrawAdapter rulerDrawAdapter;
+
+    // Адаптер для рисования прямоугольника
+    private RectangleDrawAdapterImpl rectangleDrawAdapter;
+
+    // Адаптер для рисования многоугольника
+    private PolygonDrawAdapterImpl polygonDrawAdapter;
+
+    // Адаптер для рисования круга
+    private CircleDrawAdapter circleDrawAdapter;
 
     public MapPaneJavaFX(MapView mapView) {
         super();
@@ -121,6 +124,9 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
         }
 
         rulerDrawAdapter = new RulerDrawAdapterImpl(mapView);
+        rectangleDrawAdapter = new RectangleDrawAdapterImpl(mapView);
+        polygonDrawAdapter = new PolygonDrawAdapterImpl(mapView);
+        circleDrawAdapter = new CircleDrawAdapterImpl(mapView);
 
         // Добавляем карту на отображение в панели
         getChildren().add((Node)mapView);
@@ -187,7 +193,6 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
         updatePanelHeight();
 
         // Добавляем панели для отображения
-        //  getChildren().addAll(zoomBox, selectionBox, tileSourceComboBox);
         getChildren().addAll(zoomBox, selectionBox);
 
         // Слушатель на изменение окна
@@ -197,9 +202,6 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
         });
 
         widthProperty().addListener((obs, oldVal, newVal) -> resizeMap());
-
-        // Добавляем слушателя на кнопки
-        //    circleSelectionButton.setOnAction(event -> mapView.getCircleDrawAdapter().draw());
 
         // Установка слушателей масштаба карты
         zoomInButton.setOnAction(event -> mapView.zoomIn());
@@ -214,69 +216,35 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
         // Слушатель на построение маршрута по заданным точкам
         routeToggleButton.setOnAction(event -> {
             if (((LatLongArray)routeDrawAdapter.getLatLongPolyline().getLatLongs()).isEmpty()) routeDrawAdapter.onInvoke();
-            else routeDrawAdapter.onRevoke();
+                else routeDrawAdapter.onRevoke();
         });
 
         circleSelectionButton.setOnAction(event -> {
-            // Добавим круг
-            LatLong latLong = new LatLong(55.030, 73.2695);
-            Circle circle = new Circle(latLong, 300);
-            //circle.addTo(mapView);
-            mapView.getLayerGroup().addLayer(circle);
+            circleDrawAdapter = new CircleDrawAdapterImpl(mapView);
+            circleDrawAdapter.onInvoke();
         });
 
         polygonSelectionButton.setOnAction(event -> {
-            // Добавим линию
-/*             LatLongArray latLongArray = new LatLongArray(
-                    List.of(new LatLong(55.030, 73.2695),
-                            new LatLong(55.040, 73.2795),
-                            new LatLong(55.030, 73.2795)));
-           Polyline polyline = new Polyline(latLongArray);
-            polyline.createTo(mapView);
-*/
-/*
-            // Добавим полигон
-            LatLongArray latLongArray2 = new LatLongArray(
-                    List.of(new LatLong(55.030, 73.2695),
-                            new LatLong(55.040, 73.2795),
-                            new LatLong(55.030, 73.2795),
-                            new LatLong(55.030, 73.2795),
-                            new LatLong(55.020, 73.2495)));
-            Polygon polygon = new Polygon(latLongArray2);
-            //polygon.addTo(mapView);
-            mapView.getLayerGroup().addLayer(polygon);*/
-
-            PolygonDrawAdapter polygonDrawAdapter = new PolygonDrawAdapterImpl(mapView);
+            polygonDrawAdapter = new PolygonDrawAdapterImpl(mapView);
             polygonDrawAdapter.onInvoke();
         });
 
         boxSelectionButton.setOnAction(event -> {
-            // Рисуем прямоугольник
-            List<LatLong> latLongArray =
-                    List.of(new LatLong(55.030, 73.2695),
-                            new LatLong(55.040, 73.2795));
-            Rectangle rectangle = new Rectangle(latLongArray);
-            // rectangle.addTo(mapView);
-            mapView.getLayerGroup().addLayer(rectangle);
+            rectangleDrawAdapter = new RectangleDrawAdapterImpl(mapView);
+            rectangleDrawAdapter.onInvoke();
         });
 
         cancelSelectionButton.setOnAction(event -> {
-            // отменяет выбор маркеров по области
-            // mapPane.getMapView().getAdapterManager().clearAdapters(mapPane.getCircleDrawAdapter());
 
             // Очищаем все фигуры
             mapView.getLayerGroup().clearLayers();
 
             if (!((LatLongArray)routeDrawAdapter.getLatLongPolyline().getLatLongs()).isEmpty()) routeDrawAdapter.onRevoke();
-
-/*           mapView.execScript(mapView.getMap().getId() + ".pm.getGeomanDrawLayers(false)" +
-                   ".forEach(function(entry) {" +
-                    "entry.remove();" +
-                   "});"
-           );*/
+            if (!((LatLongArray)rulerDrawAdapter.getPolyline().getLatLongs()).isEmpty()) routeDrawAdapter.onRevoke();
+            if (!((LatLongArray)rectangleDrawAdapter.getRectangle().getLatLongs()).isEmpty()) routeDrawAdapter.onRevoke();
+            if (!((LatLongArray)polygonDrawAdapter.getPolyline().getLatLongs()).isEmpty()) routeDrawAdapter.onRevoke();
+            if (circleDrawAdapter.getCircle() != null) circleDrawAdapter.onRevoke();
         });
-
-        //  mapView.getMarkerDrawAdapter().draw();
     }
 
     /**

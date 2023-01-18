@@ -54,9 +54,11 @@ public class PolygonDrawAdapterImpl implements PolygonDrawAdapter {
 
     @Override
     public void onRevoke() {
-        mapView.removeLeftMouseClickListener(this);
-        mapView.removeRightMouseClickListener(this);
-        mapView.removeMouseMoveListener(this);
+        removeListener();
+
+        mapView.getLayerGroup().removeLayer(brokenLine);
+        mapView.getLayerGroup().removeLayer(polyline);
+        if (!polygon.isEmpty()) mapView.getLayerGroup().removeLayer(polygon);
 
         // Очищаем координаты
         ((LatLongArray)brokenLine.getLatLongs()).clear();
@@ -76,9 +78,7 @@ public class PolygonDrawAdapterImpl implements PolygonDrawAdapter {
         polygon.setLatLongs((LatLongArray)polyline.getLatLongs());
         mapView.getLayerGroup().addLayer(polygon);
 
-        mapView.removeLeftMouseClickListener(this);
-        mapView.removeRightMouseClickListener(this);
-        mapView.removeMouseMoveListener(this);
+        removeListener();
 
         LatLongArray latLongArray = ((LatLongArray)polygon.getLatLongs());
         if (latLongArray.size() < 2) {
@@ -114,5 +114,11 @@ public class PolygonDrawAdapterImpl implements PolygonDrawAdapter {
             // Обновляем объект на карте
             brokenLine.updateTo();
         }
+    }
+
+    private void removeListener() {
+        mapView.removeLeftMouseClickListener(this);
+        mapView.removeRightMouseClickListener(this);
+        mapView.removeMouseMoveListener(this);
     }
 }

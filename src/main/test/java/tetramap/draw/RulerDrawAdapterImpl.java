@@ -29,13 +29,19 @@ public class RulerDrawAdapterImpl implements RulerDrawAdapter {
 
     private final Polyline polyline;
 
-    // Подтвержденная дистанция - метры (не учитывается последняя точка, которая движется за курсором в режиме редактирования)
+    /**
+     * Подтвержденная дистанция - метры (не учитывается последняя точка, которая движется за курсором в режиме редактирования)
+     */
     private int distance;
 
-    // Маркер для отображения дистанции
+    /**
+     * Маркер для отображения дистанции
+     */
     private Marker marker;
 
-    // Прерывистая линия для рисования дистанции
+    /**
+     * Прерывистая линия для рисования дистанции
+     */
     private Polyline brokenLine;
 
     public RulerDrawAdapterImpl(MapView mapView) {
@@ -43,8 +49,8 @@ public class RulerDrawAdapterImpl implements RulerDrawAdapter {
         this.polyline = new Polyline();
 
         // Задаем цвет линии красный
-        getPolyline().getPathOptions().setColor("red");
-        getPolyline().getPathOptions().setFillColor("red");
+        polyline.getPathOptions().setColor("red");
+        polyline.getPathOptions().setFillColor("red");
     }
 
     @Override
@@ -59,9 +65,7 @@ public class RulerDrawAdapterImpl implements RulerDrawAdapter {
 
     @Override
     public void onRevoke() {
-        mapView.removeMouseMoveListener(this);
-        mapView.removeLeftMouseClickListener(this);
-        mapView.removeRightMouseClickListener(this);
+        removeListener();
 
         marker = null;
 
@@ -108,7 +112,7 @@ public class RulerDrawAdapterImpl implements RulerDrawAdapter {
             marker.bindTooltip(distanceString);
         }
 
-        onRevoke();
+        removeListener();
     }
 
     @Override
@@ -170,5 +174,11 @@ public class RulerDrawAdapterImpl implements RulerDrawAdapter {
         }
 
         return distance;
+    }
+
+    private void removeListener() {
+        mapView.removeLeftMouseClickListener(this);
+        mapView.removeRightMouseClickListener(this);
+        mapView.removeMouseMoveListener(this);
     }
 }
