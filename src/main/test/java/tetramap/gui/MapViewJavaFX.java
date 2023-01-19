@@ -44,13 +44,13 @@ public class MapViewJavaFX extends StackPane implements MapView {
     private final LayerGroup layerGroup;
 
     // Менеджер на нажатие левой кнопки мыши
-    private final MapLeftClickEventManager mapLeftClickEventManager;
+    private final MapLeftClickEventListenerImpl mapLeftClickEventListenerImpl;
 
     // Менеджер на нажатие правой кнопки мыши
-    private final MapRightClickEventManager mapRightClickEventManager;
+    private final MapRightClickEventListenerImpl mapRightClickEventListenerImpl;
 
     // Менеджер на перемещение мыши
-    private final MapMoveEventManager mapMoveEventManager;
+    private final MapMoveEventListenerImpl mapMoveEventListenerImpl;
 
     // RouteManager для построения маршрута
     private final RouteManager routeManager = new RouteManager();
@@ -59,9 +59,9 @@ public class MapViewJavaFX extends StackPane implements MapView {
         getChildren().add(WEB_VIEW);
 
         // Создаем объекты слушателей
-        mapLeftClickEventManager = new MapLeftClickEventManager();
-        mapRightClickEventManager = new MapRightClickEventManager();
-        mapMoveEventManager = new MapMoveEventManager();
+        mapLeftClickEventListenerImpl = new MapLeftClickEventListenerImpl();
+        mapRightClickEventListenerImpl = new MapRightClickEventListenerImpl();
+        mapMoveEventListenerImpl = new MapMoveEventListenerImpl();
 
         layerGroup = new LayerGroup();
 
@@ -156,32 +156,32 @@ public class MapViewJavaFX extends StackPane implements MapView {
 
     @Override
     public void addMouseMoveListener(MapMoveEventListener mapMoveEventListener) {
-        mapMoveEventManager.addListener(mapMoveEventListener);
+        mapMoveEventListenerImpl.addListener(mapMoveEventListener);
     }
 
     @Override
     public void removeMouseMoveListener(MapMoveEventListener mapMoveEventListener) {
-        mapMoveEventManager.removeListener(mapMoveEventListener);
+        mapMoveEventListenerImpl.removeListener(mapMoveEventListener);
     }
 
     @Override
     public void addLeftMouseClickListener(MapLeftClickEventListener mapLeftClickEventListener) {
-        mapLeftClickEventManager.addListener(mapLeftClickEventListener);
+        mapLeftClickEventListenerImpl.addListener(mapLeftClickEventListener);
     }
 
     @Override
     public void removeLeftMouseClickListener(MapLeftClickEventListener mapLeftClickEventListener) {
-        mapLeftClickEventManager.removeListener(mapLeftClickEventListener);
+        mapLeftClickEventListenerImpl.removeListener(mapLeftClickEventListener);
     }
 
     @Override
     public void addRightMouseClickListener(MapRightClickEventListener mapRightClickEventListener) {
-        mapRightClickEventManager.addListener(mapRightClickEventListener);
+        mapRightClickEventListenerImpl.addListener(mapRightClickEventListener);
     }
 
     @Override
     public void removeRightMouseClickListener(MapRightClickEventListener mapRightClickEventListener) {
-        mapRightClickEventManager.removeListener(mapRightClickEventListener);
+        mapRightClickEventListenerImpl.removeListener(mapRightClickEventListener);
     }
 
     @Override
@@ -215,7 +215,7 @@ public class MapViewJavaFX extends StackPane implements MapView {
      */
     public void mapMove(double lat, double lng) {
         LatLong latlng = new LatLong(lat, lng);
-        mapMoveEventManager.mapMoveEvent(latlng);
+        mapMoveEventListenerImpl.mapMoveEvent(latlng);
     }
 
     /**
@@ -238,7 +238,7 @@ public class MapViewJavaFX extends StackPane implements MapView {
     public void mapLeftClick(double lat, double lng) {
         log.info("mapClick: " + lat + " " + lng);
         LatLong latLong = new LatLong(lat, lng);
-        mapLeftClickEventManager.mapLeftClickEvent(latLong);
+        mapLeftClickEventListenerImpl.mapLeftClickEvent(latLong);
     }
 
     /**
@@ -260,7 +260,7 @@ public class MapViewJavaFX extends StackPane implements MapView {
      */
     public void mapRightClick() {
         log.info("Нажата правая кнопка мыши");
-        mapRightClickEventManager.mapRightClickEvent();
+        mapRightClickEventListenerImpl.mapRightClickEvent();
     }
 
     /**

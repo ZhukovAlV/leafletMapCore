@@ -2,10 +2,11 @@ package tetramap.event;
 
 import tetramap.entity.types.LatLong;
 
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class MapMoveEventManager {
-    private final CopyOnWriteArrayList<MapMoveEventListener> listeners = new CopyOnWriteArrayList<>();
+public class MapMoveEventListenerImpl {
+    private final List<MapMoveEventListener> listeners = new CopyOnWriteArrayList<>();
 
     public void addListener(MapMoveEventListener toAdd) {
         listeners.add(toAdd);

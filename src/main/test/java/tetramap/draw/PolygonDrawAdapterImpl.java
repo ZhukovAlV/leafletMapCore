@@ -18,12 +18,19 @@ import java.util.ArrayList;
 @Getter
 public class PolygonDrawAdapterImpl implements PolygonDrawAdapter {
 
+    /**
+     * Карта
+     */
     private final MapView mapView;
 
-    // Многоугольник
+    /**
+     * Многоугольник
+     */
     private final Polygon polygon;
 
-    // Прерывистая линия и временная фигура на основе которой будет построен многоугольник Polygon
+    /**
+     * Прерывистая линия и временная фигура на основе которой будет построен многоугольник Polygon
+     */
     private final Polyline brokenLine;
     private final Polyline polyline;
 

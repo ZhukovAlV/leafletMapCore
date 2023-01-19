@@ -4,7 +4,7 @@ import tetramap.entity.types.LatLong;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class MapLeftClickEventManager {
+public class MapLeftClickEventListenerImpl {
     private final CopyOnWriteArrayList<MapLeftClickEventListener> listeners = new CopyOnWriteArrayList<>();
 
     public void addListener(MapLeftClickEventListener toAdd) {

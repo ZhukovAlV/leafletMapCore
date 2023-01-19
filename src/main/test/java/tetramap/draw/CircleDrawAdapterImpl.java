@@ -11,6 +11,7 @@ import tetramap.util.LatLongUtils;
 @Log4j2
 @Getter
 public class CircleDrawAdapterImpl implements CircleDrawAdapter {
+
     /**
      * Карта
      */

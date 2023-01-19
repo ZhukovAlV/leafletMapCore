@@ -1,10 +1,11 @@
 package tetramap.event;
 
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class MapRightClickEventManager {
+public class MapRightClickEventListenerImpl {
 
-    private final CopyOnWriteArrayList<MapRightClickEventListener> listeners = new CopyOnWriteArrayList<>();
+    private final List<MapRightClickEventListener> listeners = new CopyOnWriteArrayList<>();
 
     public void addListener(MapRightClickEventListener toAdd) {
         listeners.add(toAdd);

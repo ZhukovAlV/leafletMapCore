@@ -24,8 +24,14 @@ public class RulerDrawAdapterImpl implements RulerDrawAdapter {
 
     private final String START_DISTANCE = "Начало дистанции";
 
+    /**
+     * Карта
+     */
     private final MapView mapView;
 
+    /**
+     * Ломаная линия
+     */
     private final Polyline polyline;
 
     /**
