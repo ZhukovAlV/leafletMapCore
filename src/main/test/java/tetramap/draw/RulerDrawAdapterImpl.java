@@ -10,7 +10,6 @@ import tetramap.entity.vectors.structure.LatLongArray;
 import tetramap.gui.MapView;
 import tetramap.util.LatLongUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -83,7 +82,7 @@ public class RulerDrawAdapterImpl implements RulerDrawAdapter {
         polyline.updateTo();
         
         // Расчитываем расстояние
-        String distanceString = confirmDistance() + " м";
+        String distanceString = confirmDistance(latLong);
         log.info(distanceString);
 
         // Выставляем значение расстояния
@@ -106,12 +105,11 @@ public class RulerDrawAdapterImpl implements RulerDrawAdapter {
             brokenLine.remove();
 
             LatLongArray latLongArray = (LatLongArray)getPolyline().getLatLongs();
-            List<LatLong> latLongs = new ArrayList<>(latLongArray);
 
-            String distanceString = "Расстояние: " + confirmDistance() + " м";
+            String distanceString = "Расстояние: " + confirmDistance(latLongArray.get(latLongArray.size() - 1));
             log.info(distanceString);
 
-            marker.setLatLong(latLongs.get(latLongs.size() - 1));
+            marker.setLatLong(latLongArray.get(latLongArray.size() - 1));
             marker.updateTo();
             marker.bindTooltip(distanceString);
         }
@@ -120,43 +118,39 @@ public class RulerDrawAdapterImpl implements RulerDrawAdapter {
     }
 
     @Override
-    public void mouseMoved(LatLong latLong) {
+    public void mouseMoved(LatLong newLatLong) {
         LatLongArray latLongArray = (LatLongArray)getPolyline().getLatLongs();
-        latLongArray.add(latLong);
 
-        double distance = countingDistance(latLongArray);
-        String distanceString = (int)distance + " м";
+/*        double distance = countingDistance(latLongArray, newLatLong);
+        String distanceString = (int)distance + " м";*/
 
-        // Выставляем значение расстояния
-        if (marker != null) {
+        // Делаем прерывистую линию
+        if (brokenLine == null) {
+            brokenLine = new Polyline(latLongArray.get(latLongArray.size() - 1), newLatLong);
 
-            if (brokenLine == null) {
-                brokenLine = new Polyline(latLongArray.get(latLongArray.size() - 2), latLong);
+            // Делаем прерывистую линию
+            brokenLine.getPathOptions().setDashArray("5, 7");
 
-                // Делаем прерывистую линию
-                brokenLine.getPathOptions().setDashArray("5, 7");
+            // Задаем цвет линии прерывистой
+            brokenLine.getPathOptions().setColor("red");
+            brokenLine.getPathOptions().setFillColor("red");
 
-                // Задаем цвет линии прерывистой
-                brokenLine.getPathOptions().setColor("red");
-                brokenLine.getPathOptions().setFillColor("red");
+            mapView.getLayerGroup().addLayer(brokenLine);
 
-                mapView.getLayerGroup().addLayer(brokenLine);
-            } else {
-                brokenLine.remove();
+        } else {
+            LatLongArray brokenLineArray = (LatLongArray)brokenLine.getLatLongs();
+            brokenLineArray.clear();
 
-                LatLong[] arrLatLong = new LatLong[]{latLongArray.get(latLongArray.size() - 2), latLong};
-                brokenLine.setLatLongs(new LatLongArray(arrLatLong));
+            brokenLineArray.add(latLongArray.get(latLongArray.size() - 1));
+            brokenLineArray.add(newLatLong);
 
-                brokenLine.updateTo();
-            }
-
-            marker.setLatLong(latLong);
-            marker.updateTo();
-
-            marker.bindTooltip(distanceString);
+            brokenLine.updateTo();
         }
+/*
+        marker.setLatLong(newLatLong);
+        marker.updateTo();
 
-        latLongArray.remove(latLong);
+        marker.bindTooltip(distanceString);*/
     }
 
     /**
@@ -164,17 +158,26 @@ public class RulerDrawAdapterImpl implements RulerDrawAdapter {
      * Длина после этого считается подтвержденной, т.е. пользователь подтвердил (добавил) новую точку
      * @return общая длина в метрах
      */
-    private int confirmDistance() {
-        double distance = countingDistance((LatLongArray)getPolyline().getLatLongs());
-        this.distance = (int)distance;
+    private String confirmDistance(LatLong latLong) {
+        distance = (int)countingDistance((LatLongArray)getPolyline().getLatLongs(), latLong);
 
-        return this.distance;
+        if(distance > 999) return distance/1000 + " км";
+            else return distance + " м";
     }
 
-    private double countingDistance(List<LatLong> latLongs) {
+    private double countingDistance(List<LatLong> latLongs, LatLong newLatLong) {
         double distance = 0;
-        for (int i = 1; i < latLongs.size(); i++) {
-            distance += LatLongUtils.sphericalDistance(latLongs.get(i), latLongs.get(i - 1));
+
+        if (latLongs.size() == 1) {
+            distance += LatLongUtils.sphericalDistance(newLatLong, latLongs.get(0));
+
+        }  else if (latLongs.size() > 1) {
+
+            for (int i = 1; i < latLongs.size(); i++) {
+                distance += LatLongUtils.sphericalDistance(latLongs.get(i), latLongs.get(i - 1));
+            }
+
+            distance += LatLongUtils.sphericalDistance(newLatLong, latLongs.get(latLongs.size() - 1));
         }
 
         return distance;
