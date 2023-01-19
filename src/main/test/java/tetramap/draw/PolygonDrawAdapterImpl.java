@@ -99,6 +99,9 @@ public class PolygonDrawAdapterImpl implements PolygonDrawAdapter {
 
         brokenLine.updateTo();
         polyline.updateTo();
+
+        // Обновляем маркеры в области выделения
+        mapView.getMarkerManager().selectMarkersInLayer(polygon);
     }
 
     @Override

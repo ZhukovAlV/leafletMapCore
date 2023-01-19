@@ -1,13 +1,17 @@
 package tetramap.manager;
 
 import tetramap.entity.marker.Marker;
+import tetramap.entity.marker.SubscriberMarker;
 import tetramap.entity.types.Point;
 import tetramap.entity.vectors.Circle;
 import tetramap.entity.vectors.Polygon;
+import tetramap.entity.vectors.structure.LatLongArray;
 import tetramap.event.MarkerEventListener;
 import tetramap.gui.MapView;
 import tetramap.layer.Layer;
+import tetramap.util.LatLongUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -21,50 +25,44 @@ public class MarkerManagerImpl implements MarkerManager {
     /**
      * Подписчики на события выбора маркеров на карте
      */
-    private final List<MarkerEventListener> markerEventListenerList = new CopyOnWriteArrayList<>();
+    private final List<SubscriberMarker> markers = new CopyOnWriteArrayList<>();
 
     public MarkerManagerImpl(MapView mapView) {
         this.mapView = mapView;
     }
 
     @Override
-    public List<MarkerEventListener> getMarkers() {
-        return markerEventListenerList;
+    public List<SubscriberMarker> getMarkers() {
+        return markers;
     }
 
     @Override
-    public void addMarker(MarkerEventListener markerEventListener) {
-        markerEventListenerList.add(markerEventListener);
+    public void addMarker(SubscriberMarker marker) {
+        markers.add(marker);
     }
 
     @Override
-    public void removeMarker(MarkerEventListener markerEventListener) {
-        markerEventListenerList.remove(markerEventListener);
+    public void removeMarker(SubscriberMarker marker) {
+        markers.remove(marker);
     }
 
     @Override
     public void clearMarkers() {
-        markerEventListenerList.clear();
+        markers.clear();
     }
 
     @Override
-    public void notifyMarkerSelection(Marker marker, boolean selectionState) {
-        for (MarkerEventListener listener : markerEventListenerList) {
-            listener.onMarkerSelected(marker, selectionState);
-        }
+    public void notifyMarkerSelection(SubscriberMarker marker, boolean selectionState) {
+        marker.onMarkerSelected(selectionState);
     }
 
     @Override
-    public void notifyMarkersSelection(List<Marker> markers, boolean selectionState) {
-        for (MarkerEventListener listener : markerEventListenerList) {
-            listener.onMarkersSelected(markers, selectionState);
+    public void notifyMarkersSelection(List<SubscriberMarker> markers, boolean selectionState) {
+        for (MarkerEventListener marker : markers) {
+            marker.onMarkerSelected(selectionState);
         }
     }
 
-    /**
-     * Выбирает все маркеры по указанному слою (поддерживаются полигоны и круги)
-     * @param layer Layer
-     */
     public void selectMarkersInLayer(Layer layer) {
 
         if (layer instanceof Polygon) {
@@ -82,34 +80,26 @@ public class MarkerManagerImpl implements MarkerManager {
      * @param polygon Polygon
      * @return возвращает маркеры в заданной области
      */
-    public List<Marker> selectMarkersInPolygon(Polygon polygon) {
+    public List<SubscriberMarker> selectMarkersInPolygon(Polygon polygon) {
 
-/*        List<Marker> selectedMarkers = new ArrayList<>();
-        List<Marker> unselectedMarkers = new ArrayList<>();
+        List<SubscriberMarker> selectedMarkers = new ArrayList<>();
+        List<SubscriberMarker> unselectedMarkers = new ArrayList<>();
         for (SubscriberMarker marker : markers) {
-
-            // Отсеиваем невидимые маркеры и маркеры без позиции
-            if (marker.getLatLong() == null) continue;
-
             // Определяем, попал ли маркер в область
-            boolean selected = LatLongUtils.contains(polygon.getLatLongs(), marker.getLatLong());
+            boolean selected = LatLongUtils.contains((LatLongArray)polygon.getLatLongs(), marker.getLatLong());
+
             if (selected) selectedMarkers.add(marker);
             else unselectedMarkers.add(marker);
+
             // Изменяем состояние выбора для маркера
             marker.setSelected(selected);
         }
 
-        // Убираем выделенные маркеры из кластера
-        removeMarkersFromCluster(selectedMarkers);
-
         // Уведомление подписчиков об изменении состояния маркеров
-        if (!selectedMarkers.isEmpty()) notifyMarkerSelection(selectedMarkers, true);
-        if (!unselectedMarkers.isEmpty()) notifyMarkerSelection(unselectedMarkers, false);
-        mapView.getLayerManager().redrawLayers();
+        if (!selectedMarkers.isEmpty()) notifyMarkersSelection(selectedMarkers, true);
+        if (!unselectedMarkers.isEmpty()) notifyMarkersSelection(unselectedMarkers, false);
 
-        return selectedMarkers;*/
-
-        return null;
+        return selectedMarkers;
     }
 
     /**

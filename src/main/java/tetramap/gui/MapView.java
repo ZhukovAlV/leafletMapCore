@@ -8,6 +8,7 @@ import tetramap.event.MapRightClickEventListener;
 import tetramap.layer.Layer;
 import tetramap.layer.groups.LayerGroup;
 import tetramap.leaflet.LeafletMap;
+import tetramap.manager.MarkerManager;
 import tetramap.route.RouteManager;
 
 /**
@@ -139,4 +140,10 @@ public interface MapView {
      * @param latLongBounds LatLongBounds - 2 крайние точки (юго-западная и северо-восточная)
      */
     void setMaxBounds(LatLongBounds latLongBounds);
+
+    /**
+     * Получение менеджера маркеров
+     * @return менеджер маркеров
+     */
+    MarkerManager getMarkerManager();
 }

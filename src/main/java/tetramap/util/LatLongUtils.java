@@ -39,7 +39,10 @@ public final class LatLongUtils {
         int i = 0;
 
         for(int j = latLongs.size() - 1; i < latLongs.size(); j = i++) {
-            if (((LatLong)latLongs.get(i)).getLatitude() > latLong.getLatitude() != ((LatLong)latLongs.get(j)).getLatitude() > latLong.getLatitude() && latLong.getLongitude() < (((LatLong)latLongs.get(j)).getLongitude() - ((LatLong)latLongs.get(i)).getLongitude()) * (latLong.getLatitude() - ((LatLong)latLongs.get(i)).getLatitude()) / (((LatLong)latLongs.get(j)).getLatitude() - ((LatLong)latLongs.get(i)).getLatitude()) + ((LatLong)latLongs.get(i)).getLongitude()) {
+            if ((latLongs.get(i)).getLatitude() > latLong.getLatitude() != (latLongs.get(j)).getLatitude() > latLong.getLatitude()
+                    && latLong.getLongitude() < ((latLongs.get(j)).getLongitude() - (latLongs.get(i)).getLongitude())
+                    * (latLong.getLatitude() - (latLongs.get(i)).getLatitude()) / ((latLongs.get(j)).getLatitude()
+                    - (latLongs.get(i)).getLatitude()) + (latLongs.get(i)).getLongitude()) {
                 result = !result;
             }
         }

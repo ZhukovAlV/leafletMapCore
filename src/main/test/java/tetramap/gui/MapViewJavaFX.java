@@ -19,6 +19,7 @@ import tetramap.event.*;
 import tetramap.layer.Layer;
 import tetramap.layer.groups.LayerGroup;
 import tetramap.leaflet.LeafletMap;
+import tetramap.manager.*;
 import tetramap.route.RouteManager;
 
 import java.io.File;
@@ -44,24 +45,30 @@ public class MapViewJavaFX extends StackPane implements MapView {
     private final LayerGroup layerGroup;
 
     // Менеджер на нажатие левой кнопки мыши
-    private final MapLeftClickEventListenerImpl mapLeftClickEventListenerImpl;
+    private final MapLeftClickEventManagerImpl mapLeftClickEventListener;
 
     // Менеджер на нажатие правой кнопки мыши
-    private final MapRightClickEventListenerImpl mapRightClickEventListenerImpl;
+    private final MapRightClickEventManagerImpl mapRightClickEventListener;
 
     // Менеджер на перемещение мыши
-    private final MapMoveEventListenerImpl mapMoveEventListenerImpl;
+    private final MapMoveEventManagerImpl mapMoveEventListener;
 
     // RouteManager для построения маршрута
     private final RouteManager routeManager = new RouteManager();
+
+    // Менеджер маркеров
+    private MarkerManager markerManager;
 
     public MapViewJavaFX() {
         getChildren().add(WEB_VIEW);
 
         // Создаем объекты слушателей
-        mapLeftClickEventListenerImpl = new MapLeftClickEventListenerImpl();
-        mapRightClickEventListenerImpl = new MapRightClickEventListenerImpl();
-        mapMoveEventListenerImpl = new MapMoveEventListenerImpl();
+        mapLeftClickEventListener = new MapLeftClickEventManagerImpl();
+        mapRightClickEventListener = new MapRightClickEventManagerImpl();
+        mapMoveEventListener = new MapMoveEventManagerImpl();
+
+        // Инициализируем менеджера маркеров
+        markerManager = new MarkerManagerImpl(this);
 
         layerGroup = new LayerGroup();
 
@@ -156,32 +163,32 @@ public class MapViewJavaFX extends StackPane implements MapView {
 
     @Override
     public void addMouseMoveListener(MapMoveEventListener mapMoveEventListener) {
-        mapMoveEventListenerImpl.addListener(mapMoveEventListener);
+        this.mapMoveEventListener.addListener(mapMoveEventListener);
     }
 
     @Override
     public void removeMouseMoveListener(MapMoveEventListener mapMoveEventListener) {
-        mapMoveEventListenerImpl.removeListener(mapMoveEventListener);
+        this.mapMoveEventListener.removeListener(mapMoveEventListener);
     }
 
     @Override
     public void addLeftMouseClickListener(MapLeftClickEventListener mapLeftClickEventListener) {
-        mapLeftClickEventListenerImpl.addListener(mapLeftClickEventListener);
+        this.mapLeftClickEventListener.addListener(mapLeftClickEventListener);
     }
 
     @Override
     public void removeLeftMouseClickListener(MapLeftClickEventListener mapLeftClickEventListener) {
-        mapLeftClickEventListenerImpl.removeListener(mapLeftClickEventListener);
+        this.mapLeftClickEventListener.removeListener(mapLeftClickEventListener);
     }
 
     @Override
     public void addRightMouseClickListener(MapRightClickEventListener mapRightClickEventListener) {
-        mapRightClickEventListenerImpl.addListener(mapRightClickEventListener);
+        this.mapRightClickEventListener.addListener(mapRightClickEventListener);
     }
 
     @Override
     public void removeRightMouseClickListener(MapRightClickEventListener mapRightClickEventListener) {
-        mapRightClickEventListenerImpl.removeListener(mapRightClickEventListener);
+        this.mapRightClickEventListener.removeListener(mapRightClickEventListener);
     }
 
     @Override
@@ -215,7 +222,7 @@ public class MapViewJavaFX extends StackPane implements MapView {
      */
     public void mapMove(double lat, double lng) {
         LatLong latlng = new LatLong(lat, lng);
-        mapMoveEventListenerImpl.mapMoveEvent(latlng);
+        mapMoveEventListener.mapMoveEvent(latlng);
     }
 
     /**
@@ -238,7 +245,7 @@ public class MapViewJavaFX extends StackPane implements MapView {
     public void mapLeftClick(double lat, double lng) {
         log.info("mapClick: " + lat + " " + lng);
         LatLong latLong = new LatLong(lat, lng);
-        mapLeftClickEventListenerImpl.mapLeftClickEvent(latLong);
+        mapLeftClickEventListener.mapLeftClickEvent(latLong);
     }
 
     /**
@@ -260,7 +267,7 @@ public class MapViewJavaFX extends StackPane implements MapView {
      */
     public void mapRightClick() {
         log.info("Нажата правая кнопка мыши");
-        mapRightClickEventListenerImpl.mapRightClickEvent();
+        mapRightClickEventListener.mapRightClickEvent();
     }
 
     /**
@@ -348,5 +355,9 @@ public class MapViewJavaFX extends StackPane implements MapView {
         log.info("Проверка layer на exist: {}", String.join("",layer.getLeafletType(), ", id: ", layer.getId()));
         // TODO доделать метод
         return false;
+    }
+    @Override
+    public MarkerManager getMarkerManager() {
+        return markerManager;
     }
 }

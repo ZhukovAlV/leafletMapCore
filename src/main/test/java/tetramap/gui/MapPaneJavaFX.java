@@ -11,6 +11,10 @@ import javafx.stage.FileChooser;
 import lombok.extern.log4j.Log4j2;
 import tetramap.adapter.*;
 import tetramap.draw.*;
+import tetramap.entity.marker.SubscriberMarker;
+import tetramap.entity.popup.Popup;
+import tetramap.entity.types.Icon;
+import tetramap.entity.types.LatLong;
 import tetramap.entity.vectors.structure.LatLongArray;
 import tetramap.event.LabelLatLong;
 
@@ -138,7 +142,7 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
         }
 
         // Отключаем кнопки для сохранения и открытия файла geoJson
-        repeatSelectionButton.setDisable(true);
+       // repeatSelectionButton.setDisable(true);
         saveSelectionButton.setDisable(true);
 
         // Добавляем Label с координатами
@@ -198,39 +202,87 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
         // Слушатель на центр карты
         centerButton.setOnAction(event -> mapView.moveToCenter());
 
+        rulerToggleButton.setOnAction(event -> {
+            clearDrawEvent();
 
-        rulerToggleButton.setOnAction(event -> rulerDrawAdapter.onInvoke());
+            rulerDrawAdapter.onInvoke();
+        });
 
         // Слушатель на построение маршрута по заданным точкам
         routeToggleButton.setOnAction(event -> {
+            clearDrawEvent();
+
             if (((LatLongArray)routeDrawAdapter.getLatLongPolyline().getLatLongs()).isEmpty()) routeDrawAdapter.onInvoke();
                 else routeDrawAdapter.onRevoke();
         });
 
         circleSelectionButton.setOnAction(event -> {
+            clearDrawEvent();
+
             circleDrawAdapter = new CircleDrawAdapterImpl(mapView);
             circleDrawAdapter.onInvoke();
         });
 
         polygonSelectionButton.setOnAction(event -> {
+            clearDrawEvent();
+
             polygonDrawAdapter = new PolygonDrawAdapterImpl(mapView);
             polygonDrawAdapter.onInvoke();
         });
 
         boxSelectionButton.setOnAction(event -> {
+            clearDrawEvent();
+
             rectangleDrawAdapter = new RectangleDrawAdapterImpl(mapView);
             rectangleDrawAdapter.onInvoke();
         });
 
-        cancelSelectionButton.setOnAction(event -> {
+        repeatSelectionButton.setOnAction(event -> {
+            clearDrawEvent();
 
-            // Очищаем все фигуры
-            if (!((LatLongArray)routeDrawAdapter.getLatLongPolyline().getLatLongs()).isEmpty()) routeDrawAdapter.onRevoke();
-            if (!((LatLongArray)rulerDrawAdapter.getPolyline().getLatLongs()).isEmpty()) rulerDrawAdapter.onRevoke();
-            if (!((LatLongArray)rectangleDrawAdapter.getRectangle().getLatLongs()).isEmpty()) rectangleDrawAdapter.onRevoke();
-            if (!((LatLongArray)polygonDrawAdapter.getPolygon().getLatLongs()).isEmpty()) polygonDrawAdapter.onRevoke();
-            if (circleDrawAdapter.getCircle() != null) circleDrawAdapter.onRevoke();
+            // Тестируем маркер
+            Icon icon = new Icon(getClass().getResource("../../icon/marker/subscriber/marker_green.png").getPath());
+            icon.addTo(mapView);
+
+            // Добавим маркер N раз
+            LatLong latLong = new LatLong(55.040, 73.2695);
+            for (int i = 0; i < 10; i++) {
+                latLong = new LatLong(latLong.getLatitude() + 0.001, latLong.getLongitude() + 0.001);
+                // Marker marker = new Marker(latLong, icon, "Marker №" + i);
+
+                SubscriberMarker marker = new SubscriberMarker(latLong, icon, "Marker №" + i);
+                mapView.getLayerGroup().addLayer(marker);
+
+                mapView.getMarkerManager().addMarker(marker);
+
+                // Если кластеры использовать
+/*            mapView.execScript("var " +  marker.getId() + " = L.marker(" + marker + ");");
+            mapView.execScript("markers.addLayer(" + marker.getId() + ");");
+            marker.setMapView(mapView);
+            marker.addTo(mapView);*/
+
+             //   marker.bindTooltip("Тестовый маркер №" + i);
+
+                Popup popup = new Popup("Тестовый маркер №" + i);
+                popup.addTo(mapView);
+
+                // Добавляем подпись маркеру
+                marker.bindPopup(popup);
+            }
         });
+
+        cancelSelectionButton.setOnAction(event -> clearDrawEvent());
+    }
+
+    /**
+     * Очищаем все фигуры
+     */
+    private void clearDrawEvent() {
+        if (!((LatLongArray)routeDrawAdapter.getLatLongPolyline().getLatLongs()).isEmpty()) routeDrawAdapter.onRevoke();
+        if (!((LatLongArray)rulerDrawAdapter.getPolyline().getLatLongs()).isEmpty()) rulerDrawAdapter.onRevoke();
+        if (!((LatLongArray)rectangleDrawAdapter.getRectangle().getLatLongs()).isEmpty()) rectangleDrawAdapter.onRevoke();
+        if (!((LatLongArray)polygonDrawAdapter.getPolygon().getLatLongs()).isEmpty()) polygonDrawAdapter.onRevoke();
+        if (circleDrawAdapter.getCircle() != null) circleDrawAdapter.onRevoke();
     }
 
     /**
