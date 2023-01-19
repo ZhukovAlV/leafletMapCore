@@ -9,17 +9,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import lombok.extern.log4j.Log4j2;
-import tetramap.adapter.CircleDrawAdapter;
-import tetramap.adapter.RouteDrawAdapter;
-import tetramap.adapter.RulerDrawAdapter;
+import tetramap.adapter.*;
 import tetramap.draw.*;
 import tetramap.entity.vectors.structure.LatLongArray;
 import tetramap.event.LabelLatLong;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.Properties;
 
 /**
  * Реализованная панель для JavaFx
@@ -95,10 +91,10 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
     private RulerDrawAdapter rulerDrawAdapter;
 
     // Адаптер для рисования прямоугольника
-    private RectangleDrawAdapterImpl rectangleDrawAdapter;
+    private RectangleDrawAdapter rectangleDrawAdapter;
 
     // Адаптер для рисования многоугольника
-    private PolygonDrawAdapterImpl polygonDrawAdapter;
+    private PolygonDrawAdapter polygonDrawAdapter;
 
     // Адаптер для рисования круга
     private CircleDrawAdapter circleDrawAdapter;
@@ -114,15 +110,7 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
     public void initialize() {
 
         // Инициализируем адаптеры
-        try {
-            Properties props = new Properties();
-            props.load(this.getClass().getResourceAsStream("/project.properties"));
-            routeDrawAdapter = new RouteDrawAdapterImpl(mapView, props.get("icon.start.route").toString(),
-                    props.get("icon.end.route").toString());
-        } catch (IOException e) {
-            log.error("Файлы с картинками иконок для использования RouteDrawAdapter не прогрузились. RouteDrawAdapter недоступен");
-        }
-
+        routeDrawAdapter = new RouteDrawAdapterImpl(mapView);
         rulerDrawAdapter = new RulerDrawAdapterImpl(mapView);
         rectangleDrawAdapter = new RectangleDrawAdapterImpl(mapView);
         polygonDrawAdapter = new PolygonDrawAdapterImpl(mapView);
@@ -237,12 +225,10 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
         cancelSelectionButton.setOnAction(event -> {
 
             // Очищаем все фигуры
-            mapView.getLayerGroup().clearLayers();
-
             if (!((LatLongArray)routeDrawAdapter.getLatLongPolyline().getLatLongs()).isEmpty()) routeDrawAdapter.onRevoke();
-            if (!((LatLongArray)rulerDrawAdapter.getPolyline().getLatLongs()).isEmpty()) routeDrawAdapter.onRevoke();
-            if (!((LatLongArray)rectangleDrawAdapter.getRectangle().getLatLongs()).isEmpty()) routeDrawAdapter.onRevoke();
-            if (!((LatLongArray)polygonDrawAdapter.getPolyline().getLatLongs()).isEmpty()) routeDrawAdapter.onRevoke();
+            if (!((LatLongArray)rulerDrawAdapter.getPolyline().getLatLongs()).isEmpty()) rulerDrawAdapter.onRevoke();
+            if (!((LatLongArray)rectangleDrawAdapter.getRectangle().getLatLongs()).isEmpty()) rectangleDrawAdapter.onRevoke();
+            if (!((LatLongArray)polygonDrawAdapter.getPolygon().getLatLongs()).isEmpty()) polygonDrawAdapter.onRevoke();
             if (circleDrawAdapter.getCircle() != null) circleDrawAdapter.onRevoke();
         });
     }

@@ -15,6 +15,9 @@ import java.util.ArrayList;
 @Log4j2
 public class RouteDrawAdapterImpl implements RouteDrawAdapter {
 
+    private final String iconStartPath = "src/main/resources/icon/route/start_path.png";
+    private final String iconEndPath = "src/main/resources/icon/route/end_path.png";
+
     /**
      * View карты, на которой рисуется маршрут
      */
@@ -30,7 +33,7 @@ public class RouteDrawAdapterImpl implements RouteDrawAdapter {
      */
     private final PolylineDecorator polylineDecorator;
 
-    public RouteDrawAdapterImpl(MapView mapView, String iconStartPath, String iconEndPath) {
+    public RouteDrawAdapterImpl(MapView mapView) {
         this.mapView = mapView;
 
         latLongPolyline = new Polyline(new ArrayList<>());
@@ -62,7 +65,7 @@ public class RouteDrawAdapterImpl implements RouteDrawAdapter {
         latLongArray.add(latLong);
 
         // Удаляем старый маршрут
-        polylineDecorator.remove();
+        mapView.getLayerGroup().removeLayer(polylineDecorator);
 
         // Задаем новый маршрут (исключаем размер массива 1, там тогда построенный маршрут не имеет координат, т.е. 0 равен)
         if (latLongArray.size() == 1)

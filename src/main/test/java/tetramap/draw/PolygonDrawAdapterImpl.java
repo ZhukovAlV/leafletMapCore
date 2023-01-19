@@ -75,7 +75,7 @@ public class PolygonDrawAdapterImpl implements PolygonDrawAdapter {
 
     @Override
     public void rightMouseClicked() {
-        polygon.setLatLongs((LatLongArray)polyline.getLatLongs());
+        ((LatLongArray)polygon.getLatLongs()).addAll((LatLongArray)polyline.getLatLongs());
         mapView.getLayerGroup().addLayer(polygon);
 
         removeListener();
