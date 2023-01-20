@@ -4,7 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import tetramap.entity.types.Icon;
+import tetramap.bitmap.BitmapType;
 import tetramap.entity.types.LatLong;
 import tetramap.event.MarkerEventListener;
 
@@ -14,38 +14,39 @@ import tetramap.event.MarkerEventListener;
 @Log4j2
 public class SubscriberMarker extends Marker implements MarkerEventListener {
 
+    /**
+     * Выбран маркер или нет
+     */
     private boolean selected;
 
-    public SubscriberMarker(LatLong latLong, Icon icon, String title, boolean selected) {
-        super(latLong, icon, title);
+    /**
+     * Варианты картинок для иконок маркера в зависимости от статуса маркера
+     */
+    private BitmapType bitmapType;
+
+    public SubscriberMarker(LatLong latLong, BitmapType bitmapType, String title, boolean selected) {
+        this(latLong, bitmapType, title);
         this.selected = selected;
     }
 
-    public SubscriberMarker(LatLong latLong, Icon icon, String title) {
-        super(latLong, icon, title);
+    public SubscriberMarker(LatLong latLong, BitmapType bitmapType, String title) {
+        this(latLong, bitmapType);
+        setTitle(title);
     }
 
-    public SubscriberMarker(LatLong latLong, String title) {
-        super(latLong, title);
-    }
-
-    public SubscriberMarker(LatLong latLong) {
+    public SubscriberMarker(LatLong latLong, BitmapType bitmapType) {
         super(latLong);
+        this.bitmapType = bitmapType;
+
+        setIcon(bitmapType.getBitmapUnknown().getIcon());
     }
 
     @Override
     public void onMarkerSelected(boolean selectedState) {
-        // TODO доделать смену иконки у маркера, когда его выбирают на карте
-        System.out.println(this + " : " + selectedState);
+      //  System.out.println(this + " : " + selectedState);
 
-        Icon iconRed = new Icon(getClass().getResource("/icon/marker/subscriber/marker_red.png").getPath());
-        iconRed.addTo(getMapView());
-
-        Icon iconGreen = new Icon(getClass().getResource("/icon/marker/subscriber/marker_green.png").getPath());
-        iconGreen.addTo(getMapView());
-
-        if (selectedState) setIcon(iconRed);
-        else setIcon(iconGreen);
+        if (selectedState) setIcon(bitmapType.getBitmapSelect().getIcon());
+            else setIcon(bitmapType.getBitmapUnknown().getIcon());
 
         this.updateTo();
     }
