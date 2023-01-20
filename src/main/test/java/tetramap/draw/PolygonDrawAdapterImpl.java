@@ -63,14 +63,20 @@ public class PolygonDrawAdapterImpl implements PolygonDrawAdapter {
     public void onRevoke() {
         removeListener();
 
-        mapView.getLayerGroup().removeLayer(brokenLine);
-        mapView.getLayerGroup().removeLayer(polyline);
-        if (!polygon.isEmpty()) mapView.getLayerGroup().removeLayer(polygon);
+        if (brokenLine != null && mapView.getLayerGroup().hasLayer(brokenLine)) {
+            mapView.getLayerGroup().removeLayer(brokenLine);
+            ((LatLongArray)brokenLine.getLatLongs()).clear();
+        }
 
-        // Очищаем координаты
-        ((LatLongArray)brokenLine.getLatLongs()).clear();
-        ((LatLongArray)polyline.getLatLongs()).clear();
-        ((LatLongArray)polygon.getLatLongs()).clear();
+        if (polyline != null && mapView.getLayerGroup().hasLayer(polyline)) {
+            mapView.getLayerGroup().removeLayer(polyline);
+            ((LatLongArray)polyline.getLatLongs()).clear();
+        }
+
+        if (polygon != null && mapView.getLayerGroup().hasLayer(polygon)) {
+            mapView.getLayerGroup().removeLayer(polygon);
+            ((LatLongArray)polygon.getLatLongs()).clear();
+        }
     }
 
     @Override
@@ -91,6 +97,9 @@ public class PolygonDrawAdapterImpl implements PolygonDrawAdapter {
         if (latLongArray.size() < 2) {
             latLongArray.clear();
             polygon.updateTo();
+        } else {
+        // Обновляем маркеры в области выделения
+        mapView.getMarkerManager().selectMarkersInLayer(polygon);
         }
 
         // Очищаем координаты
@@ -99,9 +108,6 @@ public class PolygonDrawAdapterImpl implements PolygonDrawAdapter {
 
         brokenLine.updateTo();
         polyline.updateTo();
-
-        // Обновляем маркеры в области выделения
-        mapView.getMarkerManager().selectMarkersInLayer(polygon);
     }
 
     @Override

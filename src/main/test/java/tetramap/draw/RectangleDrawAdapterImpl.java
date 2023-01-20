@@ -39,10 +39,12 @@ public class RectangleDrawAdapterImpl implements RectangleDrawAdapter {
     public void onRevoke() {
         removeListener();
 
-        if (!rectangle.getLatLongs().isEmpty()) mapView.getLayerGroup().removeLayer(rectangle);
+        if (rectangle != null && mapView.getLayerGroup().hasLayer(rectangle)) {
+            mapView.getLayerGroup().removeLayer(rectangle);
 
-        // Очищаем координаты
-        ((LatLongArray)rectangle.getLatLongs()).clear();
+            // Очищаем координаты
+            ((LatLongArray)rectangle.getLatLongs()).clear();
+        }
     }
 
     @Override
@@ -57,6 +59,9 @@ public class RectangleDrawAdapterImpl implements RectangleDrawAdapter {
         } else {
             checkLatLongArray(latLongArray, latLong);
             removeListener();
+
+            // Обновляем маркеры в области выделения
+            mapView.getMarkerManager().selectMarkersInLayer(rectangle.getPolygon());
         }
     }
 

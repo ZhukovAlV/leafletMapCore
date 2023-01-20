@@ -6,6 +6,7 @@ import tetramap.entity.types.LatLong;
 import tetramap.entity.vectors.structure.LatLongArray;
 import tetramap.type.TypeInstantiatesMap;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Data
@@ -34,5 +35,16 @@ public class Rectangle extends Polygon {
     @Override
     public String getTypeInstantiatesMap() {
         return TypeInstantiatesMap.RECTANGLE.getName();
+    }
+
+    public Polygon getPolygon() {
+        LatLongArray latLongArray = (LatLongArray)getLatLongs();
+
+        return new Polygon(Arrays.asList(
+                latLongArray.get(0),
+                new LatLong(latLongArray.get(0).getLatitude(), latLongArray.get(1).getLongitude()),
+                latLongArray.get(1),
+                new LatLong(latLongArray.get(1).getLatitude(), latLongArray.get(0).getLongitude()),
+                latLongArray.get(0)));
     }
 }

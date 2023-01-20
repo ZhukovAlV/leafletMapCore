@@ -37,7 +37,7 @@ public class CircleDrawAdapterImpl implements CircleDrawAdapter {
         removeListener();
 
         // Обнуляем данные о круге
-        mapView.getLayerGroup().removeLayer(circle);
+        if (circle != null && mapView.getLayerGroup().hasLayer(circle)) mapView.getLayerGroup().removeLayer(circle);
 
         circle = null;
     }
@@ -53,6 +53,9 @@ public class CircleDrawAdapterImpl implements CircleDrawAdapter {
             updateRadius(latLong);
 
             removeListener();
+
+            // Обновляем маркеры в области выделения
+            mapView.getMarkerManager().selectMarkersInLayer(circle);
         }
     }
 

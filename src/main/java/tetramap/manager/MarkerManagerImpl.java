@@ -108,9 +108,17 @@ public class MarkerManagerImpl implements MarkerManager {
      * @param polygon Polygon
      * @return возвращает маркеры в заданной области
      */
-    public List<Marker> selectMarkersInPolygonWithoutSelected(Polygon polygon) {
-        // TODO доделать
-        return null;
+    public List<SubscriberMarker> selectMarkersInPolygonWithoutSelected(Polygon polygon) {
+
+        List<SubscriberMarker> listMarkers = new ArrayList<>();
+
+        for (SubscriberMarker marker : markers) {
+
+            // Если маркер в полигоне, добавляем его
+            if (LatLongUtils.contains((LatLongArray)polygon.getLatLongs(), marker.getLatLong())) listMarkers.add(marker);
+        }
+
+        return listMarkers;
     }
 
     /**
@@ -118,7 +126,24 @@ public class MarkerManagerImpl implements MarkerManager {
      * @param circle круг, по которому осуществляется выделение маркеров
      */
     public void selectMarkersInCircle(Circle circle) {
-        // TODO доделать
+
+        List<SubscriberMarker> selectedMarkers = new ArrayList<>();
+        List<SubscriberMarker> unselectedMarkers = new ArrayList<>();
+
+        for (SubscriberMarker marker : markers) {
+
+            // Определяем принадлежность местоположения маркера кругу
+            boolean selected = LatLongUtils.sphericalDistance(circle.getCenter(), marker.getLatLong()) < circle.getRadius();
+
+            if (selected) selectedMarkers.add(marker);
+                else unselectedMarkers.add(marker);
+
+            marker.setSelected(selected);
+        }
+
+        // Уведомление подписчиков об изменении состояния маркеров
+        if (!selectedMarkers.isEmpty()) notifyMarkersSelection(selectedMarkers, true);
+        if (!unselectedMarkers.isEmpty()) notifyMarkersSelection(unselectedMarkers, false);
     }
 
     /**
@@ -126,7 +151,10 @@ public class MarkerManagerImpl implements MarkerManager {
      * @param selected состояние выделения
      */
     public void selectAll(boolean selected) {
-        // TODO доделать
+
+        List<SubscriberMarker> selectedMarkers = new ArrayList<>(markers);
+
+        notifyMarkersSelection(selectedMarkers, selected);
     }
 
     /**
@@ -135,7 +163,8 @@ public class MarkerManagerImpl implements MarkerManager {
      * @return Point
      */
     public Point getMarkerPoint(Marker marker) {
-        // TODO доделать
+        // TODO доделать получение Point из LatLong
+       // return mapView.toPixels(marker.getLatLong());
         return null;
     }
 }

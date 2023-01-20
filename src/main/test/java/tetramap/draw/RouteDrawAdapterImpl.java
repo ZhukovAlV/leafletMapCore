@@ -52,7 +52,7 @@ public class RouteDrawAdapterImpl implements RouteDrawAdapter {
         ((LatLongArray)latLongPolyline.getLatLongs()).clear();
         ((LatLongArray)polylineDecorator.getRoutePolyline().getLatLongs()).clear();
 
-        mapView.getLayerGroup().removeLayer(polylineDecorator);
+        if (mapView.getLayerGroup().hasLayer(polylineDecorator)) mapView.getLayerGroup().removeLayer(polylineDecorator);
 
         mapView.removeLeftMouseClickListener(this);
     }
@@ -74,6 +74,6 @@ public class RouteDrawAdapterImpl implements RouteDrawAdapter {
             polylineDecorator.setRoutePolyline(new Polyline(mapView.getRouteManager().getRouteFor((LatLongArray) latLongPolyline.getLatLongs())));
 
         // Ообновляем polylineDecorator
-        polylineDecorator.addTo(mapView);
+        mapView.getLayerGroup().addLayer(polylineDecorator);
     }
 }
