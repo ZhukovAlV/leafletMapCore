@@ -14,4 +14,14 @@ public interface Invokable {
      * Выполняется при отключении объекта
      */
     void onRevoke();
+
+    /**
+     * Проверяет, подключен ли переданный слушатель к карте
+     */
+    boolean isInvoked();
+
+    /**
+     * Отключает слушателей
+     */
+    void removeListeners();
 }

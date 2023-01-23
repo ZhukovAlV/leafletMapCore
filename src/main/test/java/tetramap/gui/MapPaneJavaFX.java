@@ -15,12 +15,18 @@ import tetramap.bitmap.SubscriberBitmapType;
 import tetramap.draw.*;
 import tetramap.entity.marker.SubscriberMarker;
 import tetramap.entity.popup.Popup;
+import tetramap.entity.selection.Selection;
 import tetramap.entity.types.LatLong;
+import tetramap.entity.vectors.Circle;
 import tetramap.entity.vectors.structure.LatLongArray;
 import tetramap.event.LabelLatLong;
+import tetramap.tools.parser.SelectionGeojsonParser;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.List;
+import java.util.OptionalDouble;
 
 /**
  * Реализованная панель для JavaFx
@@ -62,11 +68,6 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
     // Элемент выбора тайловой подложки
     private final ComboBox<Object> tileSourceComboBox = new ComboBox<>();
 
-    // Файловый менеджер и парсер для загрузки/сохранения области выделения
-    private static final FileChooser fileChooser = new FileChooser();
-    //private static final SelectionGeojsonParser selectionGeoJsonParser = new SelectionGeojsonParser();
-    private static final String EXTENSION_FILE_GEO_JSON = ".geojson";
-
     // Кнопки управления масштабом
     private final VBox zoomBox = new VBox();
     private final Button centerButton = new Button();
@@ -104,6 +105,12 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
     // Адаптер для рисования круга
     private CircleDrawAdapter circleDrawAdapter;
 
+    // Файловый менеджер и парсер для загрузки/сохранения области выделения
+    private final FileChooser fileChooser = new FileChooser();
+    // Для сохранения и загрузки выделенных областей
+    private SelectionGeojsonParser selectionGeoJsonParser;
+    private final String EXTENSION_FILE_GEO_JSON = ".geojson";
+
     public MapPaneJavaFX(MapView mapView) {
         super();
         this.mapView = mapView;
@@ -120,6 +127,9 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
         rectangleDrawAdapter = new RectangleDrawAdapterImpl(mapView);
         polygonDrawAdapter = new PolygonDrawAdapterImpl(mapView);
         circleDrawAdapter = new CircleDrawAdapterImpl(mapView);
+
+        // Инициализируем GeoJsonParser для сохранения выделенных областей
+        selectionGeoJsonParser = new SelectionGeojsonParser();
 
         // Добавляем карту на отображение в панели
         getChildren().add((Node)mapView);
@@ -217,11 +227,22 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
                 else routeDrawAdapter.onRevoke();
         });
 
+        boxSelectionButton.setOnAction(event -> {
+            clearDrawEvent();
+
+            rectangleDrawAdapter = new RectangleDrawAdapterImpl(mapView);
+            rectangleDrawAdapter.onInvoke();
+
+            saveSelectionButton.setDisable(false);
+        });
+
         circleSelectionButton.setOnAction(event -> {
             clearDrawEvent();
 
             circleDrawAdapter = new CircleDrawAdapterImpl(mapView);
             circleDrawAdapter.onInvoke();
+
+            saveSelectionButton.setDisable(false);
         });
 
         polygonSelectionButton.setOnAction(event -> {
@@ -229,13 +250,8 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
 
             polygonDrawAdapter = new PolygonDrawAdapterImpl(mapView);
             polygonDrawAdapter.onInvoke();
-        });
 
-        boxSelectionButton.setOnAction(event -> {
-            clearDrawEvent();
-
-            rectangleDrawAdapter = new RectangleDrawAdapterImpl(mapView);
-            rectangleDrawAdapter.onInvoke();
+            saveSelectionButton.setDisable(false);
         });
 
         repeatSelectionButton.setOnAction(event -> {
@@ -271,6 +287,112 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
         });
 
         cancelSelectionButton.setOnAction(event -> clearDrawEvent());
+
+        // Сохраняем в geojson выделенную фигуру
+        saveSelectionButton.setOnAction(event -> {
+
+            // Сохранение области выделения в файл
+            File saveFile = fileChooser.showSaveDialog(null);
+            if (saveFile != null) {
+
+                // Дописываем расширение в конце файле, если его нет
+                if(!saveFile.getName().contains(EXTENSION_FILE_GEO_JSON)) {
+                    saveFile = new File(saveFile.getAbsolutePath() + EXTENSION_FILE_GEO_JSON);
+                }
+
+                // Тип фигуры определяется по нажатой кнопке
+                // Осуществляется генерация модели области и сохранение ее в файл
+                if (rectangleDrawAdapter.isInvoked()) {
+
+                    selectionGeoJsonParser.write(saveFile,
+                            new Selection(Selection.SelectionType.RECTANGLE,
+                                    (LatLongArray)rectangleDrawAdapter.getRectangle().getPolygon().getLatLongs()));
+
+                } else if (circleDrawAdapter.isInvoked()) {
+
+                    Circle circle = circleDrawAdapter.getCircle();
+
+                    LatLongArray latLongs = new LatLongArray(List.of(circle.getCenter()));
+                    Selection selection = new Selection(Selection.SelectionType.CIRCLE, latLongs);
+                    selection.setRadius(OptionalDouble.of(circle.getRadius()));
+
+                    selectionGeoJsonParser.write(
+                            saveFile,
+                            selection
+                    );
+
+                } else if (polygonDrawAdapter.isInvoked()) {
+
+                    selectionGeoJsonParser.write(saveFile,
+                            new Selection(
+                                    Selection.SelectionType.POLYGON,
+                                    (LatLongArray)polygonDrawAdapter.getPolygon().getLatLongs()
+                            )
+                    );
+                }
+            }
+        });
+
+        // Загрузка области выделения из файла
+        loadSelectionButton.setOnAction(event -> {
+            clearDrawEvent();
+
+            File openFile = fileChooser.showOpenDialog(null);
+            if (openFile != null) {
+                try {
+                    // Генерация области выделения
+                    Selection selection = selectionGeoJsonParser.parse(openFile);
+                    // Загрузка на карту
+                    loadSelection(selection);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
+     * Производит конвертацию модели области выделения в слой карты и добавляет его на карту
+     * @param selection модель области выделения
+     */
+    private void loadSelection(Selection selection) {
+
+        // Генерация слоя, определение элементов, с которыми будут производиться действия
+        if (selection.getSelectionType().equals(Selection.SelectionType.RECTANGLE)) {
+            rectangleDrawAdapter.onInvoke();
+
+            ((LatLongArray)rectangleDrawAdapter.getRectangle().getLatLongs()).addAll(selection.getSelectionLatLongs());
+            mapView.getLayerGroup().addLayer(rectangleDrawAdapter.getRectangle());
+
+            // Обновляем маркеры в области выделения
+            mapView.getMarkerManager().selectMarkersInLayer(rectangleDrawAdapter.getRectangle());
+
+            rectangleDrawAdapter.removeListeners();
+
+        } else if (selection.getSelectionType().equals(Selection.SelectionType.POLYGON)) {
+            polygonDrawAdapter.onInvoke();
+
+            ((LatLongArray)polygonDrawAdapter.getPolygon().getLatLongs()).addAll(selection.getSelectionLatLongs());
+            mapView.getLayerGroup().addLayer(polygonDrawAdapter.getPolygon());
+
+            // Обновляем маркеры в области выделения
+            mapView.getMarkerManager().selectMarkersInLayer(polygonDrawAdapter.getPolygon());
+
+            polygonDrawAdapter.removeListeners();
+
+        } else if (selection.getSelectionType().equals(Selection.SelectionType.CIRCLE) && selection.getRadius().isPresent()) {
+            circleDrawAdapter.onInvoke();
+
+            circleDrawAdapter.setCircle(new Circle(selection.getSelectionLatLongs().get(0)));
+            circleDrawAdapter.getCircle().setRadius(selection.getRadius().getAsDouble());
+            circleDrawAdapter.getCircle().getPathOptions().setFill(true);
+            mapView.getLayerGroup().addLayer(circleDrawAdapter.getCircle());
+
+            // Обновляем маркеры в области выделения
+            mapView.getMarkerManager().selectMarkersInLayer(circleDrawAdapter.getCircle());
+
+            circleDrawAdapter.removeListeners();
+        }
     }
 
     /**
@@ -282,6 +404,8 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
         rectangleDrawAdapter.onRevoke();
         polygonDrawAdapter.onRevoke();
         circleDrawAdapter.onRevoke();
+
+        saveSelectionButton.setDisable(true);
     }
 
     /**

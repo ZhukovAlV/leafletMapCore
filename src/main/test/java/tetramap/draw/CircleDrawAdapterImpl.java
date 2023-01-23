@@ -1,6 +1,7 @@
 package tetramap.draw;
 
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import tetramap.adapter.CircleDrawAdapter;
 import tetramap.entity.types.LatLong;
@@ -10,6 +11,7 @@ import tetramap.util.LatLongUtils;
 
 @Log4j2
 @Getter
+@Setter
 public class CircleDrawAdapterImpl implements CircleDrawAdapter {
 
     /**
@@ -22,6 +24,11 @@ public class CircleDrawAdapterImpl implements CircleDrawAdapter {
      */
     private Circle circle;
 
+    /**
+     * Статус подключения
+     */
+    private boolean isInvoke;
+
     public CircleDrawAdapterImpl(MapView mapView) {
         this.mapView = mapView;
     }
@@ -30,16 +37,25 @@ public class CircleDrawAdapterImpl implements CircleDrawAdapter {
     public void onInvoke() {
         mapView.addLeftMouseClickListener(this);
         mapView.addMouseMoveListener(this);
+
+        isInvoke = true;
     }
 
     @Override
     public void onRevoke() {
-        removeListener();
+        removeListeners();
 
         // Обнуляем данные о круге
         if (circle != null && mapView.getLayerGroup().hasLayer(circle)) mapView.getLayerGroup().removeLayer(circle);
 
         circle = null;
+
+        isInvoke = false;
+    }
+
+    @Override
+    public boolean isInvoked() {
+        return isInvoke;
     }
 
     @Override
@@ -52,7 +68,7 @@ public class CircleDrawAdapterImpl implements CircleDrawAdapter {
         } else {
             updateRadius(latLong);
 
-            removeListener();
+            removeListeners();
 
             // Обновляем маркеры в области выделения
             mapView.getMarkerManager().selectMarkersInLayer(circle);
@@ -73,7 +89,7 @@ public class CircleDrawAdapterImpl implements CircleDrawAdapter {
         circle.updateTo();
     }
 
-    private void removeListener() {
+    public void removeListeners() {
         mapView.removeLeftMouseClickListener(this);
         mapView.removeMouseMoveListener(this);
     }

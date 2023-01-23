@@ -25,6 +25,11 @@ public class RouteDrawAdapterImpl implements RouteDrawAdapter {
     private final MapView mapView;
 
     /**
+     * Статус подключения
+     */
+    private boolean isInvoke;
+
+    /**
      * Polyline на основе которого рисуется маршрут
      */
     private final Polyline latLongPolyline;
@@ -48,6 +53,7 @@ public class RouteDrawAdapterImpl implements RouteDrawAdapter {
             mapView.getLayerGroup().addLayer(polylineDecorator);
             mapView.addLeftMouseClickListener(this);
 
+            isInvoke = true;
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Информационное окно");
@@ -65,6 +71,18 @@ public class RouteDrawAdapterImpl implements RouteDrawAdapter {
 
         if (mapView.getLayerGroup().hasLayer(polylineDecorator)) mapView.getLayerGroup().removeLayer(polylineDecorator);
 
+        removeListeners();
+
+        isInvoke = false;
+    }
+
+    @Override
+    public boolean isInvoked() {
+        return isInvoke;
+    }
+
+    @Override
+    public void removeListeners() {
         mapView.removeLeftMouseClickListener(this);
     }
 

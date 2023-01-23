@@ -30,6 +30,11 @@ public class RulerDrawAdapterImpl implements RulerDrawAdapter {
     private final MapView mapView;
 
     /**
+     * Статус подключения
+     */
+    private boolean isInvoke;
+
+    /**
      * Ломаная линия
      */
     private final Polyline polyline;
@@ -66,11 +71,13 @@ public class RulerDrawAdapterImpl implements RulerDrawAdapter {
         mapView.addLeftMouseClickListener(this);
         mapView.addMouseMoveListener(this);
         mapView.addRightMouseClickListener(this);
+
+        isInvoke = true;
     }
 
     @Override
     public void onRevoke() {
-        removeListener();
+        removeListeners();
 
         if (marker != null && mapView.getLayerGroup().hasLayer(marker)) {
             mapView.getLayerGroup().removeLayer(marker);
@@ -86,6 +93,13 @@ public class RulerDrawAdapterImpl implements RulerDrawAdapter {
             mapView.getLayerGroup().removeLayer(brokenLine);
             brokenLine = null;
         }
+
+        isInvoke = false;
+    }
+
+    @Override
+    public boolean isInvoked() {
+        return isInvoke;
     }
 
     @Override
@@ -127,7 +141,7 @@ public class RulerDrawAdapterImpl implements RulerDrawAdapter {
             marker.bindTooltip(distanceString);
         }
 
-        removeListener();
+        removeListeners();
     }
 
     @Override
@@ -196,7 +210,8 @@ public class RulerDrawAdapterImpl implements RulerDrawAdapter {
         return distance;
     }
 
-    private void removeListener() {
+    @Override
+    public void removeListeners() {
         mapView.removeLeftMouseClickListener(this);
         mapView.removeRightMouseClickListener(this);
         mapView.removeMouseMoveListener(this);

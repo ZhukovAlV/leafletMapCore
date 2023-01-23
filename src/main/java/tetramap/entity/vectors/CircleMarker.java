@@ -11,7 +11,7 @@ public class CircleMarker extends Path {
 
     private static final long serialVersionUID = 8294051897899342825L;
 
-    private final LatLong center;
+    private LatLong center;
     private double radius;
 
     /**

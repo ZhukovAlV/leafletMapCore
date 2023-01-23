@@ -22,6 +22,11 @@ public class RectangleDrawAdapterImpl implements RectangleDrawAdapter {
      */
     private final Rectangle rectangle;
 
+    /**
+     * Статус подключения
+     */
+    private boolean isInvoke;
+
     public RectangleDrawAdapterImpl(MapView mapView) {
         this.mapView = mapView;
 
@@ -33,11 +38,13 @@ public class RectangleDrawAdapterImpl implements RectangleDrawAdapter {
     public void onInvoke() {
         mapView.addLeftMouseClickListener(this);
         mapView.addMouseMoveListener(this);
+
+        isInvoke = true;
     }
 
     @Override
     public void onRevoke() {
-        removeListener();
+        removeListeners();
 
         if (rectangle != null && mapView.getLayerGroup().hasLayer(rectangle)) {
             mapView.getLayerGroup().removeLayer(rectangle);
@@ -45,6 +52,13 @@ public class RectangleDrawAdapterImpl implements RectangleDrawAdapter {
             // Очищаем координаты
             ((LatLongArray)rectangle.getLatLongs()).clear();
         }
+
+        isInvoke = false;
+    }
+
+    @Override
+    public boolean isInvoked() {
+        return isInvoke;
     }
 
     @Override
@@ -58,7 +72,7 @@ public class RectangleDrawAdapterImpl implements RectangleDrawAdapter {
 
         } else {
             checkLatLongArray(latLongArray, latLong);
-            removeListener();
+            removeListeners();
 
             // Обновляем маркеры в области выделения
             mapView.getMarkerManager().selectMarkersInLayer(rectangle.getPolygon());
@@ -81,7 +95,8 @@ public class RectangleDrawAdapterImpl implements RectangleDrawAdapter {
             else latLongArray.set(1, latLong);
     }
 
-    private void removeListener() {
+    @Override
+    public void removeListeners() {
         mapView.removeLeftMouseClickListener(this);
         mapView.removeMouseMoveListener(this);
     }

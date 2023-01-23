@@ -29,6 +29,11 @@ public class PolygonDrawAdapterImpl implements PolygonDrawAdapter {
     private final Polygon polygon;
 
     /**
+     * Статус подключения
+     */
+    private boolean isInvoke;
+
+    /**
      * Прерывистая линия и временная фигура на основе которой будет построен многоугольник Polygon
      */
     private final Polyline brokenLine;
@@ -57,11 +62,13 @@ public class PolygonDrawAdapterImpl implements PolygonDrawAdapter {
         mapView.addLeftMouseClickListener(this);
         mapView.addRightMouseClickListener(this);
         mapView.addMouseMoveListener(this);
+
+        isInvoke = true;
     }
 
     @Override
     public void onRevoke() {
-        removeListener();
+        removeListeners();
 
         if (brokenLine != null && mapView.getLayerGroup().hasLayer(brokenLine)) {
             mapView.getLayerGroup().removeLayer(brokenLine);
@@ -77,6 +84,13 @@ public class PolygonDrawAdapterImpl implements PolygonDrawAdapter {
             mapView.getLayerGroup().removeLayer(polygon);
             ((LatLongArray)polygon.getLatLongs()).clear();
         }
+
+        isInvoke = false;
+    }
+
+    @Override
+    public boolean isInvoked() {
+        return isInvoke;
     }
 
     @Override
@@ -91,7 +105,7 @@ public class PolygonDrawAdapterImpl implements PolygonDrawAdapter {
         ((LatLongArray)polygon.getLatLongs()).addAll((LatLongArray)polyline.getLatLongs());
         mapView.getLayerGroup().addLayer(polygon);
 
-        removeListener();
+        removeListeners();
 
         LatLongArray latLongArray = ((LatLongArray)polygon.getLatLongs());
         if (latLongArray.size() < 2) {
@@ -132,7 +146,8 @@ public class PolygonDrawAdapterImpl implements PolygonDrawAdapter {
         }
     }
 
-    private void removeListener() {
+    @Override
+    public void removeListeners() {
         mapView.removeLeftMouseClickListener(this);
         mapView.removeRightMouseClickListener(this);
         mapView.removeMouseMoveListener(this);

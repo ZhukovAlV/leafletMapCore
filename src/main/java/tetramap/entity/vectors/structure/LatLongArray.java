@@ -14,6 +14,10 @@ public class LatLongArray extends ArrayList<LatLong> implements GeometryStructur
 
     private static final long serialVersionUID = -909287963967251959L;
 
+    public LatLongArray() {
+        this(List.of());
+    }
+
     public LatLongArray(LatLong[] LatLongs) {
         this(Arrays.asList(LatLongs));
     }

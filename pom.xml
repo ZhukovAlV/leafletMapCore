@@ -68,6 +68,13 @@
             <artifactId>graphhopper-core</artifactId>
             <version>6.1</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/de.grundid.opendatalab/geojson-jackson -->
+        <dependency>
+            <groupId>de.grundid.opendatalab</groupId>
+            <artifactId>geojson-jackson</artifactId>
+            <version>1.14</version>
+        </dependency>
     </dependencies>
 
     <build>
