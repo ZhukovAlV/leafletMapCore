@@ -57,7 +57,7 @@ public class MapViewJavaFX extends StackPane implements MapView {
     private final RouteManager routeManager = new RouteManager();
 
     // Менеджер маркеров
-    private MarkerManager markerManager;
+    private final MarkerManager markerManager;
 
     public MapViewJavaFX() {
         getChildren().add(WEB_VIEW);
@@ -72,15 +72,20 @@ public class MapViewJavaFX extends StackPane implements MapView {
 
         layerGroup = new LayerGroup();
 
-        // Загружаем карты для graphhopper
-        try {
-            Properties props = new Properties();
-            props.load(this.getClass().getResourceAsStream("/project.properties"));
-            File mapForRoute = new File(props.get("route.map").toString());
-            routeManager.initializeData(mapForRoute);
-        } catch (IOException e) {
-            log.error("Файл с картой для построения маршрута недоступен");
-        }
+        // Загружаем карты для graphhopper в отдельном потоке
+        Thread thread = new Thread(){
+            public void run(){
+                try {
+                    Properties props = new Properties();
+                    props.load(this.getClass().getResourceAsStream("/project.properties"));
+                    File mapForRoute = new File(props.get("route.map").toString());
+                    routeManager.initializeData(mapForRoute);
+                } catch (IOException e) {
+                    log.error("Файл с картой для построения маршрута недоступен");
+                }
+            }
+        };
+        thread.start();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package tetramap.draw;
 
+import javafx.scene.control.Alert;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import tetramap.adapter.RouteDrawAdapter;
@@ -42,9 +43,19 @@ public class RouteDrawAdapterImpl implements RouteDrawAdapter {
 
     @Override
     public void onInvoke() {
-        mapView.getLayerGroup().addLayer(polylineDecorator);
 
-        mapView.addLeftMouseClickListener(this);
+        if (mapView.getRouteManager().isDataAvailable()) {
+            mapView.getLayerGroup().addLayer(polylineDecorator);
+            mapView.addLeftMouseClickListener(this);
+
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Информационное окно");
+            alert.setHeaderText("Файл с картой не загружен");
+            alert.setContentText("Файл с картой для построения маршрута еще не загружен. Попробуйте позднее");
+            alert.showAndWait();
+        }
+
     }
 
     @Override
