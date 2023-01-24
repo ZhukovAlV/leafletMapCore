@@ -44,21 +44,19 @@ public class RectangleDrawAdapterImpl implements RectangleDrawAdapter {
 
     @Override
     public void onRevoke() {
-        removeListeners();
+        if (isInvoke) removeListeners();
 
-        if (rectangle != null && mapView.getLayerGroup().hasLayer(rectangle)) {
-            mapView.getLayerGroup().removeLayer(rectangle);
+        if (rectangle != null) {
 
-            // Очищаем координаты
-            ((LatLongArray)rectangle.getLatLongs()).clear();
+            if (mapView.getLayerGroup().hasLayer(rectangle)) {
+                mapView.getLayerGroup().removeLayer(rectangle);
+
+                // Очищаем координаты
+                ((LatLongArray)rectangle.getLatLongs()).clear();
+            }
         }
 
         isInvoke = false;
-    }
-
-    @Override
-    public boolean isInvoked() {
-        return isInvoke;
     }
 
     @Override
@@ -93,6 +91,11 @@ public class RectangleDrawAdapterImpl implements RectangleDrawAdapter {
     private void checkLatLongArray(LatLongArray latLongArray, LatLong latLong) {
         if (latLongArray.size() == 1) latLongArray.add(1, latLong);
             else latLongArray.set(1, latLong);
+    }
+
+    @Override
+    public boolean isInvoked() {
+        return isInvoke;
     }
 
     @Override

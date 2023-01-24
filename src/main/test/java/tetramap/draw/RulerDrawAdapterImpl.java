@@ -77,21 +77,24 @@ public class RulerDrawAdapterImpl implements RulerDrawAdapter {
 
     @Override
     public void onRevoke() {
-        removeListeners();
+        if (isInvoke) removeListeners();
 
-        if (marker != null && mapView.getLayerGroup().hasLayer(marker)) {
-            mapView.getLayerGroup().removeLayer(marker);
-            marker = null;
-        }
+        if (polyline != null && !((LatLongArray)polyline.getLatLongs()).isEmpty()) {
 
-        if (polyline != null && mapView.getLayerGroup().hasLayer(polyline)) {
-            mapView.getLayerGroup().removeLayer(polyline);
-            ((LatLongArray)getPolyline().getLatLongs()).clear();
-        }
-        
-        if (brokenLine != null && mapView.getLayerGroup().hasLayer(brokenLine)) {
-            mapView.getLayerGroup().removeLayer(brokenLine);
-            brokenLine = null;
+            if (marker != null && mapView.getLayerGroup().hasLayer(marker)) {
+                mapView.getLayerGroup().removeLayer(marker);
+                marker = null;
+            }
+
+            if (mapView.getLayerGroup().hasLayer(polyline)) {
+                mapView.getLayerGroup().removeLayer(polyline);
+                ((LatLongArray)getPolyline().getLatLongs()).clear();
+            }
+
+            if (brokenLine != null && mapView.getLayerGroup().hasLayer(brokenLine)) {
+                mapView.getLayerGroup().removeLayer(brokenLine);
+                brokenLine = null;
+            }
         }
 
         isInvoke = false;

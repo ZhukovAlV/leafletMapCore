@@ -24,14 +24,14 @@ public class PolygonDrawAdapterImpl implements PolygonDrawAdapter {
     private final MapView mapView;
 
     /**
-     * Многоугольник
-     */
-    private final Polygon polygon;
-
-    /**
      * Статус подключения
      */
     private boolean isInvoke;
+
+    /**
+     * Многоугольник
+     */
+    private final Polygon polygon;
 
     /**
      * Прерывистая линия и временная фигура на основе которой будет построен многоугольник Polygon
@@ -68,29 +68,27 @@ public class PolygonDrawAdapterImpl implements PolygonDrawAdapter {
 
     @Override
     public void onRevoke() {
-        removeListeners();
+        if (isInvoke) removeListeners();
 
-        if (brokenLine != null && mapView.getLayerGroup().hasLayer(brokenLine)) {
-            mapView.getLayerGroup().removeLayer(brokenLine);
-            ((LatLongArray)brokenLine.getLatLongs()).clear();
-        }
+        if (polygon != null && !((LatLongArray)polygon.getLatLongs()).isEmpty()) {
 
-        if (polyline != null && mapView.getLayerGroup().hasLayer(polyline)) {
-            mapView.getLayerGroup().removeLayer(polyline);
-            ((LatLongArray)polyline.getLatLongs()).clear();
-        }
+            if (brokenLine != null && mapView.getLayerGroup().hasLayer(brokenLine)) {
+                mapView.getLayerGroup().removeLayer(brokenLine);
+                ((LatLongArray)brokenLine.getLatLongs()).clear();
+            }
 
-        if (polygon != null && mapView.getLayerGroup().hasLayer(polygon)) {
-            mapView.getLayerGroup().removeLayer(polygon);
-            ((LatLongArray)polygon.getLatLongs()).clear();
+            if (polyline != null && mapView.getLayerGroup().hasLayer(polyline)) {
+                mapView.getLayerGroup().removeLayer(polyline);
+                ((LatLongArray)polyline.getLatLongs()).clear();
+            }
+
+            if (mapView.getLayerGroup().hasLayer(polygon)) {
+                mapView.getLayerGroup().removeLayer(polygon);
+                ((LatLongArray)polygon.getLatLongs()).clear();
+            }
         }
 
         isInvoke = false;
-    }
-
-    @Override
-    public boolean isInvoked() {
-        return isInvoke;
     }
 
     @Override
@@ -112,8 +110,8 @@ public class PolygonDrawAdapterImpl implements PolygonDrawAdapter {
             latLongArray.clear();
             polygon.updateTo();
         } else {
-        // Обновляем маркеры в области выделения
-        mapView.getMarkerManager().selectMarkersInLayer(polygon);
+            // Обновляем маркеры в области выделения
+            mapView.getMarkerManager().selectMarkersInLayer(polygon);
         }
 
         // Очищаем координаты
@@ -151,5 +149,10 @@ public class PolygonDrawAdapterImpl implements PolygonDrawAdapter {
         mapView.removeLeftMouseClickListener(this);
         mapView.removeRightMouseClickListener(this);
         mapView.removeMouseMoveListener(this);
+    }
+
+    @Override
+    public boolean isInvoked() {
+        return isInvoke;
     }
 }

@@ -66,12 +66,15 @@ public class RouteDrawAdapterImpl implements RouteDrawAdapter {
 
     @Override
     public void onRevoke() {
-        ((LatLongArray)latLongPolyline.getLatLongs()).clear();
-        ((LatLongArray)polylineDecorator.getRoutePolyline().getLatLongs()).clear();
+        if (isInvoke) removeListeners();
 
-        if (mapView.getLayerGroup().hasLayer(polylineDecorator)) mapView.getLayerGroup().removeLayer(polylineDecorator);
+        if (!((LatLongArray)latLongPolyline.getLatLongs()).isEmpty()) {
 
-        removeListeners();
+            ((LatLongArray)latLongPolyline.getLatLongs()).clear();
+            ((LatLongArray)polylineDecorator.getRoutePolyline().getLatLongs()).clear();
+
+            if (mapView.getLayerGroup().hasLayer(polylineDecorator)) mapView.getLayerGroup().removeLayer(polylineDecorator);
+        }
 
         isInvoke = false;
     }

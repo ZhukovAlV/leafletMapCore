@@ -20,14 +20,15 @@ public class CircleDrawAdapterImpl implements CircleDrawAdapter {
     private final MapView mapView;
 
     /**
+     * Статус подключения
+     */
+    private boolean isInvoke;
+
+    /**
      * Круг
      */
     private Circle circle;
 
-    /**
-     * Статус подключения
-     */
-    private boolean isInvoke;
 
     public CircleDrawAdapterImpl(MapView mapView) {
         this.mapView = mapView;
@@ -43,19 +44,16 @@ public class CircleDrawAdapterImpl implements CircleDrawAdapter {
 
     @Override
     public void onRevoke() {
-        removeListeners();
+        if (isInvoke) removeListeners();
 
-        // Обнуляем данные о круге
-        if (circle != null && mapView.getLayerGroup().hasLayer(circle)) mapView.getLayerGroup().removeLayer(circle);
+        if (circle != null) {
+            // Обнуляем данные о круге
+            if (mapView.getLayerGroup().hasLayer(circle)) mapView.getLayerGroup().removeLayer(circle);
+        }
 
         circle = null;
 
         isInvoke = false;
-    }
-
-    @Override
-    public boolean isInvoked() {
-        return isInvoke;
     }
 
     @Override
@@ -65,6 +63,7 @@ public class CircleDrawAdapterImpl implements CircleDrawAdapter {
             circle.getPathOptions().setFill(true);
 
             mapView.getLayerGroup().addLayer(circle);
+
         } else {
             updateRadius(latLong);
 
@@ -89,6 +88,12 @@ public class CircleDrawAdapterImpl implements CircleDrawAdapter {
         circle.updateTo();
     }
 
+    @Override
+    public boolean isInvoked() {
+        return isInvoke;
+    }
+
+    @Override
     public void removeListeners() {
         mapView.removeLeftMouseClickListener(this);
         mapView.removeMouseMoveListener(this);
