@@ -27,7 +27,12 @@ public class LayersControl extends LeafletControl {
     @Override
     public void addTo(MapView mapView) {
         if (tileLayerList.getTileLayers().size() > 1) {
-            super.addTo(mapView);
+            setMapView(mapView);
+
+            log.info("Создание LayersControl, id: {}", this.getId());
+            mapView.execScript(String.join("",this.getId(), " = L.",
+                    TypeInstantiatesMap.CONTROL.getName(), ".", this.getTypeInstantiatesMap(), "(",this.toString(), ");"));
+
         } else log.warn("Список тайловых слоев пуст в LayersControl: {}", this.getId());
     }
 

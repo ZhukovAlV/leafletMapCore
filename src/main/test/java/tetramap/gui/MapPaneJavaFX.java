@@ -1,5 +1,6 @@
 package tetramap.gui;
 
+import javafx.collections.FXCollections;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -9,10 +10,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import lombok.extern.log4j.Log4j2;
+import tetramap.MainFXApp;
 import tetramap.adapter.*;
 import tetramap.bitmap.BitmapType;
 import tetramap.bitmap.SubscriberBitmapType;
 import tetramap.draw.*;
+import tetramap.entity.TileLayer;
 import tetramap.entity.marker.SubscriberMarker;
 import tetramap.entity.popup.Popup;
 import tetramap.entity.selection.Selection;
@@ -27,6 +30,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.OptionalDouble;
+import java.util.stream.Collectors;
 
 /**
  * Реализованная панель для JavaFx
@@ -134,6 +138,12 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
         // Добавляем карту на отображение в панели
         getChildren().add((Node)mapView);
 
+        // Выставляем список карт в панель выбора карт и отображаем первый по умолчанию
+        // TODO заменить потом на получения слоев из файла настроек
+        tileSourceComboBox.setItems(FXCollections.observableArrayList(MainFXApp.layers.stream().map(TileLayer::getDisplayName).collect(Collectors.toList())));
+        // Выставляем карту по умолчанию
+        tileSourceComboBox.getSelectionModel().selectFirst();
+
         // Загрузка иконок для кнопок
         try {
             centerButton.setGraphic(loadIcon("icon/button/center.png", ZOOM_ICON_SIZE));
@@ -196,7 +206,7 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
         updatePanelHeight();
 
         // Добавляем панели для отображения
-        getChildren().addAll(zoomBox, selectionBox);
+        getChildren().addAll(zoomBox, selectionBox, tileSourceComboBox);
 
         // Слушатель на изменение окна
         heightProperty().addListener((obs, oldVal, newVal) -> {
@@ -212,6 +222,22 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
 
         // Слушатель на центр карты
         centerButton.setOnAction(event -> mapView.moveToCenter());
+
+        // Слушатель на тайловые слои
+        tileSourceComboBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            MainFXApp.layers.forEach(layer -> {
+                if (tileSourceComboBox.getSelectionModel().getSelectedItem().equals(layer.getDisplayName())) {
+
+                    String script = "var center = " + mapView.getMap().getId() + ".getCenter(); " +
+                            "var zoom = " + mapView.getMap().getId() + ".getZoom(); " +
+                            mapView.getMap().getId() + ".options.crs = " + layer.getId() + ".options.isElliptical ? L.CRS.EPSG3395 : L.CRS.EPSG3857; " +
+                            layer.getId() + ".addTo(" + mapView.getMap().getId() + ");" +
+                            mapView.getMap().getId() + "._resetView(center, zoom, false, false); ";
+
+                    mapView.execScript(script);
+                }
+            });
+        });
 
         rulerToggleButton.setOnAction(event -> {
             clearDrawEvent();

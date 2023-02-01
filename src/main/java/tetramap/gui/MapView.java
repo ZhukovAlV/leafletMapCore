@@ -1,6 +1,7 @@
 package tetramap.gui;
 
 import tetramap.config.MapConfig;
+import tetramap.entity.control.LayersControl;
 import tetramap.entity.types.LatLongBounds;
 import tetramap.event.MapLeftClickEventListener;
 import tetramap.event.MapMoveEventListener;
@@ -146,4 +147,10 @@ public interface MapView {
      * @return менеджер маркеров
      */
     MarkerManager getMarkerManager();
+
+    /**
+     * LayersControl со списом слоев для выбора карты
+     * @return LayersControl со списом тайловых слоев
+     */
+    LayersControl getLayersControl();
 }

@@ -49,12 +49,6 @@ public class LeafletMap extends LeafletObject {
         log.info("Создание карты LeafletMap, id: {}", this.getId());
         mapView.execScript(String.join("",this.getId(), " = L.", this.getTypeInstantiatesMap(),"(", this.toString(), ");"));
 
-        // Скрипт, чтобы яндекс карты работали
-        mapView.execScript(this.getId() + ".on('baselayerchange', function (e) {var center = " + this.getId() +
-                ".getCenter(); var zoom = " + this.getId() + ".getZoom();" + this.getId() +
-                ".options.crs = e.layer.options.isElliptical ? L.CRS.EPSG3395 : L.CRS.EPSG3857;" + this.getId() +
-                "._resetView(center, zoom, false, false); });");
-
         log.info("Установка атрибутов для карты LeafletMap.");
         attribution.addTo(mapView);
         attribution.setPrefix();

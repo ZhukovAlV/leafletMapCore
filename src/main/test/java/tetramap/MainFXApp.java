@@ -22,11 +22,12 @@ public class MainFXApp extends Application {
 
     private final int WIGHT = 1000, HIGHT = 800;
 
+    public static List<TileLayer> layers = new ArrayList<>();
+
     @Override
     public void start(Stage primaryStage) {
 
         // Создаем список тайловых слоев
-        List<TileLayer> layers = new ArrayList<>();
         layers.add(new TileLayer("OpenStreetMap"
                 , "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 ,"OpenStreetMap"

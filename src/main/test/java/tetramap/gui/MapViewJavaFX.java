@@ -15,7 +15,9 @@ import tetramap.entity.control.ScaleControl;
 import tetramap.entity.control.ZoomControl;
 import tetramap.entity.types.LatLong;
 import tetramap.entity.types.LatLongBounds;
-import tetramap.event.*;
+import tetramap.event.MapLeftClickEventListener;
+import tetramap.event.MapMoveEventListener;
+import tetramap.event.MapRightClickEventListener;
 import tetramap.layer.Layer;
 import tetramap.layer.groups.LayerGroup;
 import tetramap.leaflet.LeafletMap;
@@ -58,6 +60,9 @@ public class MapViewJavaFX extends StackPane implements MapView {
 
     // Менеджер маркеров
     private final MarkerManager markerManager;
+
+    // LayersControl со списом слоев для выбора карты
+    private LayersControl layersControl;
 
     public MapViewJavaFX() {
         getChildren().add(WEB_VIEW);
@@ -126,7 +131,7 @@ public class MapViewJavaFX extends StackPane implements MapView {
         map.addTo(this);
 
         // Создаем меню выбора тайловых слоев
-        LayersControl layersControl = new LayersControl(baseMaps);
+        layersControl = new LayersControl(baseMaps);
         layersControl.addTo(this);
 
         // Настройки масштаба
@@ -204,6 +209,10 @@ public class MapViewJavaFX extends StackPane implements MapView {
     @Override
     public RouteManager getRouteManager() {
         return routeManager;
+    }
+
+    public LayersControl getLayersControl() {
+        return layersControl;
     }
 
     /**
@@ -316,8 +325,9 @@ public class MapViewJavaFX extends StackPane implements MapView {
 
     @Override
     public void remove() {
-        log.info("Удаление карты со всеми слоями: {}", "id: " + map.getId());
-        // TODO доделать метод
+        log.info("Удаление всех слоев с карты: {}", "id: " + map.getId());
+        layerGroup.getLayers().forEach(Layer::remove);
+        layerGroup.getLayers().clear();
     }
 
     @Override
@@ -358,8 +368,7 @@ public class MapViewJavaFX extends StackPane implements MapView {
     @Override
     public boolean hasLayer(Layer layer) {
         log.info("Проверка layer на exist: {}", String.join("",layer.getLeafletType(), ", id: ", layer.getId()));
-        // TODO доделать метод
-        return false;
+        return layerGroup.getLayers().contains(layer);
     }
     @Override
     public MarkerManager getMarkerManager() {
