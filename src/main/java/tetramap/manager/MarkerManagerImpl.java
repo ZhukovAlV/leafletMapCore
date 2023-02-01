@@ -1,5 +1,6 @@
 package tetramap.manager;
 
+import tetramap.entity.cluster.MarkerCluster;
 import tetramap.entity.marker.Marker;
 import tetramap.entity.marker.SubscriberMarker;
 import tetramap.entity.types.Point;
@@ -23,12 +24,21 @@ public class MarkerManagerImpl implements MarkerManager {
     private final MapView mapView;
 
     /**
+     * Кластер для маркеров
+     */
+    private final MarkerCluster markerCluster;
+
+    /**
      * Подписчики на события выбора маркеров на карте
      */
     private final List<SubscriberMarker> markers = new CopyOnWriteArrayList<>();
 
     public MarkerManagerImpl(MapView mapView) {
         this.mapView = mapView;
+
+        markerCluster = new MarkerCluster();
+       // markerCluster.addTo(mapView);
+      //  mapView.addLayer(markerCluster);
     }
 
     @Override
@@ -39,16 +49,19 @@ public class MarkerManagerImpl implements MarkerManager {
     @Override
     public void addMarker(SubscriberMarker marker) {
         markers.add(marker);
+      //  markerCluster.addLayer(marker);
     }
 
     @Override
     public void removeMarker(SubscriberMarker marker) {
         markers.remove(marker);
+       // markerCluster.removeLayer(marker);
     }
 
     @Override
     public void clearMarkers() {
         markers.clear();
+      //  markerCluster.clearLayers();
     }
 
     @Override
