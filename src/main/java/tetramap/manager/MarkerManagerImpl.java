@@ -37,8 +37,7 @@ public class MarkerManagerImpl implements MarkerManager {
         this.mapView = mapView;
 
         markerCluster = new MarkerCluster();
-       // markerCluster.addTo(mapView);
-      //  mapView.addLayer(markerCluster);
+        markerCluster.addTo(mapView);
     }
 
     @Override
@@ -49,19 +48,19 @@ public class MarkerManagerImpl implements MarkerManager {
     @Override
     public void addMarker(SubscriberMarker marker) {
         markers.add(marker);
-      //  markerCluster.addLayer(marker);
+        markerCluster.addLayer(marker);
     }
 
     @Override
     public void removeMarker(SubscriberMarker marker) {
         markers.remove(marker);
-       // markerCluster.removeLayer(marker);
+        markerCluster.removeLayer(marker);
     }
 
     @Override
     public void clearMarkers() {
         markers.clear();
-      //  markerCluster.clearLayers();
+        markerCluster.clearLayers();
     }
 
     @Override

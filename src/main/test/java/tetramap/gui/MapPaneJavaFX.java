@@ -17,7 +17,6 @@ import tetramap.bitmap.SubscriberBitmapType;
 import tetramap.draw.*;
 import tetramap.entity.TileLayer;
 import tetramap.entity.marker.SubscriberMarker;
-import tetramap.entity.popup.Popup;
 import tetramap.entity.selection.Selection;
 import tetramap.entity.types.LatLong;
 import tetramap.entity.vectors.Circle;
@@ -70,7 +69,7 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
     private static final int TILE_SOURCE_COMBO_BOX_HEIGHT = 25;
 
     // Элемент выбора тайловой подложки
-    private final ComboBox<Object> tileSourceComboBox = new ComboBox<>();
+    private final ComboBox<String> tileSourceComboBox = new ComboBox<>();
 
     // Кнопки управления масштабом
     private final VBox zoomBox = new VBox();
@@ -230,13 +229,13 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
             if (tileSourceComboBox.getSelectionModel().getSelectedItem().equals(layer.getDisplayName())) {
                 mapView.addLayer(MainFXApp.layers.get(newValue.intValue()));
                 mapView.removeLayer(MainFXApp.layers.get(oldValue.intValue()));
-            }
 
-            // Скрипт, чтобы яндекс карты работали с правильным меркатором
-            mapView.execScript("var center = " + mapView.getMap().getId() + ".getCenter(); " +
-                    "var zoom = " + mapView.getMap().getId() + ".getZoom(); " +
-                    mapView.getMap().getId() + ".options.crs = " + MainFXApp.layers.get(newValue.intValue()).getId() + ".options.isElliptical ? L.CRS.EPSG3395 : L.CRS.EPSG3857; " +
-                    mapView.getMap().getId() + "._resetView(center, zoom, false, false);");
+                // Скрипт, чтобы яндекс карты работали с правильным меркатором
+                mapView.execScript("var center = " + mapView.getMap().getId() + ".getCenter(); " +
+                        "var zoom = " + mapView.getMap().getId() + ".getZoom(); " +
+                        mapView.getMap().getId() + ".options.crs = " + MainFXApp.layers.get(newValue.intValue()).getId() + ".options.isElliptical ? L.CRS.EPSG3395 : L.CRS.EPSG3857; " +
+                        mapView.getMap().getId() + "._resetView(center, zoom, false, false);");
+            }
         }));
 
         rulerToggleButton.setOnAction(event -> {
@@ -289,26 +288,19 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
             LatLong latLong = new LatLong(55.040, 73.2695);
             for (int i = 0; i < 10; i++) {
                 latLong = new LatLong(latLong.getLatitude() + 0.001, latLong.getLongitude() + 0.001);
-                // Marker marker = new Marker(latLong, icon, "Marker №" + i);
 
                 SubscriberMarker marker = new SubscriberMarker(latLong, subscriberBitmapType, "Marker №" + i);
                 mapView.getLayerGroup().addLayer(marker);
 
                 mapView.getMarkerManager().addMarker(marker);
 
-                // Если кластеры использовать
-/*            mapView.execScript("var " +  marker.getId() + " = L.marker(" + marker + ");");
-            mapView.execScript("markers.addLayer(" + marker.getId() + ");");
-            marker.setMapView(mapView);
-            marker.addTo(mapView);*/
-
-                //marker.bindTooltip("Тестовый маркер №" + i);
+/*                marker.bindTooltip("Тестовый маркер №" + i);
 
                 Popup popup = new Popup("Тестовый маркер №" + i);
-                popup.addTo(mapView);
+                popup.addTo(mapView);*/
 
                 // Добавляем подпись маркеру
-                marker.bindPopup(popup);
+             //   marker.bindPopup(popup);
             }
         });
 

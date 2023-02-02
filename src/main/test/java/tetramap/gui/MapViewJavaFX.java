@@ -59,7 +59,7 @@ public class MapViewJavaFX extends StackPane implements MapView {
     private final RouteManager routeManager = new RouteManager();
 
     // Менеджер маркеров
-    private final MarkerManager markerManager;
+    private MarkerManager markerManager;
 
     // LayersControl со списом слоев для выбора карты
     private LayersControl layersControl;
@@ -71,9 +71,6 @@ public class MapViewJavaFX extends StackPane implements MapView {
         mapLeftClickEventListener = new MapLeftClickEventManagerImpl();
         mapRightClickEventListener = new MapRightClickEventManagerImpl();
         mapMoveEventListener = new MapMoveEventManagerImpl();
-
-        // Инициализируем менеджера маркеров
-        markerManager = new MarkerManagerImpl(this);
 
         layerGroup = new LayerGroup();
 
@@ -159,6 +156,9 @@ public class MapViewJavaFX extends StackPane implements MapView {
 
         // Добавляем layerGroup в mapView
         layerGroup.addTo(this);
+
+        // Инициализируем менеджера маркеров
+        markerManager = new MarkerManagerImpl(this);
     }
 
     @Override
@@ -199,20 +199,6 @@ public class MapViewJavaFX extends StackPane implements MapView {
     @Override
     public void removeRightMouseClickListener(MapRightClickEventListener mapRightClickEventListener) {
         this.mapRightClickEventListener.removeListener(mapRightClickEventListener);
-    }
-
-    @Override
-    public LeafletMap getMap() {
-        return map;
-    }
-
-    @Override
-    public RouteManager getRouteManager() {
-        return routeManager;
-    }
-
-    public LayersControl getLayersControl() {
-        return layersControl;
     }
 
     /**
@@ -370,8 +356,41 @@ public class MapViewJavaFX extends StackPane implements MapView {
         log.info("Проверка layer на exist: {}", String.join("",layer.getLeafletType(), ", id: ", layer.getId()));
         return layerGroup.getLayers().contains(layer);
     }
+
+    /**
+     * Карта для MapView
+     * @return карта
+     */
+    @Override
+    public LeafletMap getMap() {
+        return map;
+    }
+
+    /**
+     * Менеджер построения маршрута
+     * @return RouteManager для построения маршрута
+     */
+    @Override
+    public RouteManager getRouteManager() {
+        return routeManager;
+    }
+
+    /**
+     * Getter для LayersControl (панели выбора карт)
+     * @return LayersControl (панель выбора карт)
+     */
+    @Override
+    public LayersControl getLayersControl() {
+        return layersControl;
+    }
+
+    /**
+     * Менеджер маркеров
+     * @return менеджер маркеров
+     */
     @Override
     public MarkerManager getMarkerManager() {
         return markerManager;
     }
+
 }

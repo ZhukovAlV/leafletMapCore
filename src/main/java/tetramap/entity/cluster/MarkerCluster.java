@@ -3,8 +3,8 @@ package tetramap.entity.cluster;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
+import tetramap.gui.MapView;
 import tetramap.layer.Layer;
-import tetramap.leaflet.LeafletObject;
 import tetramap.type.TypeInstantiatesMap;
 
 /**
@@ -13,7 +13,7 @@ import tetramap.type.TypeInstantiatesMap;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Log4j2
-public class MarkerCluster extends LeafletObject {
+public class MarkerCluster extends Layer {
 
     private boolean spiderfyOnMaxZoom;
     private boolean showCoverageOnHover;
@@ -27,10 +27,19 @@ public class MarkerCluster extends LeafletObject {
     @Override
     public String toString() {
         return '{' +
-                "spiderfyOnMaxZoom=" + spiderfyOnMaxZoom +
-                ", showCoverageOnHover=" + showCoverageOnHover +
-                ", zoomToBoundsOnClick=" + zoomToBoundsOnClick +
+                "spiderfyOnMaxZoom: " + spiderfyOnMaxZoom +
+                ", showCoverageOnHover: " + showCoverageOnHover +
+                ", zoomToBoundsOnClick: " + zoomToBoundsOnClick +
                 '}';
+    }
+
+    @Override
+    public void addTo(MapView mapView) {
+        setMapView(mapView);
+
+        mapView.execScript(String.join("",this.getId(), " = L.", this.getTypeInstantiatesMap(), "(", this.toString(), ");"));
+
+        getMapView().addLayer(this);
     }
 
     /**
@@ -38,8 +47,8 @@ public class MarkerCluster extends LeafletObject {
      * @param layer слой на добавление в кластер
      */
     public void addLayer(Layer layer) {
-        log.info("Добавление в кластер слоя layer: {}", this.getId());
-        getMapView().execScript(this.getId() + ".remove();");
+        log.info("Добавление в кластер слоя layer: {}", layer.getId());
+        getMapView().execScript(this.getId() + ".addLayer(" + layer.getId() + ");");
     }
 
     /**
@@ -48,7 +57,7 @@ public class MarkerCluster extends LeafletObject {
      */
     public void removeLayer(Layer layer) {
         log.info("Удаление из кластера слоя layer: {}", this.getId());
-        getMapView().execScript(this.getId() + ".remove();");
+        getMapView().execScript(this.getId() + ".remove(" + layer.getId() + ");");
     }
 
     /**
