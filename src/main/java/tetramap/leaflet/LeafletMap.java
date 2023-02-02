@@ -53,4 +53,5 @@ public class LeafletMap extends LeafletObject {
         attribution.addTo(mapView);
         attribution.setPrefix();
     }
+
 }

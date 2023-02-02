@@ -140,7 +140,8 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
 
         // Выставляем список карт в панель выбора карт и отображаем первый по умолчанию
         // TODO заменить потом на получения слоев из файла настроек
-        tileSourceComboBox.setItems(FXCollections.observableArrayList(MainFXApp.layers.stream().map(TileLayer::getDisplayName).collect(Collectors.toList())));
+        tileSourceComboBox.setItems(FXCollections.observableArrayList(MainFXApp.layers.stream()
+                .map(TileLayer::getDisplayName).collect(Collectors.toList())));
         // Выставляем карту по умолчанию
         tileSourceComboBox.getSelectionModel().selectFirst();
 
@@ -224,20 +225,19 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
         centerButton.setOnAction(event -> mapView.moveToCenter());
 
         // Слушатель на тайловые слои
-        tileSourceComboBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
-            MainFXApp.layers.forEach(layer -> {
-                if (tileSourceComboBox.getSelectionModel().getSelectedItem().equals(layer.getDisplayName())) {
+        tileSourceComboBox.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> MainFXApp.layers.forEach(layer -> {
 
-                    String script = "var center = " + mapView.getMap().getId() + ".getCenter(); " +
-                            "var zoom = " + mapView.getMap().getId() + ".getZoom(); " +
-                            mapView.getMap().getId() + ".options.crs = " + layer.getId() + ".options.isElliptical ? L.CRS.EPSG3395 : L.CRS.EPSG3857; " +
-                            layer.getId() + ".addTo(" + mapView.getMap().getId() + ");" +
-                            mapView.getMap().getId() + "._resetView(center, zoom, false, false); ";
+            if (tileSourceComboBox.getSelectionModel().getSelectedItem().equals(layer.getDisplayName())) {
+                mapView.addLayer(MainFXApp.layers.get(newValue.intValue()));
+                mapView.removeLayer(MainFXApp.layers.get(oldValue.intValue()));
+            }
 
-                    mapView.execScript(script);
-                }
-            });
-        });
+            // Скрипт, чтобы яндекс карты работали с правильным меркатором
+            mapView.execScript("var center = " + mapView.getMap().getId() + ".getCenter(); " +
+                    "var zoom = " + mapView.getMap().getId() + ".getZoom(); " +
+                    mapView.getMap().getId() + ".options.crs = " + MainFXApp.layers.get(newValue.intValue()).getId() + ".options.isElliptical ? L.CRS.EPSG3395 : L.CRS.EPSG3857; " +
+                    mapView.getMap().getId() + "._resetView(center, zoom, false, false);");
+        }));
 
         rulerToggleButton.setOnAction(event -> {
             clearDrawEvent();
@@ -478,4 +478,5 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
     private void resizeMap() {
         mapView.setSize(getWidth(), getHeight());
     }
+
 }

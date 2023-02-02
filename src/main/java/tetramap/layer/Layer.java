@@ -23,6 +23,7 @@ public abstract class Layer extends LeafletObject {
     /**
      * Добавления слоя на карту
      */
+    @Override
     public void addTo(MapView mapView) {
         super.addTo(mapView);
         getMapView().addLayer(this);
@@ -31,6 +32,7 @@ public abstract class Layer extends LeafletObject {
     /**
      * Обновление слоя на карте
      */
+    @Override
     public void updateTo() {
         super.updateTo();
         getMapView().updateLayer(this);
@@ -50,4 +52,5 @@ public abstract class Layer extends LeafletObject {
         log.info("Добавляется Popup к layer: {}", this.getId());
         getMapView().execScript(this.getId() + ".bindPopup('" + popup.getContent() + "'," + popup + ");");
     }
+
 }
