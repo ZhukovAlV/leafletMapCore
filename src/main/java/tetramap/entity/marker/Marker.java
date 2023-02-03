@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
 import tetramap.entity.types.Icon;
 import tetramap.entity.types.LatLong;
+import tetramap.gui.MapView;
 import tetramap.layer.Layer;
 import tetramap.type.TypeInstantiatesMap;
 
@@ -58,10 +59,33 @@ public class Marker extends Layer {
     }
 
     /**
+     * Добавления слоя на карту
+     */
+    @Override
+    public void addTo(MapView mapView) {
+        setMapView(mapView);
+
+        log.info("Создание на карте маркера {}", this.getId());
+        mapView.execScript(String.join("",this.getId(), " = L.", this.getTypeInstantiatesMap(), "(", this.toString(), ");"));
+    }
+
+    /**
+     * Обновление слоя на карте
+     */
+    @Override
+    public void updateTo() {
+        log.info("Удаление маркера {}", this.getId());
+        getMapView().execScript(this.getId() + ".remove();");
+
+        log.info("Создание обновленного маркера: {}", this.getId());
+        getMapView().execScript(String.join("",this.getId(), " = L.", this.getTypeInstantiatesMap(), "(", this.toString(), ");"));
+    }
+
+    /**
      * Текст для маркера
      */
     public void bindTooltip(String text){
-        log.info("Добавляется Popup к layer: {}", this.getId());
+        log.info("Добавляется Popup к маркеру: {}", this.getId());
         getMapView().execScript(this.getId() + ".bindTooltip('" + text + "', {permanent: true, className: 'my-label', offset: [0, 0] });");
     }
 
@@ -69,4 +93,5 @@ public class Marker extends Layer {
     public String getTypeInstantiatesMap() {
         return TypeInstantiatesMap.MARKER.getName();
     }
+
 }
