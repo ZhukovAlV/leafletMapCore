@@ -1,5 +1,6 @@
 package tetramap.manager;
 
+import tetramap.entity.cluster.MarkerCluster;
 import tetramap.entity.marker.SubscriberMarker;
 import tetramap.layer.Layer;
 
@@ -52,4 +53,10 @@ public interface MarkerManager {
      * @param layer Layer
      */
     void selectMarkersInLayer(Layer layer);
+
+    /**
+     * Возвращет кластер маркеров
+     * @return кластер маркеров
+     */
+    MarkerCluster getMarkerCluster();
 }

@@ -6,7 +6,6 @@ import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j2;
 import tetramap.entity.types.Icon;
 import tetramap.entity.types.LatLong;
-import tetramap.gui.MapView;
 import tetramap.layer.Layer;
 import tetramap.type.TypeInstantiatesMap;
 
@@ -56,29 +55,6 @@ public class Marker extends Layer {
 
         return String.join("",latLong.toString(),
                 ", {", iconUrl, "title: '", title, "'}");
-    }
-
-    /**
-     * Добавления слоя на карту
-     */
-    @Override
-    public void addTo(MapView mapView) {
-        setMapView(mapView);
-
-        log.info("Создание на карте маркера {}", this.getId());
-        mapView.execScript(String.join("",this.getId(), " = L.", this.getTypeInstantiatesMap(), "(", this.toString(), ");"));
-    }
-
-    /**
-     * Обновление слоя на карте
-     */
-    @Override
-    public void updateTo() {
-        log.info("Удаление маркера {}", this.getId());
-        getMapView().execScript(this.getId() + ".remove();");
-
-        log.info("Создание обновленного маркера: {}", this.getId());
-        getMapView().execScript(String.join("",this.getId(), " = L.", this.getTypeInstantiatesMap(), "(", this.toString(), ");"));
     }
 
     /**

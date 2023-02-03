@@ -33,16 +33,17 @@ public abstract class LeafletObject implements BasicType {
     public void addTo(MapView mapView) {
         this.mapView = mapView;
 
+        log.info("Создание на карте объекта {}", this.getId());
         mapView.execScript(String.join("",this.getId(), " = L.", this.getTypeInstantiatesMap(), "(", this.toString(), ");"));
     }
 
     @Override
     public void updateTo() {
 
-        log.info("Удаление с карты слоя layer: {}", this.getId());
+        log.info("Удаление с карты объекта: {}", this.getId());
         mapView.execScript(this.getId() + ".remove();");
 
-        log.info("Обновляем значение layer: {}", this.getId());
+        log.info("Создание на карте обновленного объекта: {}", this.getId());
         mapView.execScript(String.join("",this.getId(), " = L.", this.getTypeInstantiatesMap(), "(", this.toString(), ");"));
     }
 }

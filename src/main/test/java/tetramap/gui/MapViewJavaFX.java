@@ -301,6 +301,7 @@ public class MapViewJavaFX extends StackPane implements MapView {
     public void updateLayer(Layer layer) {
         // TODO проверить работу метода
         log.info("Добавление обновленного layer на карту: {}", String.join("",layer.getLeafletType(), ", id: ", layer.getId()));
+        execScript(String.join("",layer.getId(), ".removeFrom(", map.getId(), ");"));
         execScript(String.join("",layer.getId(), ".addTo(", map.getId(), ");"));
     }
 

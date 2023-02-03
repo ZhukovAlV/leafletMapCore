@@ -47,7 +47,7 @@ public class LayerGroup extends Layer implements LayerGroupFunctions {
         log.info("Добавляем слой на карту: {}", "id: " + layer.getId());
         layer.addTo(getMapView());
 
-        log.info("Добавляем слой в группу: {}", "id: " + this.getId());
+        log.info("Добавляем слой в группу: {}", "id: " + layer.getId());
         this.getLayers().add(layer);
     }
 
@@ -56,7 +56,7 @@ public class LayerGroup extends Layer implements LayerGroupFunctions {
         log.info("Удаляем слой с карты: {}", "id: " + layer.getId());
         layer.remove();
 
-        log.info("Удаляем слой из группы: {}", "id: " + this.getId());
+        log.info("Удаляем из группы слой: {}", "id: " + layer.getId());
         getLayer(layer.getId()).ifPresent(l -> getLayers().remove(l));
     }
 
@@ -66,7 +66,7 @@ public class LayerGroup extends Layer implements LayerGroupFunctions {
             log.info("Удаляем слой с карты: {}", "id: " + layerId);
             l.remove();
 
-            log.info("Удаляем слой из группы: {}", "id: " + this.getId());
+            log.info("Удаляем слой из группы: {}", "id: " + l.getId());
             getLayers().remove(l);
         });
     }

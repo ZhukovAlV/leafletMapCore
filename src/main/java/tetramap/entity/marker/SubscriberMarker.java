@@ -7,6 +7,7 @@ import lombok.extern.log4j.Log4j2;
 import tetramap.bitmap.BitmapType;
 import tetramap.entity.types.LatLong;
 import tetramap.event.MarkerEventListener;
+import tetramap.gui.MapView;
 
 @EqualsAndHashCode(callSuper = true)
 @Getter
@@ -39,6 +40,34 @@ public class SubscriberMarker extends Marker implements MarkerEventListener {
         this.bitmapType = bitmapType;
 
         setIcon(bitmapType.getBitmapUnknown().getIcon());
+    }
+
+    /**
+     * Добавления слоя на карту
+     */
+    @Override
+    public void addTo(MapView mapView) {
+        setMapView(mapView);
+
+        log.info("Создание на карте объекта {}", this.getId());
+        mapView.execScript(String.join("",this.getId(), " = L.", this.getTypeInstantiatesMap(), "(", this.toString(), ");"));
+    }
+
+    /**
+     * Обновление слоя на карте
+     */
+    @Override
+    public void updateTo() {
+        getMapView().getMarkerManager().getMarkerCluster().removeLayer(this);
+        this.remove();
+        this.addTo(getMapView());
+        getMapView().getMarkerManager().getMarkerCluster().addLayer(this);
+    }
+
+    @Override
+    public void remove(){
+        log.info("Удаление с карты объекта: {}", this.getId());
+        getMapView().execScript(this.getId() + ".remove();");
     }
 
     @Override

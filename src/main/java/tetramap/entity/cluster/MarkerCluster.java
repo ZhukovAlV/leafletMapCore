@@ -56,8 +56,8 @@ public class MarkerCluster extends Layer {
      * @param layer слой на удаление из кластера
      */
     public void removeLayer(Layer layer) {
-        log.info("Удаление из кластера слоя layer: {}", this.getId());
-        getMapView().execScript(this.getId() + ".remove(" + layer.getId() + ");");
+        log.info("Удаление из кластера слоя layer: {}", layer.getId());
+        getMapView().execScript(this.getId() + ".removeLayer(" + layer.getId() + ");");
     }
 
     /**

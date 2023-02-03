@@ -46,6 +46,11 @@ public class MarkerManagerImpl implements MarkerManager {
     }
 
     @Override
+    public MarkerCluster getMarkerCluster() {
+        return markerCluster;
+    }
+
+    @Override
     public void addMarker(SubscriberMarker marker) {
         markers.add(marker);
         markerCluster.addLayer(marker);

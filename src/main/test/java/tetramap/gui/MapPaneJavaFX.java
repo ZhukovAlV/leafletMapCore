@@ -290,7 +290,8 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
                 latLong = new LatLong(latLong.getLatitude() + 0.001, latLong.getLongitude() + 0.001);
 
                 SubscriberMarker marker = new SubscriberMarker(latLong, subscriberBitmapType, "Marker №" + i);
-                mapView.getLayerGroup().addLayer(marker);
+                //     mapView.getLayerGroup().addLayer(marker);
+                marker.addTo(mapView);
 
                 mapView.getMarkerManager().addMarker(marker);
 
