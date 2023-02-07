@@ -65,6 +65,7 @@ public class SubscriberMarker extends Marker implements MarkerEventListener, Map
         getMapView().getMarkerManager().getMarkerCluster().removeLayer(this);
         this.remove();
         this.addTo(getMapView());
+        if (this.getPopup() != null) this.bindPopup(this.getPopup());
         getMapView().getMarkerManager().getMarkerCluster().addLayer(this);
     }
 

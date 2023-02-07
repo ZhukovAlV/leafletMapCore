@@ -49,6 +49,8 @@ public abstract class Layer extends LeafletObject {
      * Popup (всплывающее сообщение) для объекта
      */
     public void bindPopup(Popup popup){
+        this.popup = popup;
+
         log.info("Добавляется Popup к layer: {}", this.getId());
         getMapView().execScript(this.getId() + ".bindPopup('" + popup.getContent() + "'," + popup + ");");
     }
