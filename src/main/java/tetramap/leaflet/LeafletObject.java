@@ -35,6 +35,9 @@ public abstract class LeafletObject implements BasicType {
 
         log.info("Создание на карте объекта {}", this.getId());
         mapView.execScript(String.join("",this.getId(), " = L.", this.getTypeInstantiatesMap(), "(", this.toString(), ");"));
+
+        log.info("Выставление id объекту: {}", this.getId());
+        mapView.execScript(String.join("",this.getId(), "._objId = '", this.getId(), "';"));
     }
 
     @Override
@@ -43,7 +46,7 @@ public abstract class LeafletObject implements BasicType {
         log.info("Удаление с карты объекта: {}", this.getId());
         mapView.execScript(this.getId() + ".remove();");
 
-        log.info("Создание на карте обновленного объекта: {}", this.getId());
-        mapView.execScript(String.join("",this.getId(), " = L.", this.getTypeInstantiatesMap(), "(", this.toString(), ");"));
+        this.addTo(getMapView());
     }
+
 }

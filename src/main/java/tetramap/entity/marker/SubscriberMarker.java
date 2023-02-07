@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import tetramap.bitmap.BitmapType;
 import tetramap.entity.types.LatLong;
+import tetramap.event.MapPopupEventListener;
 import tetramap.event.MarkerEventListener;
 import tetramap.gui.MapView;
 
@@ -13,7 +14,7 @@ import tetramap.gui.MapView;
 @Getter
 @Setter
 @Log4j2
-public class SubscriberMarker extends Marker implements MarkerEventListener {
+public class SubscriberMarker extends Marker implements MarkerEventListener, MapPopupEventListener {
 
     /**
      * Выбран маркер или нет
@@ -51,6 +52,9 @@ public class SubscriberMarker extends Marker implements MarkerEventListener {
 
         log.info("Создание на карте объекта {}", this.getId());
         mapView.execScript(String.join("",this.getId(), " = L.", this.getTypeInstantiatesMap(), "(", this.toString(), ");"));
+
+        log.info("Выставление id объекту: {}", this.getId());
+        mapView.execScript(String.join("",this.getId(), "._objId = '", this.getId(), "';"));
     }
 
     /**
@@ -79,4 +83,15 @@ public class SubscriberMarker extends Marker implements MarkerEventListener {
 
         this.updateTo();
     }
+
+    @Override
+    public void popupOpen() {
+        log.info("Открыто всплывающее окно у объекта: {}", this.getId());
+    }
+
+    @Override
+    public void popupClose() {
+        log.info("Закрыто всплывающее окно у объекта: {}", this.getId());
+    }
+    
 }

@@ -17,6 +17,7 @@ import tetramap.entity.types.LatLong;
 import tetramap.entity.types.LatLongBounds;
 import tetramap.event.MapLeftClickEventListener;
 import tetramap.event.MapMoveEventListener;
+import tetramap.event.MapPopupEventListener;
 import tetramap.event.MapRightClickEventListener;
 import tetramap.layer.Layer;
 import tetramap.layer.groups.LayerGroup;
@@ -55,6 +56,9 @@ public class MapViewJavaFX extends StackPane implements MapView {
     // Менеджер на перемещение мыши
     private final MapMoveEventManagerImpl mapMoveEventListener;
 
+    // Менеджер на нажатие по объекту (popup)
+    private final MapPopupEventManagerImpl mapPopupEventListener;
+
     // RouteManager для построения маршрута
     private final RouteManager routeManager = new RouteManager();
 
@@ -71,6 +75,7 @@ public class MapViewJavaFX extends StackPane implements MapView {
         mapLeftClickEventListener = new MapLeftClickEventManagerImpl();
         mapRightClickEventListener = new MapRightClickEventManagerImpl();
         mapMoveEventListener = new MapMoveEventManagerImpl();
+        mapPopupEventListener = new MapPopupEventManagerImpl();
 
         layerGroup = new LayerGroup();
 
@@ -150,6 +155,7 @@ public class MapViewJavaFX extends StackPane implements MapView {
         addMouseMoveEvent();
         addLeftMouseClickEvent();
         addRightMouseClickEvent();
+        addPopupEvent();
 
         // Слушатель на загруженные тайлы
         addTilesLoadEvent();
@@ -199,6 +205,16 @@ public class MapViewJavaFX extends StackPane implements MapView {
     @Override
     public void removeRightMouseClickListener(MapRightClickEventListener mapRightClickEventListener) {
         this.mapRightClickEventListener.removeListener(mapRightClickEventListener);
+    }
+
+    @Override
+    public void addPopupListener(MapPopupEventListener mapPopupEventListener) {
+        this.mapPopupEventListener.addListener(mapPopupEventListener);
+    }
+
+    @Override
+    public void removePopupListener(MapPopupEventListener mapPopupEventListener) {
+        this.mapPopupEventListener.removeListener(mapPopupEventListener);
     }
 
     /**
@@ -268,6 +284,28 @@ public class MapViewJavaFX extends StackPane implements MapView {
     public void mapRightClick() {
         log.info("Нажата правая кнопка мыши");
         mapRightClickEventListener.mapRightClickEvent();
+    }
+
+    /**
+     * Реализация события вызова метода mapPopup() при нажатии мыши
+     */
+    public void addPopupEvent() {
+        Object document = execScript("document");
+        if (document == null) {
+            throw new NullPointerException("null cannot be cast to non-null type netscape.javascript.JSObject");
+        } else {
+            JSObject win = (JSObject)document;
+            win.setMember("java", this);
+            execScript(getMap().getId() + ".on('popupopen', function(e){ document.java.mapPopup(e.popup._source._objId);});");
+        }
+    }
+
+    /**
+     * Вызов метода нажатия правой кнопки мыши у каждого слушателя
+     */
+    public void mapPopup(String objId) {
+        log.info("Произведено нажатие по " + objId);
+        mapPopupEventListener.mapPopupOpenEvent();
     }
 
     /**

@@ -17,6 +17,7 @@ import tetramap.bitmap.SubscriberBitmapType;
 import tetramap.draw.*;
 import tetramap.entity.TileLayer;
 import tetramap.entity.marker.SubscriberMarker;
+import tetramap.entity.popup.Popup;
 import tetramap.entity.selection.Selection;
 import tetramap.entity.types.LatLong;
 import tetramap.entity.vectors.Circle;
@@ -295,13 +296,13 @@ public class MapPaneJavaFX extends AnchorPane implements MapPane {
 
                 mapView.getMarkerManager().addMarker(marker);
 
-/*                marker.bindTooltip("Тестовый маркер №" + i);
+                //  marker.bindTooltip("Тестовый маркер №" + i);
 
                 Popup popup = new Popup("Тестовый маркер №" + i);
-                popup.addTo(mapView);*/
+                popup.addTo(mapView);
 
                 // Добавляем подпись маркеру
-             //   marker.bindPopup(popup);
+                marker.bindPopup(popup);
             }
         });
 

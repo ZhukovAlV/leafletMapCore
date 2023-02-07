@@ -5,6 +5,7 @@ import tetramap.entity.control.LayersControl;
 import tetramap.entity.types.LatLongBounds;
 import tetramap.event.MapLeftClickEventListener;
 import tetramap.event.MapMoveEventListener;
+import tetramap.event.MapPopupEventListener;
 import tetramap.event.MapRightClickEventListener;
 import tetramap.layer.Layer;
 import tetramap.layer.groups.LayerGroup;
@@ -50,6 +51,16 @@ public interface MapView {
      * Удаление слушателя на нажатие левой кнопки мыши
      */
     void removeLeftMouseClickListener(MapLeftClickEventListener mapLeftClickEventListener);
+
+    /**
+     * Добавление слушателя на нажатие левой кнопки мыши по слою (Popup)
+     */
+    void addPopupListener(MapPopupEventListener mapPopupEventListener);
+
+    /**
+     * Удаление слушателя на нажатие левой кнопки мыши по слою (Popup)
+     */
+    void removePopupListener(MapPopupEventListener mapPopupEventListener);
 
     /**
      * Добавление слушателя на нажатие правой кнопки мыши
@@ -153,4 +164,5 @@ public interface MapView {
      * @return LayersControl со списом тайловых слоев
      */
     LayersControl getLayersControl();
+
 }
