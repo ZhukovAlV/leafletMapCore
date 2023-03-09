@@ -33,6 +33,7 @@ public class LeafletMap extends LeafletObject {
     public String toString() {
         return String.join("",name,
                 ", {center: ", center.toString(),
+                ", renderer: L.canvas()",
                 ", zoom: " + zoom,
                 ", zoomControl: " + zoomControl,
                 ", layers: [", tileLayer.getId(), "]}");
