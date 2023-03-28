@@ -33,7 +33,7 @@ public interface BasicType extends Serializable {
      * Создание слоя во View карты
      * @param mapView View карты
      */
-    void addTo(MapView mapView);
+    void createTo(MapView mapView);
 
     /**
      * Обновление слоя во View карты

@@ -47,7 +47,7 @@ public class SubscriberMarker extends Marker implements MarkerEventListener, Map
      * Добавления слоя на карту
      */
     @Override
-    public void addTo(MapView mapView) {
+    public void createTo(MapView mapView) {
         setMapView(mapView);
 
         log.info("Создание на карте объекта {}", this.getId());
@@ -64,7 +64,7 @@ public class SubscriberMarker extends Marker implements MarkerEventListener, Map
     public void updateTo() {
         getMapView().getMarkerManager().getMarkerCluster().removeLayer(this);
         this.remove();
-        this.addTo(getMapView());
+        this.createTo(getMapView());
         if (this.getPopup() != null) this.bindPopup(this.getPopup());
         getMapView().getMarkerManager().getMarkerCluster().addLayer(this);
     }

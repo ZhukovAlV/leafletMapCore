@@ -22,7 +22,7 @@ public abstract class LeafletControl extends LeafletObject {
      * @param mapView View карты
      */
     @Override
-    public void addTo(MapView mapView) {
+    public void createTo(MapView mapView) {
         setMapView(mapView);
 
         log.info("Создание control, id: {}", this.getId());

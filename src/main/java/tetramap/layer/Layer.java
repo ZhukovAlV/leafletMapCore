@@ -24,8 +24,8 @@ public abstract class Layer extends LeafletObject {
      * Добавления слоя на карту
      */
     @Override
-    public void addTo(MapView mapView) {
-        super.addTo(mapView);
+    public void createTo(MapView mapView) {
+        super.createTo(mapView);
         getMapView().addLayer(this);
     }
 

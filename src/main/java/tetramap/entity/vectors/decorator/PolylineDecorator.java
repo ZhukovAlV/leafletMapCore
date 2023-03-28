@@ -94,21 +94,21 @@ public class PolylineDecorator extends Layer {
     }
 
     @Override
-    public void addTo(MapView mapView) {
+    public void createTo(MapView mapView) {
         setMapView(mapView);
 
-        routePolyline.addTo(mapView);
-        symbol.addTo(mapView);
+        routePolyline.createTo(mapView);
+        symbol.createTo(mapView);
 
         mapView.execScript(String.join("",this.getId(), " = L.", this.getTypeInstantiatesMap(),
                 "(", this.toString(), ").addTo(", mapView.getMap().getId() + ");"));
 
         try {
             iconStart = new Icon((new File(ICON_START_PATH)).getAbsolutePath());
-            iconStart.addTo(mapView);
+            iconStart.createTo(mapView);
 
             iconEnd = new Icon((new File(ICON_END_PATH)).getAbsolutePath());
-            iconEnd.addTo(mapView);
+            iconEnd.createTo(mapView);
         } catch (NullPointerException e){
             log.error("Иконка маркера маршрута не была загружена");
         }
@@ -123,7 +123,7 @@ public class PolylineDecorator extends Layer {
     public void updateTo() {
         remove();
 
-        routePolyline.addTo(getMapView());
+        routePolyline.createTo(getMapView());
 
         log.info("Обновляем значение layer: {}", this.getId());
         getMapView().execScript(String.join("",this.getId(), " = L.", this.getTypeInstantiatesMap(),
@@ -146,10 +146,10 @@ public class PolylineDecorator extends Layer {
     public void setIcons(LatLongArray latLongArray) {
         LatLong latLongStart = latLongArray.get(0);
         startMarker = new Marker(latLongStart, iconStart, latLongStart.toString());
-        startMarker.addTo(getMapView());
+        startMarker.createTo(getMapView());
 
         LatLong latLongEnd = latLongArray.get(latLongArray.size() - 1);
         endMarker = new Marker(latLongEnd, iconEnd, latLongEnd.toString());
-        endMarker.addTo(getMapView());
+        endMarker.createTo(getMapView());
     }
 }

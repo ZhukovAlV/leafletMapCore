@@ -45,7 +45,7 @@ public class LayerGroup extends Layer implements LayerGroupFunctions {
     @Override
     public void addLayer(Layer layer) {
         log.info("Добавляем слой на карту: {}", "id: " + layer.getId());
-        layer.addTo(getMapView());
+        layer.createTo(getMapView());
 
         log.info("Добавляем слой в группу: {}", "id: " + layer.getId());
         this.getLayers().add(layer);

@@ -44,14 +44,14 @@ public class LeafletMap extends LeafletObject {
         return TypeInstantiatesMap.MAP.getName();
     }
 
-    public void addTo(MapView mapView) {
+    public void createTo(MapView mapView) {
         setMapView(mapView);
 
         log.info("Создание карты LeafletMap, id: {}", this.getId());
         mapView.execScript(String.join("",this.getId(), " = L.", this.getTypeInstantiatesMap(),"(", this.toString(), ");"));
 
         log.info("Установка атрибутов для карты LeafletMap.");
-        attribution.addTo(mapView);
+        attribution.createTo(mapView);
         attribution.setPrefix();
     }
 

@@ -37,7 +37,7 @@ public class MarkerManagerImpl implements MarkerManager {
         this.mapView = mapView;
 
         markerCluster = new MarkerCluster();
-        markerCluster.addTo(mapView);
+        markerCluster.createTo(mapView);
     }
 
     @Override

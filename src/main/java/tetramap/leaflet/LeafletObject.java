@@ -30,7 +30,7 @@ public abstract class LeafletObject implements BasicType {
     }
 
     @Override
-    public void addTo(MapView mapView) {
+    public void createTo(MapView mapView) {
         this.mapView = mapView;
 
         log.info("Создание на карте объекта {}", this.getId());
@@ -46,7 +46,7 @@ public abstract class LeafletObject implements BasicType {
         log.info("Удаление с карты объекта: {}", this.getId());
         mapView.execScript(this.getId() + ".remove();");
 
-        this.addTo(getMapView());
+        this.createTo(getMapView());
     }
 
 }

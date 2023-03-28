@@ -25,7 +25,7 @@ public class LayersControl extends LeafletControl {
     }
 
     @Override
-    public void addTo(MapView mapView) {
+    public void createTo(MapView mapView) {
         if (tileLayerList.getTileLayers().size() > 1) {
             setMapView(mapView);
 
