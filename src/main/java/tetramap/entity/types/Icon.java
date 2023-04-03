@@ -37,6 +37,16 @@ public class Icon extends LeafletObject implements BasicType {
         this.iconAnchor = DEFAULT_ICON_ANCHOR;
     }
 
+    public Icon(String iconUrl, Point iconSize) {
+        this.iconUrl = iconUrl;
+        this.iconSize = iconSize;
+        this.iconAnchor = DEFAULT_ICON_ANCHOR;
+    }
+
+    public Icon(String iconUrl, double widthIcon, double heightIcon) {
+        this(iconUrl, Point.of(widthIcon, heightIcon));
+    }
+
     @Override
     public String toString() {
         return String.join("","{iconUrl: '", iconUrl,
